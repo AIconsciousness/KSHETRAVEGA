@@ -56,21 +56,21 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBackToHome }) => {
     {
       icon: Phone,
       title: 'Phone Support',
-      details: ['+91 98765 43210', '+91 98765 43211'],
+      details: ['+91 7209213003', '+91 8969445367'],
       color: 'text-blue-600',
       bgColor: 'bg-blue-100'
     },
     {
       icon: Mail,
       title: 'Email Support',
-      details: ['support@achhadam.com', 'info@achhadam.com'],
+      details: ['jhariawatch@chakravega.com', 'kamleshsamudih@gmail.com'],
       color: 'text-green-600',
       bgColor: 'bg-green-100'
     },
     {
       icon: MapPin,
       title: 'Office Address',
-      details: ['Near Sai Mandir balsa road Jintur Maharashtra, India,', '400001'],
+      details: ['Registered: Samudih, Patra Khurd, Jhargara, Palamau, Jharkhand', 'Operational: Dhanbad, BIT Sindri, Jharkhand'],
       color: 'text-purple-600',
       bgColor: 'bg-purple-100'
     },
@@ -85,12 +85,12 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBackToHome }) => {
 
   const faqs = [
     {
-      question: 'How can I register as a farmer on ACHHADAM?',
+      question: 'How can I register as a farmer on KSHETRAVEGA?',
       answer: 'You can register as a farmer by clicking the Sign Up button on our homepage and selecting the Farmer option. Fill in your basic details and you\'ll be ready to start.'
     },
     {
       question: 'What crops can I sell on the platform?',
-      answer: 'ACHHADAM supports all major agricultural crops including grains, vegetables, fruits, pulses, and cash crops. We\'re constantly expanding our crop categories.'
+      answer: 'KSHETRAVEGA supports all major agricultural crops including grains, vegetables, fruits, pulses, and cash crops. We\'re constantly expanding our crop categories.'
     },
     {
       question: 'How does the payment system work?',
@@ -98,7 +98,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBackToHome }) => {
     },
     {
       question: 'Is there a mobile app available?',
-      answer: 'Yes! ACHHADAM mobile app is available for both Android and iOS devices. You can download it from Google Play Store or Apple App Store.'
+      answer: 'Yes! KSHETRAVEGA mobile app is available for both Android and iOS devices. You can download it from Google Play Store or Apple App Store.'
     },
     {
       question: 'How can I get crop advisory services?',
@@ -144,7 +144,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBackToHome }) => {
               Contact Us
             </h1>
             <p className="text-xl sm:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
-              Get in touch with our team. We're here to help you with any questions about ACHHADAM
+              Get in touch with our team. We're here to help you with any questions about KSHETRAVEGA
             </p>
           </div>
         </div>
@@ -319,8 +319,9 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBackToHome }) => {
                       <div className="flex items-start space-x-3">
                         <MapPin className="w-5 h-5 text-blue-600 mt-1" />
                         <div>
-                          <p className="font-medium text-gray-800">ACHHADAM Headquarters</p>
-                          <p className="text-gray-600 text-sm">123 Agriculture Hub, Mumbai, Maharashtra 400001</p>
+                          <p className="font-medium text-gray-800">KSHETRAVEGA Headquarters</p>
+                          <p className="text-gray-600 text-sm">Registered: Samudih, Patra Khurd, Jhargara, Palamau, Jharkhand</p>
+                          <p className="text-gray-600 text-sm">Operational: Dhanbad, BIT Sindri, Jharkhand</p>
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
@@ -350,7 +351,8 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBackToHome }) => {
                       For urgent technical issues or account problems, call our 24/7 support line
                     </p>
                     <div className="text-center">
-                      <p className="text-2xl font-bold text-red-600">+91 98765 43210</p>
+                      <p className="text-2xl font-bold text-red-600">+91 7209213003</p>
+                      <p className="text-2xl font-bold text-red-600">+91 8969445367</p>
                       <p className="text-red-600 text-sm">Available 24/7</p>
                     </div>
                   </CardContent>
@@ -369,7 +371,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBackToHome }) => {
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Find quick answers to common questions about ACHHADAM
+              Find quick answers to common questions about KSHETRAVEGA
             </p>
           </div>
           
@@ -397,7 +399,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBackToHome }) => {
             Ready to Get Started?
           </h2>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
-            Join thousands of farmers, buyers, and transporters who are already using ACHHADAM
+            Join thousands of farmers, buyers, and transporters who are already using KSHETRAVEGA
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button

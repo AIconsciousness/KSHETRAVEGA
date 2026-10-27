@@ -14,7 +14,7 @@ interface CookieConsentProps {
 
 const CookieConsent: React.FC<CookieConsentProps> = ({
   position = 'bottom',
-  companyName = 'Achhadam'
+  companyName = 'Kshetravega'
 }) => {
   const [showBanner, setShowBanner] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);

@@ -214,8 +214,8 @@ const InvestorPage: React.FC<InvestorPageProps> = ({ onBackToHome }) => {
                    <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover-scale animate-glow">
                      <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                        <img 
-                         src="/achhadam-logo.jpg" 
-                         alt="Achhadam Logo" 
+                         src="/kshetravega-icon.svg" 
+                         alt="Kshetravega Logo" 
                          className="w-full h-full object-cover rounded-full"
                        />
                      </div>
@@ -336,7 +336,7 @@ const InvestorPage: React.FC<InvestorPageProps> = ({ onBackToHome }) => {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                Why Invest in Achhadam?
+                Why Invest in Kshetravega?
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 We're not just another agritech startup. We're building the infrastructure for India's agricultural future.
@@ -542,7 +542,7 @@ const InvestorPage: React.FC<InvestorPageProps> = ({ onBackToHome }) => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
-                  onClick={() => window.open('mailto:investors@achhadam.com', '_blank')}
+                  onClick={() => window.open('mailto:jhariawatch@chakravega.com', '_blank')}
                   className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold rounded-full shadow-xl hover:scale-105 transition-all duration-300"
                 >
                   <Mail className="w-5 h-5 mr-2" />

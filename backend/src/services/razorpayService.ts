@@ -151,7 +151,7 @@ class RazorpayService {
           email: true
         },
         reminder_enable: true,
-        callback_url: 'https://achhadam.com/payment/callback',
+        callback_url: 'https://kshetravega.com/payment/callback',
         callback_method: 'get'
       };
 

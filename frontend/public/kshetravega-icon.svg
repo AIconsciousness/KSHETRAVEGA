@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Kshetravega</title>
+  <rect width="512" height="512" rx="112" fill="#f2f7e8" />
+  <circle cx="256" cy="256" r="190" fill="#fff" stroke="#1e6b3b" stroke-width="18" />
+  <path d="M256 354V222" fill="none" stroke="#1e6b3b" stroke-linecap="round" stroke-width="20" />
+  <path d="M256 275c-54 0-88-29-93-75 51 0 84 23 93 75Z" fill="#49a447" />
+  <path d="M256 244c8-48 41-72 92-72-5 45-39 72-92 72Z" fill="#72b64b" />
+  <path d="M256 222c-4-43 18-73 57-91 11 43-9 75-57 91Z" fill="#278742" />
+  <path d="M174 354h164" fill="none" stroke="#1e6b3b" stroke-linecap="round" stroke-width="20" />
+  <path d="M194 384h124" fill="none" stroke="#9dbd58" stroke-linecap="round" stroke-width="12" />
+</svg>

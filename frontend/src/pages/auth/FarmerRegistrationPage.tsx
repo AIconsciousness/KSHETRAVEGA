@@ -175,7 +175,7 @@ const FarmerRegistrationPage: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Join ACHHADAM</h1>
+          <h1 className="text-4xl font-bold text-white mb-2">Join KSHETRAVEGA</h1>
           <p className="text-white text-lg opacity-90">Start your journey to agricultural success</p>
         </div>
 

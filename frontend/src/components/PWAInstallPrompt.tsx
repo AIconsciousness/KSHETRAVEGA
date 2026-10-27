@@ -89,7 +89,7 @@ const PWAInstallPrompt: React.FC = () => {
               <Smartphone className="w-5 h-5" />
             </div>
             <div className="flex-1">
-              <h3 className="font-bold text-sm mb-1">Install Achhadam App</h3>
+              <h3 className="font-bold text-sm mb-1">Install Kshetravega App</h3>
               <p className="text-xs text-white/90 mb-3">
                 Add to home screen for better experience
               </p>

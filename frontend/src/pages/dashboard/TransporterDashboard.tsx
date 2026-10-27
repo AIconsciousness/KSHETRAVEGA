@@ -111,7 +111,7 @@ const TransporterDashboard: React.FC<{ user?: any; onLogout?: () => void }> = ({
   const [userProfile, setUserProfile] = useState({
     id: user?.id || '1',
     name: user?.name || user?.firstName + ' ' + user?.lastName || 'Transporter User',
-    email: user?.email || 'transporter@achhadam.com',
+    email: user?.email || 'jhariawatch@chakravega.com',
     phone: user?.phone || '+91 0000000000',
     userType: 'transporter' as const,
     address: user?.address || 'Transport Address',

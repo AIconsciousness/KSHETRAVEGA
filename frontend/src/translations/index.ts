@@ -2,7 +2,7 @@
 export const translations = {
   hi: {
     // Auth
-    welcome: 'ACHHADAM में आपका स्वागत है',
+    welcome: 'KSHETRAVEGA में आपका स्वागत है',
     login: 'लॉगिन करें',
     loginDesc: 'अपने खाते में लॉगिन करें',
     signup: 'नया खाता बनाएं',
@@ -163,7 +163,7 @@ export const translations = {
     // Hero Section
     heroSlide1Title: 'डिजिटल कृषि क्रांति',
     heroSlide1Subtitle: 'किसानों को बेहतर उपज और मुनाफे के लिए तकनीक-संचालित समाधान',
-    heroSlide1Description: 'ACHHADAM के नवीन डिजिटल प्लेटफॉर्म के साथ अपनी कृषि पद्धतियों को बदल चुके हजारों किसानों में शामिल हों।',
+    heroSlide1Description: 'KSHETRAVEGA के नवीन डिजिटल प्लेटफॉर्म के साथ अपनी कृषि पद्धतियों को बदल चुके हजारों किसानों में शामिल हों।',
     heroSlide1Cta: 'अपनी यात्रा शुरू करें',
     
     heroSlide2Title: 'सीधा बाजार पहुंच',
@@ -182,7 +182,7 @@ export const translations = {
     heroSlide4Cta: 'और जानें',
     
     // Homepage Sections
-    whyChooseAchhadam: 'ACHHADAM क्यों चुनें?',
+    whyChooseKshetravega: 'KSHETRAVEGA क्यों चुनें?',
     whyChooseDesc: 'हम किसानों, खरीदारों और ट्रांसपोर्टरों को हमारे नवीन डिजिटल प्लेटफॉर्म के माध्यम से जोड़कर कृषि में क्रांति ला रहे हैं।',
     platformBenefits: 'प्लेटफॉर्म लाभ',
     platformBenefitsDesc: 'हमारे व्यापक डिजिटल कृषि पारिस्थितिकी तंत्र के लाभों का अनुभव करें।',
@@ -211,7 +211,7 @@ export const translations = {
     fairPricing: 'निष्पक्ष मूल्य निर्धारण',
     fairPricingDesc: 'पारदर्शी मूल्य निर्धारण से किसानों को उचित मूल्य मिलता है',
     whatUsersSay: 'हमारे उपयोगकर्ता क्या कहते हैं',
-    whatUsersSayDesc: 'ACHHADAM पर भरोसा करने वाले हजारों संतुष्ट किसानों, खरीदारों और ट्रांसपोर्टरों में शामिल हों।',
+    whatUsersSayDesc: 'KSHETRAVEGA पर भरोसा करने वाले हजारों संतुष्ट किसानों, खरीदारों और ट्रांसपोर्टरों में शामिल हों।',
     readyToTransform: 'अपने कृषि व्यवसाय को बदलने के लिए तैयार हैं?',
     readyToTransformDesc: 'डिजिटल कृषि क्रांति में शामिल हों और अपने कृषि व्यवसाय को अगले स्तर तक ले जाएं।',
     getStartedToday: 'आज ही शुरू करें',
@@ -221,7 +221,7 @@ export const translations = {
     // Hero Section
     heroTitle: 'कृषि में क्रांति लाएं',
     heroSubtitle: 'स्मार्ट कृषि समाधान के साथ अपनी उपज को अधिकतम करें',
-    heroDescription: 'ACHHADAM के साथ सीधे खरीदारों से जुड़ें, बिचौलियों को हटाएं और अपनी आय बढ़ाएं',
+    heroDescription: 'KSHETRAVEGA के साथ सीधे खरीदारों से जुड़ें, बिचौलियों को हटाएं और अपनी आय बढ़ाएं',
     getStarted: 'शुरू करें',
     learnMore: 'और जानें',
     watchDemo: 'डेमो देखें',
@@ -307,10 +307,10 @@ export const translations = {
     
     // Homepage Sections
     statisticsTitle: 'प्लेटफॉर्म प्रभाव के आंकड़े',
-    whyChooseTitle: 'ACHHADAM क्यों चुनें?',
+    whyChooseTitle: 'KSHETRAVEGA क्यों चुनें?',
     platformBenefitsTitle: 'प्लेटफॉर्म लाभ',
     smartAgricultureTitle: 'स्मार्ट कृषि तकनीक',
-    howItWorksTitle: 'ACHHADAM कैसे काम करता है',
+    howItWorksTitle: 'KSHETRAVEGA कैसे काम करता है',
     farmersTitle: 'किसान',
     eliminateMiddlemanTitle: 'बिचौलियों को हटाएं',
     directTradeTitle: 'सीधा व्यापार',
@@ -437,7 +437,7 @@ export const translations = {
   
   en: {
     // Auth
-    welcome: 'Welcome to ACHHADAM',
+    welcome: 'Welcome to KSHETRAVEGA',
     login: 'Login',
     loginDesc: 'Sign in to your account',
     signup: 'Create Account',
@@ -598,7 +598,7 @@ export const translations = {
     // Hero Section
     heroSlide1Title: 'Digital Farming Revolution',
     heroSlide1Subtitle: 'Empowering farmers with technology-driven solutions for better yields and profits',
-    heroSlide1Description: 'Join thousands of farmers who have transformed their agricultural practices with ACHHADAM\'s innovative digital platform.',
+    heroSlide1Description: 'Join thousands of farmers who have transformed their agricultural practices with KSHETRAVEGA\'s innovative digital platform.',
     heroSlide1Cta: 'Start Your Journey',
     
     heroSlide2Title: 'Direct Market Access',
@@ -617,7 +617,7 @@ export const translations = {
     heroSlide4Cta: 'Learn More',
     
     // Homepage Sections
-    whyChooseAchhadam: 'Why Choose ACHHADAM?',
+    whyChooseKshetravega: 'Why Choose KSHETRAVEGA?',
     whyChooseDesc: 'We\'re revolutionizing agriculture by connecting farmers, buyers, and transporters through our innovative digital platform.',
     platformBenefits: 'Platform Benefits',
     platformBenefitsDesc: 'Experience the advantages of our comprehensive digital farming ecosystem.',
@@ -646,7 +646,7 @@ export const translations = {
     fairPricing: 'Fair Pricing',
     fairPricingDesc: 'Transparent pricing ensures farmers get fair value',
     whatUsersSay: 'What Our Users Say',
-    whatUsersSayDesc: 'Join thousands of satisfied farmers, buyers, and transporters who trust ACHHADAM.',
+    whatUsersSayDesc: 'Join thousands of satisfied farmers, buyers, and transporters who trust KSHETRAVEGA.',
     readyToTransform: 'Ready to Transform Your Agriculture Business?',
     readyToTransformDesc: 'Join the digital farming revolution and take your agricultural business to the next level.',
     getStartedToday: 'Get Started Today',
@@ -656,7 +656,7 @@ export const translations = {
     // Hero Section
     heroTitle: 'Revolutionize Agriculture',
     heroSubtitle: 'Maximize your yield with smart agriculture solutions',
-    heroDescription: 'Connect directly with buyers through ACHHADAM, eliminate middlemen and increase your income',
+    heroDescription: 'Connect directly with buyers through KSHETRAVEGA, eliminate middlemen and increase your income',
     getStarted: 'Get Started',
     learnMore: 'Learn More',
     watchDemo: 'Watch Demo',
@@ -742,10 +742,10 @@ export const translations = {
     
     // Homepage Sections
     statisticsTitle: 'Statistics of Platform Impact',
-    whyChooseTitle: 'Why Choose ACHHADAM?',
+    whyChooseTitle: 'Why Choose KSHETRAVEGA?',
     platformBenefitsTitle: 'Platform Benefits',
     smartAgricultureTitle: 'Smart Agriculture Technology',
-    howItWorksTitle: 'How ACHHADAM Works',
+    howItWorksTitle: 'How KSHETRAVEGA Works',
     farmersTitle: 'Farmers',
     eliminateMiddlemanTitle: 'Eliminate the Middleman',
     directTradeTitle: 'Direct Trade',
@@ -873,7 +873,7 @@ export const translations = {
   
   mr: {
     // Auth
-    welcome: 'ACHHADAM मध्ये आपले स्वागत आहे',
+    welcome: 'KSHETRAVEGA मध्ये आपले स्वागत आहे',
     login: 'लॉगिन करा',
     loginDesc: 'तुमच्या खात्यात लॉगिन करा',
     signup: 'खाते तयार करा',
@@ -1034,7 +1034,7 @@ export const translations = {
     // Hero Section
     heroSlide1Title: 'डिजिटल शेती क्रांती',
     heroSlide1Subtitle: 'शेतकऱ्यांना चांगल्या उत्पादन आणि नफ्यासाठी तंत्रज्ञान-चालित उपाय',
-    heroSlide1Description: 'ACHHADAM च्या नाविन्यपूर्ण डिजिटल प्लॅटफॉर्मसह त्यांच्या शेती पद्धती बदललेल्या हजारो शेतकऱ्यांमध्ये सामील व्हा.',
+    heroSlide1Description: 'KSHETRAVEGA च्या नाविन्यपूर्ण डिजिटल प्लॅटफॉर्मसह त्यांच्या शेती पद्धती बदललेल्या हजारो शेतकऱ्यांमध्ये सामील व्हा.',
     heroSlide1Cta: 'तुमचा प्रवास सुरू करा',
     
     heroSlide2Title: 'थेट बाजार प्रवेश',
@@ -1053,7 +1053,7 @@ export const translations = {
     heroSlide4Cta: 'अधिक जाणून घ्या',
     
     // Homepage Sections
-    whyChooseAchhadam: 'ACHHADAM का निवडा?',
+    whyChooseKshetravega: 'KSHETRAVEGA का निवडा?',
     whyChooseDesc: 'आम्ही आमच्या नाविन्यपूर्ण डिजिटल प्लॅटफॉर्मद्वारे शेतकरी, खरेदीदार आणि वाहतूकदारांना जोडून शेतीत क्रांती आणत आहोत.',
     platformBenefits: 'प्लॅटफॉर्म फायदे',
     platformBenefitsDesc: 'आमच्या व्यापक डिजिटल शेती इकोसिस्टमचे फायदे अनुभवा.',
@@ -1082,7 +1082,7 @@ export const translations = {
     fairPricing: 'निष्पक्ष मूल्य निर्धारण',
     fairPricingDesc: 'पारदर्शक मूल्य निर्धारणामुळे शेतकऱ्यांना योग्य मूल्य मिळते',
     whatUsersSay: 'आमचे वापरकर्ते काय म्हणतात',
-    whatUsersSayDesc: 'ACHHADAM वर विश्वास ठेवणाऱ्या हजारो समाधानी शेतकरी, खरेदीदार आणि वाहतूकदारांमध्ये सामील व्हा.',
+    whatUsersSayDesc: 'KSHETRAVEGA वर विश्वास ठेवणाऱ्या हजारो समाधानी शेतकरी, खरेदीदार आणि वाहतूकदारांमध्ये सामील व्हा.',
     readyToTransform: 'तुमचा शेती व्यवसाय बदलण्यास तयार आहात?',
     readyToTransformDesc: 'डिजिटल शेती क्रांतीमध्ये सामील व्हा आणि तुमचा शेती व्यवसाय पुढील पातळीवर नेता.',
     getStartedToday: 'आजच सुरू करा',
@@ -1092,7 +1092,7 @@ export const translations = {
     // Hero Section
     heroTitle: 'शेतीत क्रांती आणा',
     heroSubtitle: 'स्मार्ट शेती उपायांसह तुमची उत्पादकता वाढवा',
-    heroDescription: 'ACHHADAM द्वारे थेट खरेदीदारांशी जोडा, मध्यस्थांना हटवा आणि तुमचे उत्पन्न वाढवा',
+    heroDescription: 'KSHETRAVEGA द्वारे थेट खरेदीदारांशी जोडा, मध्यस्थांना हटवा आणि तुमचे उत्पन्न वाढवा',
     getStarted: 'सुरु करा',
     learnMore: 'अधिक जाणा',
     watchDemo: 'डेमो पहा',
@@ -1178,10 +1178,10 @@ export const translations = {
     
     // Homepage Sections
     statisticsTitle: 'प्लॅटफॉर्म प्रभावाची आकडेवारी',
-    whyChooseTitle: 'ACHHADAM का निवडा?',
+    whyChooseTitle: 'KSHETRAVEGA का निवडा?',
     platformBenefitsTitle: 'प्लॅटफॉर्म फायदे',
     smartAgricultureTitle: 'स्मार्ट शेती तंत्रज्ञान',
-    howItWorksTitle: 'ACHHADAM कसे काम करते',
+    howItWorksTitle: 'KSHETRAVEGA कसे काम करते',
     farmersTitle: 'शेतकरी',
     eliminateMiddlemanTitle: 'मध्यस्थांना काढून टाका',
     directTradeTitle: 'थेट व्यापार',

@@ -40,7 +40,7 @@ const App: React.FC = () => {
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/legal-compliance" element={<LegalCompliance />} />
           </Routes>
-          <CookieConsent companyName="Achhadam" position="bottom" />
+          <CookieConsent companyName="Kshetravega" position="bottom" />
           <PWAInstallPrompt />
         </div>
       </Router>

@@ -10,8 +10,8 @@ const ShippingDeliveryPolicy: React.FC = () => {
             <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 hover-scale animate-glow">
               <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                 <img 
-                  src="/achhadam-logo.jpg" 
-                  alt="Achhadam Logo" 
+                  src="/kshetravega-icon.svg" 
+                  alt="Kshetravega Logo" 
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -26,7 +26,7 @@ const ShippingDeliveryPolicy: React.FC = () => {
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Overview</h2>
               <p className="text-gray-700 mb-4">
                 This Shipping and Delivery Policy outlines the terms and conditions for the delivery of 
-                agricultural products and services through the Achhadam digital farming platform. 
+                agricultural products and services through the Kshetravega digital farming platform. 
                 We are committed to ensuring timely and safe delivery of all products.
               </p>
             </section>
@@ -344,10 +344,10 @@ const ShippingDeliveryPolicy: React.FC = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">10. Contact Information</h2>
               <div className="bg-gray-100 p-6 rounded-lg">
-                <p className="text-gray-700 mb-2"><strong>Company:</strong> Achhadam Private Limited</p>
-                <p className="text-gray-700 mb-2"><strong>Email:</strong> shampawarp3@gmail.com</p>
-                <p className="text-gray-700 mb-2"><strong>Phone:</strong> +91 9905441890</p>
-                <p className="text-gray-700"><strong>Address:</strong> Maharashtra, India, Jharkhand</p>
+                <p className="text-gray-700 mb-2"><strong>Company:</strong> Chakravega Technologies Private Limited</p>
+                <p className="text-gray-700 mb-2"><strong>Email:</strong> jhariawatch@chakravega.com</p>
+                <p className="text-gray-700 mb-2"><strong>Phone:</strong> +91 7209213003 | +91 8969445367</p>
+                <p className="text-gray-700"><strong>Address:</strong> Samudih, Patra Khurd, Jhargara, Palamau, Jharkhand | Operational: Dhanbad, BIT Sindri, Jharkhand</p>
               </div>
             </section>
           </div>

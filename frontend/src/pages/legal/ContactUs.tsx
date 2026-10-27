@@ -48,8 +48,8 @@ const ContactUs: React.FC = () => {
             <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 hover-scale animate-glow">
               <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                 <img 
-                  src="/achhadam-logo.jpg" 
-                  alt="Achhadam Logo" 
+                  src="/kshetravega-icon.svg" 
+                  alt="Kshetravega Logo" 
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -57,7 +57,7 @@ const ContactUs: React.FC = () => {
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Get in touch with Achhadam Private Limited. We're here to help with your digital farming needs.
+            Get in touch with Chakravega Technologies Private Limited. We're here to help with your digital farming needs.
           </p>
         </div>
 
@@ -76,7 +76,8 @@ const ContactUs: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Email Address</h3>
-                    <p className="text-gray-600">shampawarp3@gmail.com</p>
+                    <p className="text-gray-600">jhariawatch@chakravega.com</p>
+                    <p className="text-gray-600">kamleshsamudih@gmail.com</p>
                     <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
                   </div>
                 </div>
@@ -89,7 +90,8 @@ const ContactUs: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Phone Number</h3>
-                    <p className="text-gray-600">+91 9905441890</p>
+                    <p className="text-gray-600">+91 7209213003</p>
+                    <p className="text-gray-600">+91 8969445367</p>
                     <p className="text-sm text-gray-500">Mon-Fri: 9 AM - 6 PM, Sat: 9 AM - 2 PM</p>
                   </div>
                 </div>
@@ -103,8 +105,8 @@ const ContactUs: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">Office Address</h3>
-                    <p className="text-gray-600">Maharashtra, India</p>
-                    <p className="text-gray-600">Jharkhand, India</p>
+                    <p className="text-gray-600">Registered: Samudih, Patra Khurd, Jhargara, Palamau, Jharkhand</p>
+                    <p className="text-gray-600">Operational: Dhanbad, BIT Sindri, Jharkhand</p>
                     <p className="text-sm text-gray-500">Visit by appointment only</p>
                   </div>
                 </div>

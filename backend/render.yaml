@@ -14,4 +14,4 @@ services:
       - key: JWT_SECRET
         value: your-jwt-secret-key
       - key: CORS_ORIGIN
-        value: https://www.achhadam.com,https://achhadam.com
+        value: https://www.kshetravega.com,https://kshetravega.com

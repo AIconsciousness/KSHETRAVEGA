@@ -290,7 +290,7 @@ const Sidebar: React.FC<SidebarProps> = ({ role, isCollapsed, onToggle, classNam
               <span className="text-white text-sm font-bold">A</span>
             </div>
             <div>
-              <h1 className="text-lg font-bold text-text-dark">ACHHADAM</h1>
+              <h1 className="text-lg font-bold text-text-dark">KSHETRAVEGA</h1>
               <p className="text-xs text-text-light capitalize">{role}</p>
             </div>
           </div>

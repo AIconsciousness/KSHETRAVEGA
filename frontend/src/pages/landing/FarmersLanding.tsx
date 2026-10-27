@@ -78,7 +78,7 @@ const FarmersLanding: React.FC = () => {
       name: 'Rajesh Patel',
       location: 'Gujarat',
       crop: 'Cotton',
-      story: 'Before ACHHADAM, I was getting ₹4,500 per quintal. Now I get ₹6,200 directly from textile mills. My income increased by 38%!',
+      story: 'Before KSHETRAVEGA, I was getting ₹4,500 per quintal. Now I get ₹6,200 directly from textile mills. My income increased by 38%!',
       rating: 5,
       image: '👨‍🌾'
     },
@@ -150,8 +150,8 @@ const FarmersLanding: React.FC = () => {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover-scale animate-glow">
                   <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                     <img 
-                      src="/achhadam-logo.jpg" 
-                      alt="Achhadam Logo" 
+                      src="/kshetravega-icon.svg" 
+                      alt="Kshetravega Logo" 
                       className="w-full h-full object-cover rounded-full"
                     />
                   </div>
@@ -233,7 +233,7 @@ const FarmersLanding: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Why Farmers Choose ACHHADAM?
+              Why Farmers Choose KSHETRAVEGA?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our platform is designed specifically for farmers to maximize their profits and minimize risks.
@@ -356,7 +356,7 @@ const FarmersLanding: React.FC = () => {
               Success Stories
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Real farmers, real results. See how ACHHADAM has transformed farming businesses across India.
+              Real farmers, real results. See how KSHETRAVEGA has transformed farming businesses across India.
             </p>
           </div>
 
@@ -400,7 +400,7 @@ const FarmersLanding: React.FC = () => {
             Ready to Increase Your Income?
           </h2>
           <p className="text-xl text-green-100 mb-8">
-            Join thousands of farmers who are already earning more with ACHHADAM. Registration is free and takes only 5 minutes.
+            Join thousands of farmers who are already earning more with KSHETRAVEGA. Registration is free and takes only 5 minutes.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -442,8 +442,8 @@ const FarmersLanding: React.FC = () => {
                 <div className="w-10 h-10 sm:w-12 sm:h-12 hover-scale animate-glow">
                   <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                     <img 
-                      src="/achhadam-logo.jpg" 
-                      alt="Achhadam Logo" 
+                      src="/kshetravega-icon.svg" 
+                      alt="Kshetravega Logo" 
                       className="w-full h-full object-cover rounded-full"
                     />
                   </div>
@@ -494,11 +494,11 @@ const FarmersLanding: React.FC = () => {
               <div className="space-y-2 text-gray-400">
                 <div className="flex items-center text-sm sm:text-base">
                   <Phone className="w-4 h-4 mr-2 flex-shrink-0" />
-                  <span>+91 1800-ACHHADAM</span>
+                  <span>+91 1800-KSHETRAVEGA</span>
                 </div>
                 <div className="flex items-center text-sm sm:text-base">
                   <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
-                  <span>support@achhadam.com</span>
+                  <span>jhariawatch@chakravega.com</span>
                 </div>
                 <div className="flex items-center text-sm sm:text-base">
                   <MapPin className="w-4 h-4 mr-2 flex-shrink-0" />
@@ -509,7 +509,7 @@ const FarmersLanding: React.FC = () => {
           </div>
           
           <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-gray-400">
-            <p className="text-sm sm:text-base">&copy; 2024 ACHHADAM Digital Farming Platform. All rights reserved.</p>
+            <p className="text-sm sm:text-base">&copy; 2024 KSHETRAVEGA Digital Farming Platform. All rights reserved.</p>
           </div>
         </div>
       </footer>

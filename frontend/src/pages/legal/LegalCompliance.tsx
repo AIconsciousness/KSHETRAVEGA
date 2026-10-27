@@ -10,8 +10,8 @@ const LegalCompliance: React.FC = () => {
             <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 hover-scale animate-glow">
               <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                 <img 
-                  src="/achhadam-logo.jpg" 
-                  alt="Achhadam Logo" 
+                  src="/kshetravega-icon.svg" 
+                  alt="Kshetravega Logo" 
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -29,7 +29,8 @@ const LegalCompliance: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Company Details</h3>
                     <ul className="space-y-2 text-gray-700">
-                      <li><strong>Company Name:</strong> Achhadam Private Limited</li>
+                      <li><strong>Company Name:</strong> Chakravega Technologies Private Limited</li>
+                      <li><strong>Founder:</strong> Kamlesh Kumar Sharma</li>
                       <li><strong>Legal Status:</strong> Private Limited Company</li>
                       <li><strong>Registration:</strong> Under Companies Act, 2013</li>
                       <li><strong>Business Type:</strong> Digital Agriculture Technology</li>
@@ -38,10 +39,10 @@ const LegalCompliance: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Contact Information</h3>
                     <ul className="space-y-2 text-gray-700">
-                      <li><strong>Email:</strong> shampawarp3@gmail.com</li>
-                      <li><strong>Phone:</strong> +91 9905441890</li>
-                      <li><strong>Address:</strong> Maharashtra, India</li>
-                      <li><strong>Additional Office:</strong> Jharkhand, India</li>
+                      <li><strong>Email:</strong> jhariawatch@chakravega.com | kamleshsamudih@gmail.com</li>
+                      <li><strong>Phone:</strong> +91 7209213003 | +91 8969445367</li>
+                      <li><strong>Registered Address:</strong> Samudih, Patra Khurd, Jhargara, Palamau, Jharkhand</li>
+                      <li><strong>Operational Address:</strong> Dhanbad, BIT Sindri, Jharkhand</li>
                     </ul>
                   </div>
                 </div>
@@ -277,7 +278,7 @@ const LegalCompliance: React.FC = () => {
                 <div>
                   <h3 className="text-xl font-medium text-gray-800 mb-3">10.2 Legal Framework</h3>
                   <ul className="list-disc pl-6 text-gray-700 space-y-2">
-                    <li>Jurisdiction: Courts in Maharashtra, India</li>
+                    <li>Jurisdiction: Courts in Jharkhand, India</li>
                     <li>Governing law: Indian laws</li>
                     <li>Arbitration Act, 2015 compliance</li>
                     <li>Consumer Protection Act, 2019</li>
@@ -293,13 +294,13 @@ const LegalCompliance: React.FC = () => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Compliance Officer</h3>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <p className="text-gray-700 mb-2"><strong>Company:</strong> Achhadam Private Limited</p>
-                    <p className="text-gray-700 mb-2"><strong>Email:</strong> shampawarp3@gmail.com</p>
-                    <p className="text-gray-700 mb-2"><strong>Phone:</strong> +91 9905441890</p>
+                    <p className="text-gray-700 mb-2"><strong>Company:</strong> Chakravega Technologies Private Limited</p>
+                    <p className="text-gray-700 mb-2"><strong>Email:</strong> jhariawatch@chakravega.com | kamleshsamudih@gmail.com</p>
+                    <p className="text-gray-700 mb-2"><strong>Phone:</strong> +91 7209213003 | +91 8969445367</p>
                   </div>
                   <div>
-                    <p className="text-gray-700 mb-2"><strong>Address:</strong> Maharashtra, India</p>
-                    <p className="text-gray-700 mb-2"><strong>Additional Office:</strong> Jharkhand, India</p>
+                    <p className="text-gray-700 mb-2"><strong>Registered Address:</strong> Samudih, Patra Khurd, Jhargara, Palamau, Jharkhand</p>
+                    <p className="text-gray-700 mb-2"><strong>Operational Address:</strong> Dhanbad, BIT Sindri, Jharkhand</p>
                     <p className="text-gray-700"><strong>Response Time:</strong> 24-48 hours</p>
                   </div>
                 </div>

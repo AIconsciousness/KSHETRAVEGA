@@ -16,7 +16,7 @@ import TransporterDashboard from '../dashboard/TransporterDashboard';
 import AboutPage from './AboutPage';
 import ContactPage from './ContactPage';
 import FeaturesPage from './FeaturesPage';
-import InvestorPage from './InvestorPage';
+// import InvestorPage from './InvestorPage';
 import BlogPage from './BlogPage';
 import UserTypeSelector from '../../components/ui/UserTypeSelector';
 import type { GoogleUserData } from '../../types/auth';
@@ -249,7 +249,7 @@ const features = [
 const testimonials = [
   {
     rating: 5,
-    content: 'ACHHADAM helped me increase my crop sales by 40% in just 3 months! The direct buyer connection is amazing.',
+    content: 'KSHETRAVEGA helped me increase my crop sales by 40% in just 3 months! The direct buyer connection is amazing.',
     name: 'Rajesh Kumar',
     role: 'Farmer, Maharashtra',
     avatar: '🌾'
@@ -478,13 +478,12 @@ const HomePage: React.FC = () => {
           <FeaturesPage
             onBackToHome={handleBackToHome}
           />
-        );
-      case 'investor':
+        );/* case 'investor':
         return (
           <InvestorPage
             onBackToHome={handleBackToHome}
           />
-        );
+        ); */
       case 'blog':
         return (
           <BlogPage
@@ -540,21 +539,21 @@ const HomePage: React.FC = () => {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "name": "Achhadam",
-          "alternateName": "Achhadam Private Limited",
-          "url": "https://www.achhadam.com",
+          "name": "Kshetravega",
+          "alternateName": "Chakravega Technologies Private Limited",
+          "url": "https://www.kshetravega.com",
           "description": "India's leading digital farming platform connecting farmers directly with consumers. Buy fresh crops, vegetables, fruits online. Eliminate middlemen, get fair prices.",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://www.achhadam.com/search?q={search_term_string}",
+            "target": "https://www.kshetravega.com/search?q={search_term_string}",
             "query-input": "required name=search_term_string"
           },
           "publisher": {
             "@type": "Organization",
-            "name": "Achhadam Private Limited",
+            "name": "Chakravega Technologies Private Limited",
             "logo": {
               "@type": "ImageObject",
-              "url": "https://www.achhadam.com/achhadam%20logo.jpg"
+              "url": "https://www.kshetravega.com/kshetravega-icon.svg"
             }
           }
         })}
@@ -568,8 +567,8 @@ const HomePage: React.FC = () => {
                      <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover-scale animate-glow">
                        <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                          <img 
-                           src="/achhadam-logo.jpg" 
-                           alt="Achhadam Logo" 
+                           src="/kshetravega-icon.svg" 
+                           alt="Kshetravega Logo" 
                            className="w-full h-full object-cover rounded-full"
                          />
                        </div>
@@ -596,12 +595,12 @@ const HomePage: React.FC = () => {
                      >
                        {t('navbarFeatures')}
                      </button>
-                     <button
+                     {/* <button
                        onClick={() => setCurrentPage('investor')}
                        className="nav-link text-gray-600 hover:text-green-600 font-medium text-base transition-all duration-300 hover:scale-105 cursor-pointer"
                      >
                        {t('navbarInvestor')}
-                     </button>
+                     </button> */}
                      <button
                        onClick={() => setCurrentPage('blog')}
                        className="nav-link text-gray-600 hover:text-green-600 font-medium text-base transition-all duration-300 hover:scale-105 cursor-pointer"
@@ -662,7 +661,7 @@ const HomePage: React.FC = () => {
                      >
                        {t('navbarFeatures')}
                      </button>
-                     <button
+                     {/* <button
                        onClick={() => {
                          setCurrentPage('investor');
                          setIsMobileMenuOpen(false);
@@ -670,7 +669,7 @@ const HomePage: React.FC = () => {
                        className="block w-full text-left text-gray-600 hover:text-green-600 font-medium text-base transition-colors duration-300 py-2"
                      >
                        {t('navbarInvestor')}
-                     </button>
+                     </button> */}
                      <button
                        onClick={() => {
                          setCurrentPage('blog');
@@ -747,8 +746,8 @@ const HomePage: React.FC = () => {
                      
                      {/* SEO-friendly hidden content for search engines */}
                      <div className="sr-only">
-                       <h2>Achhadam - India's Leading Digital Agriculture Platform</h2>
-                       <p>Achhadam is India's #1 digital farming platform connecting farmers directly with buyers. Buy fresh crops, vegetables, fruits online. Smart farming technology, crop analytics, KYC verification. Eliminate middlemen, get fair prices. Join 10,000+ farmers and buyers across India.</p>
+                       <h2>Kshetravega - Digital Agriculture Platform</h2>
+                       <p>Kshetravega connects farmers directly with buyers and supports transparent agricultural trade through digital services.</p>
                        <h3>Agriculture Platform Features:</h3>
                        <ul>
                          <li>Direct farmer to consumer marketplace</li>
@@ -764,10 +763,10 @@ const HomePage: React.FC = () => {
                          <li>Market information and pricing</li>
                          <li>Order management and tracking</li>
                        </ul>
-                       <h3>About Achhadam:</h3>
-                       <p>Achhadam Private Limited is revolutionizing agriculture in India through technology. Our platform connects farmers directly with consumers, eliminating middlemen and ensuring fair prices. We provide smart farming solutions, crop analytics, and quality verification services.</p>
+                       <h3>About Kshetravega:</h3>
+                       <p>Chakravega Technologies Private Limited, founded by Kamlesh Kumar Sharma, is building a connected agricultural ecosystem across India.</p>
                        <h3>Contact Information:</h3>
-                       <p>Phone: +91-9905441890 | Email: shampawarp3@gmail.com | Location: Near Sai Mandir balsa road Jintur Maharashtra, India</p>
+                       <p>Phone: +91 7209213003 / +91 8969445367 | Email: jhariawatch@chakravega.com / kamleshsamudih@gmail.com | Registered: Samudih, Patra Khurd, Jhargara, Palamau, Jharkhand | Operational: Dhanbad, BIT Sindri, Jharkhand</p>
                      </div>
                      <div className="flex flex-col sm:flex-row gap-4 justify-center">
                        <Button
@@ -1099,7 +1098,7 @@ const HomePage: React.FC = () => {
                        <div className="relative w-full h-72 sm:h-80 md:h-96 bg-white rounded-lg flex items-center justify-center pl-1 sm:pl-2">
                          <img 
                            src={workingProcessImage} 
-                           alt="Achhadam Working Process Piechart" 
+                           alt="Kshetravega Working Process Piechart" 
                            className="w-72 h-72 sm:w-80 sm:h-80 md:w-80 md:h-80 object-cover rounded-full scale-100 sm:scale-[1.68] "
                            style={{objectPosition: 'center center'}}
                            onClick={() => window.open(workingProcessImage, '_blank')}
@@ -1450,8 +1449,8 @@ const HomePage: React.FC = () => {
                 <div className="w-10 h-10 sm:w-12 sm:h-12 hover-scale animate-glow">
                   <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                     <img 
-                      src="/achhadam-logo.jpg" 
-                      alt="Achhadam Logo" 
+                      src="/kshetravega-icon.svg" 
+                      alt="Kshetravega Logo" 
                       className="w-full h-full object-cover rounded-full"
                     />
                   </div>
@@ -1473,10 +1472,10 @@ const HomePage: React.FC = () => {
                 {t('revolutionizingAgriculture')}
               </p>
               <div className="flex space-x-4">
-                <a href="tel:+919905441890" className="text-gray-400 hover:text-white transition-all duration-300 hover-scale p-2 bg-gray-800 rounded-full">
+                <a href="tel:+917209213003" className="text-gray-400 hover:text-white transition-all duration-300 hover-scale p-2 bg-gray-800 rounded-full">
                   <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
                 </a>
-                <a href="mailto:shampawarp3@gmail.com" className="text-gray-400 hover:text-white transition-all duration-300 hover-scale p-2 bg-gray-800 rounded-full">
+                <a href="mailto:jhariawatch@chakravega.com" className="text-gray-400 hover:text-white transition-all duration-300 hover-scale p-2 bg-gray-800 rounded-full">
                   <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                 </a>
               </div>

@@ -1,4 +1,4 @@
-# 🚀 ACHHADAM Manual Deployment Settings for Render
+# 🚀 KSHETRAVEGA Manual Deployment Settings for Render
 
 ## ❌ **Current Error:**
 ```

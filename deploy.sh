@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# ACHHADAM Project Deployment Script
+# KSHETRAVEGA Project Deployment Script
 # This script helps prepare the project for deployment on Render
 
-echo "🚀 ACHHADAM Project Deployment Preparation"
+echo "🚀 KSHETRAVEGA Project Deployment Preparation"
 echo "=========================================="
 
 # Check if we're in the right directory

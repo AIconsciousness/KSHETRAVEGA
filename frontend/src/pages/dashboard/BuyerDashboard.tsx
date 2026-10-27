@@ -140,7 +140,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
   const [userProfile, setUserProfile] = useState({
     id: user?.id || '1',
     name: user?.name || (user?.firstName ? user.firstName + ' ' + (user?.lastName || '') : 'Buyer User'),
-    email: user?.email || 'buyer@achhadam.com',
+    email: user?.email || 'jhariawatch@chakravega.com',
     phone: user?.phone || '+91 0000000000',
     userType: 'buyer' as const,
     address: user?.address || 'Business Address',
@@ -1639,7 +1639,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
         key: razorpayService.getKeyId(),
         amount: Math.round(orderSummary.totalAmount * 100), // Convert to paise and round
         currency: 'INR',
-        name: 'ACHHADAM',
+        name: 'KSHETRAVEGA',
         description: `Payment for ${orderSummary.cropName}`,
         order_id: razorpayOrder.id, // Add order_id back
         prefill: {

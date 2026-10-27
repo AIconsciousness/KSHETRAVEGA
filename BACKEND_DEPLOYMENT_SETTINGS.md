@@ -1,4 +1,4 @@
-# 🚀 ACHHADAM Backend Deployment Settings for Render
+# 🚀 KSHETRAVEGA Backend Deployment Settings for Render
 
 ## 🔧 **Backend Service Configuration:**
 
@@ -24,7 +24,7 @@ Auto-Deploy: Yes
 ### **Step 1: Create Backend Service**
 1. Go to [Render Dashboard](https://dashboard.render.com)
 2. Click **"New"** → **"Web Service"**
-3. Connect your GitHub repository: `https://github.com/AIconsciousness/Achhadam`
+3. Connect your GitHub repository: `https://github.com/AIconsciousness/Kshetravega`
 
 ### **Step 2: Configure Service**
 ```

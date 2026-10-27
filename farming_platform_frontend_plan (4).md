@@ -1,7 +1,7 @@
-# 30-Day Frontend Development Plan for ACHHADAM Digital Farming Platform
+# 30-Day Frontend Development Plan for KSHETRAVEGA Digital Farming Platform
 
 ## Project Overview
-ACHHADAM is a revolutionary digital farming platform designed to eliminate middlemen, connect farmers directly with buyers, integrate logistics, and incorporate advanced agricultural technology. The platform will feature marketplace functionality, transport booking, AI-powered crop advisory, and comprehensive agricultural services.
+KSHETRAVEGA is a revolutionary digital farming platform designed to eliminate middlemen, connect farmers directly with buyers, integrate logistics, and incorporate advanced agricultural technology. The platform will feature marketplace functionality, transport booking, AI-powered crop advisory, and comprehensive agricultural services.
 
 ## Design Philosophy & Technical Stack
 
@@ -45,7 +45,7 @@ Error: #F44336
 ### Day 1: Project Setup & Architecture
 **Prompt for Cursor AI:**
 ```
-Create a robust React TypeScript project structure for ACHHADAM digital farming platform with the following specifications:
+Create a robust React TypeScript project structure for KSHETRAVEGA digital farming platform with the following specifications:
 
 1. **Project Structure:**
 ```
@@ -91,7 +91,7 @@ Create the complete folder structure with initial configuration files and packag
 ### Day 2: Design System & UI Components Library
 **Prompt for Cursor AI:**
 ```
-Build a comprehensive Design System and UI Component Library for ACHHADAM with the following components:
+Build a comprehensive Design System and UI Component Library for KSHETRAVEGA with the following components:
 
 1. **Base Components:**
    - Button (Primary, Secondary, Outline, Ghost variants)
@@ -139,7 +139,7 @@ Create reusable, well-documented components with consistent styling and behavior
 ### Day 3: Authentication System UI
 **Prompt for Cursor AI:**
 ```
-Create a comprehensive Authentication System UI for ACHHADAM platform with the following pages and components:
+Create a comprehensive Authentication System UI for KSHETRAVEGA platform with the following pages and components:
 
 1. **Login Page (/login):**
    - Modern card-based design with agricultural background
@@ -200,7 +200,7 @@ Implement proper form handling with React Hook Form, validation with Yup/Zod, an
 ### Day 4: Dashboard Layout & Navigation
 **Prompt for Cursor AI:**
 ```
-Create responsive Dashboard layouts and Navigation system for different user roles in ACHHADAM:
+Create responsive Dashboard layouts and Navigation system for different user roles in KSHETRAVEGA:
 
 1. **Main Navigation Structure:**
    - Top Header with user profile, notifications, language selector
@@ -277,7 +277,7 @@ Implement using React Router v6 for routing, Framer Motion for animations, and e
 ### Day 5: Homepage & Landing Pages
 **Prompt for Cursor AI:**
 ```
-Create an impressive Homepage and Landing pages for ACHHADAM platform that showcases the agricultural revolution:
+Create an impressive Homepage and Landing pages for KSHETRAVEGA platform that showcases the agricultural revolution:
 
 1. **Homepage Structure (/homepage):**
 
@@ -363,7 +363,7 @@ Implement with modern web technologies, smooth animations using Framer Motion, a
 ### Day 6: User Profile Management
 **Prompt for Cursor AI:**
 ```
-Create comprehensive User Profile Management system for all user types in ACHHADAM:
+Create comprehensive User Profile Management system for all user types in KSHETRAVEGA:
 
 1. **Profile Dashboard (/profile):**
 
@@ -475,7 +475,7 @@ Implement with proper state management, file handling, and secure data practices
 ### Day 7: Search & Discovery System
 **Prompt for Cursor AI:**
 ```
-Create an advanced Search & Discovery system for ACHHADAM marketplace:
+Create an advanced Search & Discovery system for KSHETRAVEGA marketplace:
 
 1. **Global Search Component:**
    
@@ -986,7 +986,7 @@ Implement with WebSocket for real-time updates, push notifications, and mobile-r
 ### Day 11: Messaging & Communication System
 **Prompt for Cursor AI:**
 ```
-Create a comprehensive Messaging and Communication system for ACHHADAM platform:
+Create a comprehensive Messaging and Communication system for KSHETRAVEGA platform:
 
 1. **Main Chat Interface (/messages):**
 
@@ -1302,7 +1302,7 @@ Implement with real-time GPS tracking, push notifications, and integration with 
 ### Day 13: Payment & Financial Management
 **Prompt for Cursor AI:**
 ```
-Create a comprehensive Payment and Financial Management system for ACHHADAM:
+Create a comprehensive Payment and Financial Management system for KSHETRAVEGA:
 
 1. **Payment Gateway Integration (/payments):**
 
@@ -1659,7 +1659,7 @@ Implement with real-time data processing, advanced visualization libraries, and 
 ### Day 15: AI-Powered Crop Advisory System
 **Prompt for Cursor AI:**
 ```
-Create an advanced AI-Powered Crop Advisory System for ACHHADAM platform:
+Create an advanced AI-Powered Crop Advisory System for KSHETRAVEGA platform:
 
 1. **Crop Advisory Dashboard (/crop-advisory):**
 
@@ -2004,7 +2004,7 @@ Implement with multiple weather API integrations, real-time processing, and comp
 ### Day 17: Quality Assurance & Certification
 **Prompt for Cursor AI:**
 ```
-Create a comprehensive Quality Assurance and Certification system for ACHHADAM:
+Create a comprehensive Quality Assurance and Certification system for KSHETRAVEGA:
 
 1. **Quality Management Dashboard (/quality):**
 
@@ -2172,7 +2172,7 @@ Implement with AI-powered image analysis, blockchain for certification authentic
 ### Day 18: IoT Integration & Smart Farming
 **Prompt for Cursor AI:**
 ```
-Create comprehensive IoT Integration and Smart Farming features for ACHHADAM:
+Create comprehensive IoT Integration and Smart Farming features for KSHETRAVEGA:
 
 1. **IoT Device Management (/iot-devices):**
 
@@ -2340,7 +2340,7 @@ Implement with real-time data processing, secure IoT communication protocols, an
 ### Day 19: Community Features & Social Platform
 **Prompt for Cursor AI:**
 ```
-Create comprehensive Community Features and Social Platform for ACHHADAM:
+Create comprehensive Community Features and Social Platform for KSHETRAVEGA:
 
 1. **Community Dashboard (/community):**
 
@@ -2508,7 +2508,7 @@ Implement with real-time social features, content moderation tools, and communit
 ### Day 20: Supply Chain Transparency
 **Prompt for Cursor AI:**
 ```
-Create comprehensive Supply Chain Transparency features for ACHHADAM:
+Create comprehensive Supply Chain Transparency features for KSHETRAVEGA:
 
 1. **Traceability Dashboard (/traceability):**
 
@@ -2676,7 +2676,7 @@ Implement with blockchain technology, QR code integration, and comprehensive aud
 ### Day 21: Insurance & Risk Management
 **Prompt for Cursor AI:**
 ```
-Create comprehensive Insurance and Risk Management features for ACHHADAM:
+Create comprehensive Insurance and Risk Management features for KSHETRAVEGA:
 
 1. **Insurance Dashboard (/insurance):**
 
@@ -2848,7 +2848,7 @@ Implement with real-time risk monitoring, automated claim processing, and compre
 ### Day 22: Advanced Search & Filters
 **Prompt for Cursor AI:**
 ```
-Create an Advanced Search and Filter system for ACHHADAM platform:
+Create an Advanced Search and Filter system for KSHETRAVEGA platform:
 
 1. **Intelligent Search Engine (/advanced-search):**
 
@@ -3017,7 +3017,7 @@ Implement with Elasticsearch/Algolia for advanced search, machine learning for r
 ### Day 23: Multi-Language Support & Localization
 **Prompt for Cursor AI:**
 ```
-Create comprehensive Multi-Language Support and Localization for ACHHADAM:
+Create comprehensive Multi-Language Support and Localization for KSHETRAVEGA:
 
 1. **Language Management System (/language-settings):**
 
@@ -3203,7 +3203,7 @@ Create comprehensive Performance Optimization and Progressive Web App features:
 
    **Installation & App-like Experience:**
    - Add to Home Screen prompts
-   - Splash screen with ACHHADAM branding
+   - Splash screen with KSHETRAVEGA branding
    - Native app icon and theme colors
    - Full-screen launch mode
    - Status bar customization
@@ -3356,7 +3356,7 @@ Implement with modern web standards, comprehensive performance monitoring, and m
 ### Day 25: Security & Data Privacy
 **Prompt for Cursor AI:**
 ```
-Create comprehensive Security and Data Privacy features for ACHHADAM:
+Create comprehensive Security and Data Privacy features for KSHETRAVEGA:
 
 1. **Authentication & Authorization System:**
 

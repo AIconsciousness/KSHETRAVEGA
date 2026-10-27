@@ -3,11 +3,11 @@
 const fs = require('fs');
 const path = require('path');
 
-console.log('🔐 Setting up Environment Variables for Achhadam...\n');
+console.log('🔐 Setting up Environment Variables for Kshetravega...\n');
 
 // Environment variables template
 const envTemplate = `# ===========================================
-# ACHHADAM - DIGITAL FARMING PLATFORM
+# KSHETRAVEGA - DIGITAL FARMING PLATFORM
 # Environment Variables Configuration
 # ===========================================
 
@@ -73,7 +73,7 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your_email@gmail.com
 SMTP_PASS=your_email_password_or_app_password
-SMTP_FROM=noreply@achhadam.com
+SMTP_FROM=jhariawatch@chakravega.com
 
 # ===========================================
 # SMS CONFIGURATION (Twilio/Other)

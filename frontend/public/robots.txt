@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://www.achhadam.com/sitemap.xml
+Sitemap: https://www.kshetravega.com/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1

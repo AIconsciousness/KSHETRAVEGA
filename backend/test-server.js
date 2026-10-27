@@ -18,8 +18,8 @@ app.use(cors({
     'https://achhadamf.onrender.com',
     'https://acchadam1.onrender.com',
     'https://acchadam1-frontend.onrender.com',
-    'https://www.achhadam.com',
-    'https://achhadam.com'
+    'https://www.kshetravega.com',
+    'https://kshetravega.com'
   ],
   credentials: true
 }));

@@ -42,14 +42,14 @@ app.use(helmet({
   contentSecurityPolicy: false
 }));
 
-// Add explicit CORS headers for all requests - ENHANCED FOR ACHHADAM.COM
+// Add explicit CORS headers for all requests - ENHANCED FOR KSHETRAVEGA.COM
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   
   // Allow specific origins
   const allowedOrigins = [
-    'https://www.achhadam.com',
-    'https://achhadam.com',
+    'https://www.kshetravega.com',
+    'https://kshetravega.com',
     'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:5000',
@@ -94,8 +94,8 @@ app.use(cors({
     }
     
     const allowedOrigins = [
-      'https://www.achhadam.com',
-      'https://achhadam.com',
+      'https://www.kshetravega.com',
+      'https://kshetravega.com',
       'http://localhost:5173', 
       'http://localhost:5174', 
       'http://localhost:5000',
@@ -393,7 +393,7 @@ app.get('/health', async (req, res) => {
 // Root Endpoint
 app.get('/', (req, res) => {
   res.json({
-    message: 'ACHHADAM Backend API is running!',
+    message: 'KSHETRAVEGA Backend API is running!',
     version: '1.0.0',
     databases: {
       mongodb: mongoConnection ? 'Connected' : 'Disconnected',
@@ -604,15 +604,15 @@ app.post('/api/auth/signup', async (req, res) => {
   }
 });
 
-// Handle OPTIONS requests for all auth endpoints - ENHANCED FOR ACHHADAM.COM
+// Handle OPTIONS requests for all auth endpoints - ENHANCED FOR KSHETRAVEGA.COM
 app.options('/api/auth/*', (req, res) => {
   const origin = req.headers.origin;
   console.log('🔍 CORS preflight for auth endpoint from:', origin);
   
   // Allow specific origins
   const allowedOrigins = [
-    'https://www.achhadam.com',
-    'https://achhadam.com',
+    'https://www.kshetravega.com',
+    'https://kshetravega.com',
     'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:5000',
@@ -634,12 +634,12 @@ app.options('/api/auth/*', (req, res) => {
   res.status(200).end();
 });
 
-// Handle OPTIONS request for login - ENHANCED FOR ACHHADAM.COM
+// Handle OPTIONS request for login - ENHANCED FOR KSHETRAVEGA.COM
 app.options('/api/auth/login', (req, res) => {
   const origin = req.headers.origin;
   console.log('🔍 CORS preflight for login from:', origin);
   
-  if (['https://www.achhadam.com', 'https://achhadam.com'].includes(origin)) {
+  if (['https://www.kshetravega.com', 'https://kshetravega.com'].includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
     console.log('✅ CORS: Login origin allowed:', origin);
   } else {
@@ -658,7 +658,7 @@ app.options('/api/*', (req, res) => {
   const origin = req.headers.origin;
   console.log('🔍 CORS preflight for API endpoint from:', origin);
   
-  if (['https://www.achhadam.com', 'https://achhadam.com'].includes(origin)) {
+  if (['https://www.kshetravega.com', 'https://kshetravega.com'].includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
     console.log('✅ CORS: API endpoint origin allowed:', origin);
   } else {
@@ -677,8 +677,8 @@ app.post('/api/auth/login', async (req, res) => {
     const origin = req.headers.origin;
     console.log('🔍 Login request from origin:', origin);
     
-    // Set CORS headers explicitly for login - ENHANCED FOR ACHHADAM.COM
-    if (['https://www.achhadam.com', 'https://achhadam.com'].includes(origin)) {
+    // Set CORS headers explicitly for login - ENHANCED FOR KSHETRAVEGA.COM
+    if (['https://www.kshetravega.com', 'https://kshetravega.com'].includes(origin)) {
       res.header('Access-Control-Allow-Origin', origin);
       console.log('✅ CORS: Login origin explicitly allowed:', origin);
     } else {
@@ -902,7 +902,7 @@ app.get('/health', (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
-    message: 'ACHHADAM Backend API is running',
+    message: 'KSHETRAVEGA Backend API is running',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     environment: process.env.NODE_ENV || 'development',
@@ -1056,7 +1056,7 @@ async function startServer() {
 
     // Start server
     app.listen(PORT, () => {
-      console.log(`🚀 ACHHADAM Backend Server running on port ${PORT}`);
+      console.log(`🚀 KSHETRAVEGA Backend Server running on port ${PORT}`);
       console.log(`📊 MongoDB: ${mongoConnection ? '✅ Connected' : '❌ Disconnected'}`);
       console.log(`📊 PostgreSQL: ${postgresConnection ? '✅ Connected' : '❌ Disconnected'}`);
       console.log(`🔗 Health Check: http://localhost:${PORT}/health`);

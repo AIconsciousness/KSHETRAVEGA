@@ -1,7 +1,7 @@
-# 30-Day Backend Development Plan for ACHHADAM Digital Farming Platform
+# 30-Day Backend Development Plan for KSHETRAVEGA Digital Farming Platform
 
 ## Project Overview
-ACHHADAM backend infrastructure is designed to support a comprehensive digital farming ecosystem with dual-database architecture. PostgreSQL (Neon) handles structured transactional data while MongoDB manages agricultural sensor data, IoT streams, and dynamic farming content. The backend provides robust APIs, real-time capabilities, advanced security, and scalable microservices architecture.
+KSHETRAVEGA backend infrastructure is designed to support a comprehensive digital farming ecosystem with dual-database architecture. PostgreSQL (Neon) handles structured transactional data while MongoDB manages agricultural sensor data, IoT streams, and dynamic farming content. The backend provides robust APIs, real-time capabilities, advanced security, and scalable microservices architecture.
 
 ## Database Architecture Strategy
 
@@ -46,7 +46,7 @@ MongoDB: mongodb+srv://kamleshthink:Kamlesh%40%232005@cluster0.u1vgt.mongodb.net
 ### Day 1: Project Architecture & Database Setup
 **Prompt for Cursor AI:**
 ```
-Create a comprehensive backend architecture for ACHHADAM digital farming platform with the following requirements:
+Create a comprehensive backend architecture for KSHETRAVEGA digital farming platform with the following requirements:
 
 1. **Project Structure Setup:**
 Create a well-organized Node.js TypeScript project with:
@@ -161,7 +161,7 @@ Implement proper error handling, TypeScript interfaces, and modular architecture
 ### Day 2: PostgreSQL Schema & User Management
 **Prompt for Cursor AI:**
 ```
-Design and implement comprehensive PostgreSQL database schema using Prisma for ACHHADAM platform:
+Design and implement comprehensive PostgreSQL database schema using Prisma for KSHETRAVEGA platform:
 
 1. **User Management System:**
 Create complete user management with:
@@ -220,7 +220,7 @@ Include comprehensive TypeScript interfaces, validation schemas, and error handl
 ### Day 3: MongoDB Schemas & Agricultural Data Models
 **Prompt for Cursor AI:**
 ```
-Design comprehensive MongoDB schemas using Mongoose for ACHHADAM's agricultural and IoT data:
+Design comprehensive MongoDB schemas using Mongoose for KSHETRAVEGA's agricultural and IoT data:
 
 1. **Crop Management System:**
 Create schemas for:
@@ -290,7 +290,7 @@ Include proper indexing strategies, validation rules, middleware for timestamps,
 ### Day 4: Authentication & Authorization System
 **Prompt for Cursor AI:**
 ```
-Implement comprehensive authentication and authorization system for ACHHADAM platform:
+Implement comprehensive authentication and authorization system for KSHETRAVEGA platform:
 
 1. **Multi-Factor Authentication:**
 - JWT-based authentication with access and refresh tokens
@@ -364,7 +364,7 @@ Include comprehensive error handling, security logging, and integration with bot
 ### Day 5: Core API Development & Routing
 **Prompt for Cursor AI:**
 ```
-Develop core API infrastructure and routing system for ACHHADAM platform:
+Develop core API infrastructure and routing system for KSHETRAVEGA platform:
 
 1. **API Architecture Design:**
 - RESTful API design with proper HTTP methods and status codes
@@ -439,7 +439,7 @@ Include proper error handling, logging, monitoring, and testing endpoints for al
 ### Day 6: Real-time Communication & WebSocket Integration
 **Prompt for Cursor AI:**
 ```
-Implement comprehensive real-time communication system for ACHHADAM platform:
+Implement comprehensive real-time communication system for KSHETRAVEGA platform:
 
 1. **WebSocket Architecture:**
 - Socket.io server setup with Redis adapter for scaling
@@ -522,7 +522,7 @@ Include comprehensive error handling, reconnection logic, message persistence, a
 ### Day 7: File Upload & Media Management System
 **Prompt for Cursor AI:**
 ```
-Create comprehensive file upload and media management system for ACHHADAM platform:
+Create comprehensive file upload and media management system for KSHETRAVEGA platform:
 
 1. **File Upload Infrastructure:**
 - Multer configuration for handling multipart/form-data
@@ -614,7 +614,7 @@ Include error handling, progress tracking, cleanup mechanisms, and comprehensive
 ### Day 8: Crop Management & Marketplace APIs
 **Prompt for Cursor AI:**
 ```
-Develop comprehensive crop management and marketplace functionality for ACHHADAM platform:
+Develop comprehensive crop management and marketplace functionality for KSHETRAVEGA platform:
 
 1. **Crop Listing Management:**
 - Create, read, update, delete operations for crop listings
@@ -1085,7 +1085,7 @@ Include model training pipelines, real-time inference capabilities, and integrat
 ### Day 13: Analytics & Business Intelligence System
 **Prompt for Cursor AI:**
 ```
-Create comprehensive analytics and business intelligence system for ACHHADAM platform:
+Create comprehensive analytics and business intelligence system for KSHETRAVEGA platform:
 
 1. **Data Pipeline Architecture:**
 - Real-time data streaming with Apache Kafka
@@ -1183,7 +1183,7 @@ Include data security measures, privacy protection, and scalable architecture fo
 ### Day 14: Notification & Communication System
 **Prompt for Cursor AI:**
 ```
-Build comprehensive notification and communication system for ACHHADAM platform:
+Build comprehensive notification and communication system for KSHETRAVEGA platform:
 
 1. **Multi-Channel Notification System:**
 - Push notifications for mobile apps (Firebase FCM)

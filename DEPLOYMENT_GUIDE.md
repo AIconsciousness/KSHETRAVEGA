@@ -1,4 +1,4 @@
-# Achhadam Deployment Guide
+# Kshetravega Deployment Guide
 
 ## 🚀 Production Deployment Solutions
 
@@ -61,7 +61,7 @@ app.get('*', (req, res) => {
 
 ### 🎯 Logo Configuration
 - ✅ Logo moved to public folder
-- ✅ All paths updated to `/achhadam-logo.jpg`
+- ✅ All paths updated to `/kshetravega-icon.svg`
 - ✅ Circular frame styling applied
 - ✅ Mobile responsive sizing
 
@@ -91,7 +91,7 @@ app.get('*', (req, res) => {
 3. Ensure your server is configured for SPA routing
 
 #### If Logo Not Showing:
-1. Check if `/achhadam-logo.jpg` is accessible
+1. Check if `/kshetravega-icon.svg` is accessible
 2. Verify file path in browser dev tools
 3. Ensure file is in `public` folder
 

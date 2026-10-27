@@ -1,7 +1,7 @@
 {
-  "name": "achhadam-backend",
+  "name": "kshetravega-backend",
   "version": "1.0.0",
-  "description": "ACHHADAM Backend API Server",
+  "description": "KSHETRAVEGA Backend API Server",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -40,6 +40,6 @@
     "express",
     "mongodb"
   ],
-  "author": "ACHHADAM Team",
+  "author": "KSHETRAVEGA Team",
   "license": "MIT"
 }

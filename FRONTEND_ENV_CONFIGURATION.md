@@ -1,4 +1,4 @@
-# 🔧 Frontend .env Configuration for ACHHADAM
+# 🔧 Frontend .env Configuration for KSHETRAVEGA
 
 ## 📋 **Complete Frontend Environment Variables:**
 
@@ -23,7 +23,7 @@ VITE_RECAPTCHA_SITE_KEY=6LdKZ7srAAAAAJ4K6QBebnKLMwM2STd3dL54Xyf0
 VITE_GOOGLE_CLIENT_ID=1024746152320-gtvf37pthnj4o1u6cunmbr8q0lk09804.apps.googleusercontent.com
 
 # App Configuration
-VITE_APP_NAME=ACHHADAM Digital Farming Platform
+VITE_APP_NAME=KSHETRAVEGA Digital Farming Platform
 VITE_APP_VERSION=1.0.0
 VITE_APP_ENVIRONMENT=production
 ```
@@ -91,7 +91,7 @@ VITE_API_URL=https://achhadam-backend.onrender.com
 
 ### **Basic App Settings:**
 ```env
-VITE_APP_NAME=ACHHADAM Digital Farming Platform
+VITE_APP_NAME=KSHETRAVEGA Digital Farming Platform
 VITE_APP_VERSION=1.0.0
 VITE_APP_ENVIRONMENT=production
 ```

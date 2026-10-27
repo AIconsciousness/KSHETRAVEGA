@@ -54,7 +54,7 @@ const UserTypeSelector: React.FC<UserTypeSelectorProps> = ({
           Choose Your Role
         </h2>
         <p className="text-gray-600">
-          Select how you want to use ACHHADAM
+          Select how you want to use KSHETRAVEGA
         </p>
       </div>
 

@@ -75,7 +75,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBackToHome }) => {
     {
       year: '2025 JUN',
       title: 'Foundation',
-      description: 'ACHHADAM was founded with a vision to digitize Indian agriculture'
+      description: 'KSHETRAVEGA was founded with a vision to digitize Indian agriculture'
     },
     {
       year: '2025 JULY',
@@ -134,7 +134,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBackToHome }) => {
               <Leaf className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              About ACHHADAM
+              About KSHETRAVEGA
             </h1>
             <p className="text-xl sm:text-2xl text-green-100 max-w-4xl mx-auto leading-relaxed">
               Revolutionizing Indian agriculture through digital innovation, connecting farmers, buyers, and transporters in a seamless ecosystem
@@ -220,7 +220,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBackToHome }) => {
               Our Core Values
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              The principles that guide everything we do at ACHHADAM
+              The principles that guide everything we do at KSHETRAVEGA
             </p>
           </div>
           
@@ -248,7 +248,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBackToHome }) => {
               Meet Our Team
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              The passionate individuals driving ACHHADAM's mission
+              The passionate individuals driving KSHETRAVEGA's mission
             </p>
           </div>
           
@@ -275,7 +275,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBackToHome }) => {
               Our Journey
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Key milestones in ACHHADAM's growth story
+              Key milestones in KSHETRAVEGA's growth story
             </p>
           </div>
           

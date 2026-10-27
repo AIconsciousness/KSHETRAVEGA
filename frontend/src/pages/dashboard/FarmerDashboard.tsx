@@ -253,7 +253,7 @@ const FarmerDashboard: React.FC<{ user?: any; onLogout?: () => void }> = ({ user
   const [userProfile, setUserProfile] = useState({
     id: user?.id || localStorage.getItem('farmer_user_id') || `farmer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
     name: user?.name || user?.firstName + ' ' + user?.lastName || 'Farmer User',
-    email: user?.email || 'farmer@achhadam.com',
+    email: user?.email || 'jhariawatch@chakravega.com',
     phone: user?.phone || '+91 0000000000',
     userType: 'farmer' as const,
     address: user?.address || 'Farm Address',
@@ -4506,7 +4506,7 @@ const FarmerDashboard: React.FC<{ user?: any; onLogout?: () => void }> = ({ user
               
               <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
                 <div className="flex-shrink-0 flex items-center px-4">
-                  <h2 className="text-xl font-bold text-green-600">Achhadam</h2>
+                  <h2 className="text-xl font-bold text-green-600">Kshetravega</h2>
                 </div>
                 <nav className="mt-5 px-2 space-y-1">
                   {[

@@ -1,6 +1,6 @@
-# ACHHADAM Digital Farming Platform - Backend
+# KSHETRAVEGA Digital Farming Platform - Backend
 
-A comprehensive backend infrastructure for the ACHHADAM Digital Farming Platform, built with Node.js, TypeScript, Express, PostgreSQL, and MongoDB.
+A comprehensive backend infrastructure for the KSHETRAVEGA Digital Farming Platform, built with Node.js, TypeScript, Express, PostgreSQL, and MongoDB.
 
 ## 🚀 Features
 
@@ -248,7 +248,7 @@ For support and questions:
 
 ---
 
-**Built with ❤️ for ACHHADAM Digital Farming Platform**
+**Built with ❤️ for KSHETRAVEGA Digital Farming Platform**
 
 
 

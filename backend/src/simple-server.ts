@@ -13,7 +13,7 @@ app.use(express.json());
 // Basic routes
 app.get('/', (req, res) => {
   res.json({
-    message: 'ACHHADAM Digital Farming Platform API',
+    message: 'KSHETRAVEGA Digital Farming Platform API',
     version: '1.0.0',
     status: 'running',
     timestamp: new Date().toISOString(),

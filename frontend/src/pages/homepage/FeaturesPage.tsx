@@ -185,8 +185,8 @@ const FeaturesPage: React.FC<FeaturesPageProps> = ({ onBackToHome }) => {
                    <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover-scale animate-glow">
                      <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                        <img 
-                         src="/achhadam-logo.jpg" 
-                         alt="Achhadam Logo" 
+                         src="/kshetravega-icon.svg" 
+                         alt="Kshetravega Logo" 
                          className="w-full h-full object-cover rounded-full"
                        />
                      </div>
@@ -440,7 +440,7 @@ const FeaturesPage: React.FC<FeaturesPageProps> = ({ onBackToHome }) => {
                 Ready to Transform Your Agriculture Business?
               </h2>
               <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-                Join thousands of farmers, buyers, and transporters who are already using Achhadam to grow their business.
+                Join thousands of farmers, buyers, and transporters who are already using Kshetravega to grow their business.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button

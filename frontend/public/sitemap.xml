@@ -6,7 +6,7 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://www.achhadam.com/</loc>
+    <loc>https://www.kshetravega.com/</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -14,7 +14,7 @@
   
   <!-- About Page -->
   <url>
-    <loc>https://www.achhadam.com/about</loc>
+    <loc>https://www.kshetravega.com/about</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -22,7 +22,7 @@
   
   <!-- Features Page -->
   <url>
-    <loc>https://www.achhadam.com/features</loc>
+    <loc>https://www.kshetravega.com/features</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -30,7 +30,7 @@
   
   <!-- Contact Page -->
   <url>
-    <loc>https://www.achhadam.com/contact</loc>
+    <loc>https://www.kshetravega.com/contact</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -38,35 +38,35 @@
   
   <!-- Legal Pages -->
   <url>
-    <loc>https://www.achhadam.com/privacy-policy</loc>
+    <loc>https://www.kshetravega.com/privacy-policy</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://www.achhadam.com/terms-conditions</loc>
+    <loc>https://www.kshetravega.com/terms-conditions</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://www.achhadam.com/cancellation-refund</loc>
+    <loc>https://www.kshetravega.com/cancellation-refund</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://www.achhadam.com/shipping-delivery</loc>
+    <loc>https://www.kshetravega.com/shipping-delivery</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://www.achhadam.com/legal-compliance</loc>
+    <loc>https://www.kshetravega.com/legal-compliance</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
@@ -74,21 +74,21 @@
   
   <!-- Dashboard Pages -->
   <url>
-    <loc>https://www.achhadam.com/farmer-dashboard</loc>
+    <loc>https://www.kshetravega.com/farmer-dashboard</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://www.achhadam.com/buyer-dashboard</loc>
+    <loc>https://www.kshetravega.com/buyer-dashboard</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://www.achhadam.com/transporter-dashboard</loc>
+    <loc>https://www.kshetravega.com/transporter-dashboard</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -96,21 +96,21 @@
   
   <!-- Landing Pages -->
   <url>
-    <loc>https://www.achhadam.com/farmers</loc>
+    <loc>https://www.kshetravega.com/farmers</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://www.achhadam.com/buyers</loc>
+    <loc>https://www.kshetravega.com/buyers</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://www.achhadam.com/transporters</loc>
+    <loc>https://www.kshetravega.com/transporters</loc>
     <lastmod>2024-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

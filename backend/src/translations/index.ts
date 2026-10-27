@@ -4,7 +4,7 @@ import { Language } from '../config/languages';
 export const translations = {
   hi: {
     // Auth
-    welcome: 'ACHHADAM में आपका स्वागत है',
+    welcome: 'KSHETRAVEGA में आपका स्वागत है',
     login: 'लॉगिन करें',
     signup: 'नया खाता बनाएं',
     logout: 'लॉगआउट करें',
@@ -189,7 +189,7 @@ export const translations = {
   
   en: {
     // Auth
-    welcome: 'Welcome to ACHHADAM',
+    welcome: 'Welcome to KSHETRAVEGA',
     login: 'Login',
     signup: 'Create Account',
     logout: 'Logout',
@@ -374,7 +374,7 @@ export const translations = {
   
   mr: {
     // Auth
-    welcome: 'ACHHADAM मध्ये आपले स्वागत आहे',
+    welcome: 'KSHETRAVEGA मध्ये आपले स्वागत आहे',
     login: 'लॉगिन करा',
     signup: 'खाते तयार करा',
     logout: 'लॉगआउट करा',

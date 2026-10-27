@@ -10,8 +10,8 @@ const TermsAndConditions: React.FC = () => {
             <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 hover-scale animate-glow">
               <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                 <img 
-                  src="/achhadam-logo.jpg" 
-                  alt="Achhadam Logo" 
+                  src="/kshetravega-icon.svg" 
+                  alt="Kshetravega Logo" 
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -25,7 +25,7 @@ const TermsAndConditions: React.FC = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Acceptance of Terms</h2>
               <p className="text-gray-700 mb-4">
-                By accessing and using the Achhadam digital farming platform, you accept and agree to be bound by 
+                By accessing and using the Kshetravega digital farming platform, you accept and agree to be bound by 
                 the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
               </p>
             </section>
@@ -33,7 +33,7 @@ const TermsAndConditions: React.FC = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">2. Description of Service</h2>
               <p className="text-gray-700 mb-4">
-                Achhadam Private Limited provides a digital farming platform that connects farmers with buyers, 
+                Chakravega Technologies Private Limited provides a digital farming platform that connects farmers with buyers, 
                 facilitates crop trading, provides farming analytics, and offers various agricultural services.
               </p>
               <ul className="list-disc pl-6 text-gray-700 space-y-2">
@@ -125,7 +125,7 @@ const TermsAndConditions: React.FC = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">7. Intellectual Property</h2>
               <p className="text-gray-700 mb-4">
-                The platform and its original content, features, and functionality are owned by Achhadam Private Limited 
+                The platform and its original content, features, and functionality are owned by Chakravega Technologies Private Limited 
                 and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
               </p>
             </section>
@@ -153,7 +153,7 @@ const TermsAndConditions: React.FC = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">9. Limitation of Liability</h2>
               <p className="text-gray-700 mb-4">
-                To the maximum extent permitted by law, Achhadam Private Limited shall not be liable for any indirect, 
+                To the maximum extent permitted by law, Chakravega Technologies Private Limited shall not be liable for any indirect, 
                 incidental, special, consequential, or punitive damages, including but not limited to loss of profits, 
                 data, or other intangible losses resulting from your use of the platform.
               </p>
@@ -162,7 +162,7 @@ const TermsAndConditions: React.FC = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">10. Indemnification</h2>
               <p className="text-gray-700 mb-4">
-                You agree to defend, indemnify, and hold harmless Achhadam Private Limited and its officers, 
+                You agree to defend, indemnify, and hold harmless Chakravega Technologies Private Limited and its officers, 
                 directors, employees, and agents from and against any claims, damages, obligations, losses, 
                 liabilities, costs, or debt, and expenses (including attorney's fees).
               </p>
@@ -180,7 +180,7 @@ const TermsAndConditions: React.FC = () => {
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">12. Governing Law</h2>
               <p className="text-gray-700 mb-4">
                 These Terms shall be interpreted and governed by the laws of India. Any disputes arising from 
-                these terms shall be subject to the exclusive jurisdiction of the courts in Maharashtra, India.
+                these terms shall be subject to the exclusive jurisdiction of the courts in Jharkhand, India.
               </p>
             </section>
 
@@ -195,10 +195,10 @@ const TermsAndConditions: React.FC = () => {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">14. Contact Information</h2>
               <div className="bg-gray-100 p-6 rounded-lg">
-                <p className="text-gray-700 mb-2"><strong>Company:</strong> Achhadam Private Limited</p>
-                <p className="text-gray-700 mb-2"><strong>Email:</strong> shampawarp3@gmail.com</p>
-                <p className="text-gray-700 mb-2"><strong>Phone:</strong> +91 9905441890</p>
-                <p className="text-gray-700"><strong>Address:</strong> Maharashtra, India, Jharkhand</p>
+                <p className="text-gray-700 mb-2"><strong>Company:</strong> Chakravega Technologies Private Limited</p>
+                <p className="text-gray-700 mb-2"><strong>Email:</strong> jhariawatch@chakravega.com | kamleshsamudih@gmail.com</p>
+                <p className="text-gray-700 mb-2"><strong>Phone:</strong> +91 7209213003 | +91 8969445367</p>
+                <p className="text-gray-700"><strong>Address:</strong> Samudih, Patra Khurd, Jhargara, Palamau, Jharkhand | Operational: Dhanbad, BIT Sindri, Jharkhand</p>
               </div>
             </section>
           </div>

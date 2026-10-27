@@ -1,8 +1,8 @@
-# ACHHADAM Digital Farming Platform - Frontend
+# KSHETRAVEGA Digital Farming Platform - Frontend
 
 ## 🚀 Project Overview
 
-ACHHADAM is a revolutionary digital farming platform designed to eliminate middlemen, connect farmers directly with buyers, integrate logistics, and incorporate advanced agricultural technology. The platform features marketplace functionality, transport booking, AI-powered crop advisory, and comprehensive agricultural services.
+KSHETRAVEGA is a revolutionary digital farming platform designed to eliminate middlemen, connect farmers directly with buyers, integrate logistics, and incorporate advanced agricultural technology. The platform features marketplace functionality, transport booking, AI-powered crop advisory, and comprehensive agricultural services.
 
 ## 🎨 Design Philosophy
 

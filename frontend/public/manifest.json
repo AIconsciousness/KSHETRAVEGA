@@ -1,6 +1,6 @@
 {
-  "name": "Achhadam - Smart Agriculture Platform",
-  "short_name": "Achhadam",
+  "name": "Kshetravega - Smart Agriculture Platform",
+  "short_name": "Kshetravega",
   "description": "Direct farmer-to-consumer platform eliminating middlemen in agriculture",
   "start_url": "/",
   "display": "standalone",
@@ -9,69 +9,19 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/achhadam%20logo.jpg",
-      "sizes": "72x72",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
-    {
-      "src": "/achhadam%20logo.jpg",
-      "sizes": "96x96",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
-    {
-      "src": "/achhadam%20logo.jpg",
-      "sizes": "128x128",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
-    {
-      "src": "/achhadam%20logo.jpg",
-      "sizes": "144x144",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
-    {
-      "src": "/achhadam%20logo.jpg",
-      "sizes": "152x152",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
-    {
-      "src": "/achhadam%20logo.jpg",
-      "sizes": "192x192",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
-    {
-      "src": "/achhadam%20logo.jpg",
-      "sizes": "384x384",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
-    {
-      "src": "/achhadam%20logo.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any"
-    },
-    {
-      "src": "/achhadam%20logo.jpg",
-      "sizes": "192x192",
-      "type": "image/jpeg",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/achhadam%20logo.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "maskable"
+      "src": "/kshetravega-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
-  "categories": ["agriculture", "business", "productivity"],
+  "categories": [
+    "agriculture",
+    "business",
+    "productivity"
+  ],
   "lang": "hi",
   "dir": "ltr",
   "scope": "/",
-  "id": "achhadam-app"
+  "id": "kshetravega-app"
 }

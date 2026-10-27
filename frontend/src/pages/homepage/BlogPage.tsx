@@ -158,7 +158,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
     {
       id: 4,
       title: "5 Essential Tips for New Farmers on Our Platform",
-      excerpt: "A beginner's guide to maximizing your success on Achhadam platform.",
+      excerpt: "A beginner's guide to maximizing your success on Kshetravega platform.",
       author: "Suresh Mehta",
       authorRole: "Platform Manager",
       date: "2024-01-08",
@@ -273,8 +273,8 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBackToHome }) => {
                    <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover-scale animate-glow">
                      <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                        <img 
-                         src="/achhadam-logo.jpg" 
-                         alt="Achhadam Logo" 
+                         src="/kshetravega-icon.svg" 
+                         alt="Kshetravega Logo" 
                          className="w-full h-full object-cover rounded-full"
                        />
                      </div>

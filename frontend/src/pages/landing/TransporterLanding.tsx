@@ -19,7 +19,7 @@ const TransporterLanding: React.FC = () => {
         name: 'Rajesh Kumar',
         company: 'FastTrack Logistics',
         rating: 5,
-        comment: 'ACHHADAM helped me increase my monthly earnings by 40% through better route optimization.'
+        comment: 'KSHETRAVEGA helped me increase my monthly earnings by 40% through better route optimization.'
       },
       {
         name: 'Priya Sharma',
@@ -40,7 +40,7 @@ const TransporterLanding: React.FC = () => {
               Maximize Your <span className="text-yellow-300">Transport Earnings</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Join thousands of transporters who've increased their income by 40%+ using ACHHADAM's smart logistics platform
+              Join thousands of transporters who've increased their income by 40%+ using KSHETRAVEGA's smart logistics platform
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="xl" className="bg-yellow-500 hover:bg-yellow-600 text-blue-900">
@@ -58,7 +58,7 @@ const TransporterLanding: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Why Transporters Choose ACHHADAM
+            Why Transporters Choose KSHETRAVEGA
           </h2>
           <p className="text-xl text-gray-600">
             Advanced features designed specifically for logistics professionals
@@ -112,7 +112,7 @@ const TransporterLanding: React.FC = () => {
               Calculate Your Potential Earnings
             </h2>
             <p className="text-xl text-gray-600">
-              See how much more you could earn with ACHHADAM
+              See how much more you could earn with KSHETRAVEGA
             </p>
           </div>
 
@@ -126,7 +126,7 @@ const TransporterLanding: React.FC = () => {
                     <span className="font-semibold">₹{mockData.earnings.current.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">With ACHHADAM:</span>
+                    <span className="text-gray-600">With KSHETRAVEGA:</span>
                     <span className="font-semibold text-green-600">₹{mockData.earnings.potential.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between items-center p-4 bg-green-50 rounded-lg">

@@ -1,5 +1,5 @@
 /**
- * Cookie management service for Achhadam
+ * Cookie management service for Kshetravega
  * Handles cookie operations, consent management, and preference tracking
  */
 import api from './api';

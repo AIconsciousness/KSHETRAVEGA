@@ -1,4 +1,4 @@
-# 🚀 ACHHADAM Project Deployment Guide on Render
+# 🚀 KSHETRAVEGA Project Deployment Guide on Render
 
 ## 📋 Prerequisites
 - GitHub repository with your project code
@@ -230,7 +230,7 @@ If you encounter issues:
 
 ## 🎉 Success!
 
-Once deployed, your ACHHADAM Digital Farming Platform will be live at:
+Once deployed, your KSHETRAVEGA Digital Farming Platform will be live at:
 - **Frontend:** `https://achhadam-frontend.onrender.com`
 - **Backend API:** `https://achhadam-backend.onrender.com`
 

@@ -27,7 +27,7 @@ app.get('/health', (req, res) => {
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({
-    message: 'ACHHADAM Backend API is running!',
+    message: 'KSHETRAVEGA Backend API is running!',
     version: '1.0.0',
     endpoints: {
       health: '/health',
@@ -299,7 +299,7 @@ app.get('/api/users', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 ACHHADAM Backend Server running on port ${PORT}`);
+  console.log(`🚀 KSHETRAVEGA Backend Server running on port ${PORT}`);
   console.log(`📱 Health check: http://localhost:${PORT}/health`);
   console.log(`🔐 Auth endpoints: http://localhost:${PORT}/api/auth`);
   console.log(`👥 Users endpoint: http://localhost:${PORT}/api/users`);

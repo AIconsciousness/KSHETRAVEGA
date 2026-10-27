@@ -94,13 +94,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                   <span className="text-white text-sm font-bold">A</span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-text-dark">ACHHADAM</p>
+                  <p className="text-sm font-medium text-text-dark">KSHETRAVEGA</p>
                   <p className="text-xs text-text-light">Digital Farming Platform</p>
                 </div>
               </div>
               
               <div className="flex items-center space-x-6 text-sm text-text-light">
-                <span>© 2024 ACHHADAM. All rights reserved.</span>
+                <span>© 2024 KSHETRAVEGA. All rights reserved.</span>
                 <a href="#" className="hover:text-primary-green transition-colors duration-200">
                   Privacy Policy
                 </a>

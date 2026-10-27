@@ -1,10 +1,9 @@
-// Service Worker for Achhadam PWA
-const CACHE_NAME = 'achhadam-v2';
+// Service Worker for Kshetravega PWA
+const CACHE_NAME = 'kshetravega-v2';
 const urlsToCache = [
   '/',
   '/manifest.json',
-  '/achhadam%20logo.jpg',
-  '/achhadam-logo.jpg'
+  '/kshetravega-icon.svg'
 ];
 
 // Install event

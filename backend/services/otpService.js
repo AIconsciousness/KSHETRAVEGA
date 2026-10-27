@@ -41,7 +41,7 @@ class OTPService {
         const client = require('twilio')(accountSid, authToken);
         
         await client.messages.create({
-          body: `Your Achhadam password reset OTP is: ${otp}. Valid for 10 minutes.`,
+          body: `Your Kshetravega password reset OTP is: ${otp}. Valid for 10 minutes.`,
           from: process.env.TWILIO_PHONE_NUMBER,
           to: `+91${phone}`
         });

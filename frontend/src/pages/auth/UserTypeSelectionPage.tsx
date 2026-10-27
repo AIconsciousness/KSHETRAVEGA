@@ -87,7 +87,7 @@ const UserTypeSelectionPage: React.FC<UserTypeSelectionPageProps> = ({
             Welcome, {user.displayName}!
           </h1>
           <p className="text-gray-600 text-sm sm:text-base">
-            Please select your role to continue with Achhadam
+            Please select your role to continue with Kshetravega
           </p>
         </div>
 
