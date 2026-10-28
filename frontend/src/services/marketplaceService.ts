@@ -230,7 +230,7 @@ export const loadAllFarmerCrops = async (): Promise<MarketplaceCrop[]> => {
       console.log('✅ Token validation passed, making API request');
       
       // Use authenticated fetch with automatic token management
-      const response = await authenticatedFetch('https://acchadam1-backend.onrender.com/api/crops/marketplace', {
+      const response = await authenticatedFetch('https://kshetravega-57p9.onrender.com/api/crops/marketplace', {
         method: 'GET'
       });
       

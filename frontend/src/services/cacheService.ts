@@ -176,7 +176,7 @@ export const getMarketplaceData = async (): Promise<any> => {
 
   // Fetch from API
   console.log(`🌐 MARKETPLACE: Fetching from API`);
-  const data = await smartFetch('https://acchadam1-backend.onrender.com/api/crops/marketplace', {
+  const data = await smartFetch('https://kshetravega-57p9.onrender.com/api/crops/marketplace', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -203,7 +203,7 @@ export const getFarmerData = async (farmerId: string): Promise<any> => {
 
   // Fetch from API
   console.log(`🌐 FARMER DATA: Fetching from API`);
-  const data = await smartFetch(`https://acchadam1-backend.onrender.com/api/crops/farmer/${farmerId}`, {
+  const data = await smartFetch(`https://kshetravega-57p9.onrender.com/api/crops/farmer/${farmerId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

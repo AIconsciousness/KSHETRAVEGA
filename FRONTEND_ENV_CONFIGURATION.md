@@ -6,7 +6,7 @@
 
 ```env
 # API Configuration
-VITE_API_URL=https://achhadam-backend.onrender.com
+VITE_API_URL=https://kshetravega-57p9.onrender.com
 
 # Firebase Configuration
 VITE_FIREBASE_API_KEY=your-firebase-api-key
@@ -57,7 +57,7 @@ VITE_FIREBASE_APP_ID=1:1024746152320:web:67799730096fd80fc32165
 4. Click **"Create Credentials"** → **"OAuth 2.0 Client IDs"**
 5. Application type: **"Web application"**
 6. Add authorized origins:
-   - `https://achhadam-frontend.onrender.com`
+   - `https://kshetravega.chakravega.com`
    - `http://localhost:5173` (for development)
 
 ### **Step 2: Google Client ID**
@@ -76,7 +76,7 @@ VITE_RECAPTCHA_SITE_KEY=6LdKZ7srAAAAAJ4K6QBebnKLMwM2STd3dL54Xyf0
 1. Go to [Google reCAPTCHA](https://www.google.com/recaptcha/admin)
 2. Create new site
 3. Add domains:
-   - `achhadam-frontend.onrender.com`
+   - `kshetravega.chakravega.com`
    - `localhost` (for development)
 4. Copy Site Key
 
@@ -84,7 +84,7 @@ VITE_RECAPTCHA_SITE_KEY=6LdKZ7srAAAAAJ4K6QBebnKLMwM2STd3dL54Xyf0
 
 ### **Backend API URL:**
 ```env
-VITE_API_URL=https://achhadam-backend.onrender.com
+VITE_API_URL=https://kshetravega-57p9.onrender.com
 ```
 
 ## 📱 **App Configuration:**
@@ -110,12 +110,12 @@ Copy the complete configuration above into `frontend/.env`
 ### **Step 3: Update Firebase Settings**
 1. Go to Firebase Console
 2. **Authentication** → **Settings** → **Authorized domains**
-3. Add: `achhadam-frontend.onrender.com`
+3. Add: `kshetravega.chakravega.com`
 
 ### **Step 4: Update Google OAuth**
 1. Go to Google Cloud Console
 2. **APIs & Services** → **Credentials**
-3. Add authorized origin: `https://achhadam-frontend.onrender.com`
+3. Add authorized origin: `https://kshetravega.chakravega.com`
 
 ### **Step 5: Test Configuration**
 ```bash

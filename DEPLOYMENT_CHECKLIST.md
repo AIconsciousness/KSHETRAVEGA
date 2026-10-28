@@ -76,12 +76,12 @@ JWT_SECRET=your-super-secret-jwt-key-here
 FIREBASE_PROJECT_ID=your-firebase-project-id
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour private key here\n-----END PRIVATE KEY-----\n"
 FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com
-CORS_ORIGIN=https://achhadam-frontend.onrender.com
+CORS_ORIGIN=https://kshetravega.chakravega.com
 ```
 
 ### Frontend Environment Variables
 ```
-VITE_API_URL=https://achhadam-backend.onrender.com
+VITE_API_URL=https://kshetravega-57p9.onrender.com
 VITE_FIREBASE_API_KEY=your-firebase-api-key
 VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=your-firebase-project-id

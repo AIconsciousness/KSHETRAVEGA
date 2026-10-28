@@ -3,7 +3,7 @@ export const AUTH_CONFIG = {
   // reCAPTCHA Configuration
   RECAPTCHA: {
     SITE_KEY: import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv',
-    DOMAINS: ['localhost', '127.0.0.1', 'achhadamf.onrender.com', 'acchadam1-frontend.onrender.com', 'www.kshetravega.com', 'kshetravega.com']
+    DOMAINS: ['localhost', '127.0.0.1', 'kshetravega.chakravega.com', 'www.kshetravega.com', 'kshetravega.com']
   },
   
   // Google Sign-in Configuration

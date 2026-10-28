@@ -152,7 +152,7 @@ class TokenService {
       console.log('🔄 TOKEN REFRESH: Current token:', currentToken.substring(0, 20) + '...');
       console.log('🔄 TOKEN REFRESH: Making refresh request to backend...');
 
-      const response = await fetch('https://acchadam1-backend.onrender.com/api/auth/refresh', {
+      const response = await fetch('https://kshetravega-57p9.onrender.com/api/auth/refresh', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -236,7 +236,7 @@ class TokenService {
 
       console.log('🔄 Attempting fresh login for:', userPhone);
       
-      const response = await fetch('https://acchadam1-backend.onrender.com/api/auth/login', {
+      const response = await fetch('https://kshetravega-57p9.onrender.com/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

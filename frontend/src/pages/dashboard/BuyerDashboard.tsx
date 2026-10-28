@@ -243,7 +243,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
         // Load cart from database first (PERMANENT DATA)
         const actualBuyerId = user?._id || user?.id || userProfile?.id;
         console.log(`🔑 Using actual buyer ID: ${actualBuyerId} (not generated ID: ${userProfile?.id})`);
-        const cartResponse = await fetch(`https://acchadam1-backend.onrender.com/api/cart/buyer/${actualBuyerId}`, {
+        const cartResponse = await fetch(`https://kshetravega-57p9.onrender.com/api/cart/buyer/${actualBuyerId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -330,7 +330,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
         // Load orders from database first (PERMANENT DATA)
         const actualBuyerId = user?._id || user?.id || userProfile?.id;
         console.log(`🔑 Using actual buyer ID: ${actualBuyerId} (not generated ID: ${userProfile?.id})`);
-        const ordersResponse = await authenticatedFetch(`https://acchadam1-backend.onrender.com/api/orders/buyer/${actualBuyerId}`, {
+        const ordersResponse = await authenticatedFetch(`https://kshetravega-57p9.onrender.com/api/orders/buyer/${actualBuyerId}`, {
           method: 'GET'
         });
 

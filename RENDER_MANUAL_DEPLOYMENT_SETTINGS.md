@@ -162,8 +162,8 @@ Auto-Deploy: Yes
 ```
 ✅ Build completed successfully
 ✅ Service is live
-✅ Frontend loads at: https://achhadam-frontend.onrender.com
-✅ Backend API at: https://achhadam-backend.onrender.com
+✅ Frontend loads at: https://kshetravega.chakravega.com
+✅ Backend API at: https://kshetravega-57p9.onrender.com
 ```
 
 ### **Build Logs Should Show:**

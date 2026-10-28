@@ -2,8 +2,8 @@
 
 ## ❌ **Current Error:**
 ```
-Access to fetch at 'https://achhadam-backend.onrender.com/auth/login' 
-from origin 'https://achhadamf.onrender.com' has been blocked by CORS policy: 
+Access to fetch at 'https://kshetravega-57p9.onrender.com/auth/login' 
+from origin 'https://kshetravega.chakravega.com' has been blocked by CORS policy: 
 Response to preflight request doesn't pass access control check: 
 No 'Access-Control-Allow-Origin' header is present on the requested resource.
 ```
@@ -16,8 +16,8 @@ app.use(cors({
   origin: process.env.CORS_ORIGIN || [
     'http://localhost:5173', 
     'http://localhost:5174', 
-    'https://achhadam-frontend.onrender.com',
-    'https://achhadamf.onrender.com'  // ← Added this domain
+    'https://kshetravega.chakravega.com',
+    'https://kshetravega.chakravega.com'  // ← Added this domain
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -30,7 +30,7 @@ app.use(cors({
 ### **Step 1: Commit Changes**
 ```bash
 git add backend/server.js
-git commit -m "Fix CORS: Add achhadamf.onrender.com to allowed origins"
+git commit -m "Fix CORS: Add kshetravega.chakravega.com to allowed origins"
 git push origin main
 ```
 
@@ -41,7 +41,7 @@ git push origin main
 4. Wait for deployment to complete
 
 ### **Step 3: Test Frontend**
-1. Go to `https://achhadamf.onrender.com`
+1. Go to `https://kshetravega.chakravega.com`
 2. Try login functionality
 3. Check browser console for errors
 
@@ -50,7 +50,7 @@ git push origin main
 ### **Option 1: Environment Variable (Recommended)**
 Set `CORS_ORIGIN` in Render backend environment variables:
 ```
-CORS_ORIGIN=https://achhadamf.onrender.com,https://achhadam-frontend.onrender.com,http://localhost:5173
+CORS_ORIGIN=https://kshetravega.chakravega.com,https://kshetravega.chakravega.com,http://localhost:5173
 ```
 
 ### **Option 2: Wildcard (Less Secure)**
@@ -70,8 +70,8 @@ app.use(cors({
     const allowedOrigins = [
       'http://localhost:5173',
       'http://localhost:5174',
-      'https://achhadam-frontend.onrender.com',
-      'https://achhadamf.onrender.com'
+      'https://kshetravega.chakravega.com',
+      'https://kshetravega.chakravega.com'
     ];
     
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -87,8 +87,8 @@ app.use(cors({
 ```
 
 ## 🎯 **Root Cause:**
-- Frontend deployed at: `https://achhadamf.onrender.com`
-- Backend CORS only allowed: `https://achhadam-frontend.onrender.com`
+- Frontend deployed at: `https://kshetravega.chakravega.com`
+- Backend CORS only allowed: `https://kshetravega.chakravega.com`
 - Mismatch in domain names caused CORS blocking
 
 ## ✅ **After Fix:**
@@ -101,16 +101,16 @@ app.use(cors({
 
 ### **Check CORS Headers:**
 ```bash
-curl -H "Origin: https://achhadamf.onrender.com" \
+curl -H "Origin: https://kshetravega.chakravega.com" \
      -H "Access-Control-Request-Method: POST" \
      -H "Access-Control-Request-Headers: Content-Type" \
      -X OPTIONS \
-     https://achhadam-backend.onrender.com/auth/login
+     https://kshetravega-57p9.onrender.com/auth/login
 ```
 
 ### **Expected Response:**
 ```
-Access-Control-Allow-Origin: https://achhadamf.onrender.com
+Access-Control-Allow-Origin: https://kshetravega.chakravega.com
 Access-Control-Allow-Methods: GET,POST,PUT,DELETE,OPTIONS
 Access-Control-Allow-Headers: Content-Type,Authorization,X-Requested-With
 ```
@@ -118,8 +118,8 @@ Access-Control-Allow-Headers: Content-Type,Authorization,X-Requested-With
 ## 🚨 **Common CORS Issues:**
 
 ### **1. Domain Mismatch:**
-- Frontend: `https://achhadamf.onrender.com`
-- Backend allows: `https://achhadam-frontend.onrender.com`
+- Frontend: `https://kshetravega.chakravega.com`
+- Backend allows: `https://kshetravega.chakravega.com`
 - **Fix:** Add correct domain to CORS origins
 
 ### **2. Protocol Mismatch:**
@@ -128,8 +128,8 @@ Access-Control-Allow-Headers: Content-Type,Authorization,X-Requested-With
 - **Fix:** Use same protocol (HTTPS for production)
 
 ### **3. Subdomain Issues:**
-- Frontend: `achhadamf.onrender.com`
-- Backend allows: `achhadam-frontend.onrender.com`
+- Frontend: `kshetravega.chakravega.com`
+- Backend allows: `kshetravega.chakravega.com`
 - **Fix:** Add both domains or use wildcard
 
 ### **4. Port Issues:**
@@ -147,7 +147,7 @@ Access-Control-Allow-Headers: Content-Type,Authorization,X-Requested-With
 
 ### **Test API Directly:**
 ```bash
-curl -X POST https://achhadam-backend.onrender.com/auth/login \
+curl -X POST https://kshetravega-57p9.onrender.com/auth/login \
      -H "Content-Type: application/json" \
      -d '{"email":"test@example.com","password":"password"}'
 ```

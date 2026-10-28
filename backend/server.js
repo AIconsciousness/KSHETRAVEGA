@@ -48,6 +48,7 @@ app.use((req, res, next) => {
   
   // Allow specific origins
   const allowedOrigins = [
+    'https://kshetravega.chakravega.com',
     'https://www.kshetravega.com',
     'https://kshetravega.com',
     'http://localhost:5173',
@@ -96,14 +97,11 @@ app.use(cors({
     const allowedOrigins = [
       'https://www.kshetravega.com',
       'https://kshetravega.com',
+      'https://kshetravega.chakravega.com',
       'http://localhost:5173', 
       'http://localhost:5174', 
       'http://localhost:5000',
-      'http://0.0.0.0:5000',
-      'https://achhadam-frontend.onrender.com',
-      'https://achhadamf.onrender.com',
-      'https://acchadam1.onrender.com',
-      'https://acchadam1-frontend.onrender.com'
+      'http://0.0.0.0:5000'
     ];
     
     if (allowedOrigins.indexOf(origin) !== -1) {
@@ -613,6 +611,7 @@ app.options('/api/auth/*', (req, res) => {
   const allowedOrigins = [
     'https://www.kshetravega.com',
     'https://kshetravega.com',
+    'https://kshetravega.chakravega.com',
     'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:5000',

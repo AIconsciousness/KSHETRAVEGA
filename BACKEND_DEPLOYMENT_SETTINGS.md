@@ -55,7 +55,7 @@ JWT_SECRET = your-super-secret-jwt-key-here
 FIREBASE_PROJECT_ID = your-firebase-project-id
 FIREBASE_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----\nYour private key here\n-----END PRIVATE KEY-----\n"
 FIREBASE_CLIENT_EMAIL = firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com
-CORS_ORIGIN = https://achhadam-frontend.onrender.com
+CORS_ORIGIN = https://kshetravega.chakravega.com
 ```
 
 ## 🗄️ **Database Setup:**
@@ -96,20 +96,20 @@ Plan: Free
 ### **Step 1: Deploy Backend**
 1. Click **"Create Web Service"**
 2. Wait for deployment (5-10 minutes)
-3. Note the generated URL: `https://achhadam-backend.onrender.com`
+3. Note the generated URL: `https://kshetravega-57p9.onrender.com`
 
 ### **Step 2: Test Backend**
 Test these endpoints:
 ```
-Health Check: https://achhadam-backend.onrender.com/api/health
-User Registration: https://achhadam-backend.onrender.com/api/auth/register
-User Login: https://achhadam-backend.onrender.com/api/auth/login
+Health Check: https://kshetravega-57p9.onrender.com/api/health
+User Registration: https://kshetravega-57p9.onrender.com/api/auth/register
+User Login: https://kshetravega-57p9.onrender.com/api/auth/login
 ```
 
 ### **Step 3: Update Frontend**
 Update frontend environment variable:
 ```
-VITE_API_URL = https://achhadam-backend.onrender.com
+VITE_API_URL = https://kshetravega-57p9.onrender.com
 ```
 
 ## 🔍 **Backend Testing Checklist:**
@@ -166,15 +166,15 @@ JWT_SECRET=your-super-secret-jwt-key-here
 FIREBASE_PROJECT_ID=your-firebase-project-id
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour private key here\n-----END PRIVATE KEY-----\n"
 FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com
-CORS_ORIGIN=https://achhadam-frontend.onrender.com
+CORS_ORIGIN=https://kshetravega.chakravega.com
 ```
 
 ## 🎯 **Expected Backend URLs:**
 
 ### **After Successful Deployment:**
-- **Backend API:** `https://achhadam-backend.onrender.com`
-- **Health Check:** `https://achhadam-backend.onrender.com/api/health`
-- **API Documentation:** `https://achhadam-backend.onrender.com/api/docs`
+- **Backend API:** `https://kshetravega-57p9.onrender.com`
+- **Health Check:** `https://kshetravega-57p9.onrender.com/api/health`
+- **API Documentation:** `https://kshetravega-57p9.onrender.com/api/docs`
 
 ## ✅ **Success Indicators:**
 
@@ -210,7 +210,7 @@ CORS_ORIGIN=https://achhadam-frontend.onrender.com
 
 ---
 
-**Your backend will be live at: https://achhadam-backend.onrender.com** 🚀
+**Your backend will be live at: https://kshetravega-57p9.onrender.com** 🚀
 
 
 

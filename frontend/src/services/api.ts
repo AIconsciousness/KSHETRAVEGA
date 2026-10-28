@@ -1,12 +1,5 @@
 // API service for authentication and user management
-// Local Backend (Development) - Commented out for production
-// const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
-// Local Backend (Development) - Use local backend for testing
-const API_BASE_URL = 'http://localhost:8000';
-
-// Render Backend (Production) - Commented out due to 500 error
-// const API_BASE_URL = 'https://acchadam1-backend.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://kshetravega-57p9.onrender.com';
 
 // Debug: Log the API URL being used
 console.log('🌐 API_BASE_URL:', API_BASE_URL);

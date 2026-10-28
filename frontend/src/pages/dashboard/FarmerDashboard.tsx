@@ -1024,7 +1024,7 @@ const FarmerDashboard: React.FC<{ user?: any; onLogout?: () => void }> = ({ user
         return [];
       }
       
-      const response = await authenticatedFetch(`https://acchadam1-backend.onrender.com/api/crops/farmer/${actualUserId}`, {
+      const response = await authenticatedFetch(`https://kshetravega-57p9.onrender.com/api/crops/farmer/${actualUserId}`, {
         method: 'GET'
       });
       
@@ -1341,7 +1341,7 @@ const FarmerDashboard: React.FC<{ user?: any; onLogout?: () => void }> = ({ user
       console.log(`🌐 This ensures latest data is loaded from any device`);
       console.log(`📱 Cross-device sync: Mobile crops will be available on desktop and vice versa`);
       
-      const response = await authenticatedFetch(`https://acchadam1-backend.onrender.com/api/crops/farmer/${actualUserId}`, {
+      const response = await authenticatedFetch(`https://kshetravega-57p9.onrender.com/api/crops/farmer/${actualUserId}`, {
         method: 'GET'
       });
 

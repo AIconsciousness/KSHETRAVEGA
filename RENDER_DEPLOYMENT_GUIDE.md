@@ -93,7 +93,7 @@ JWT_SECRET=your-super-secret-jwt-key-here
 FIREBASE_PROJECT_ID=your-firebase-project-id
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour private key here\n-----END PRIVATE KEY-----\n"
 FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com
-CORS_ORIGIN=https://achhadam-frontend.onrender.com
+CORS_ORIGIN=https://kshetravega.chakravega.com
 ```
 
 ### 4.3 Deploy Frontend Service
@@ -114,7 +114,7 @@ Plan: Free
 
 **Environment Variables for Frontend:**
 ```
-VITE_API_URL=https://achhadam-backend.onrender.com
+VITE_API_URL=https://kshetravega-57p9.onrender.com
 VITE_FIREBASE_API_KEY=your-firebase-api-key
 VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=your-firebase-project-id
@@ -130,8 +130,8 @@ VITE_GOOGLE_CLIENT_ID=1024746152320-gtvf37pthnj4o1u6cunmbr8q0lk09804.apps.google
 ### 5.1 Update Authorized Domains
 1. Go to Firebase Console > Authentication > Settings
 2. Add your Render domains to authorized domains:
-   - `achhadam-frontend.onrender.com`
-   - `achhadam-backend.onrender.com`
+   - `kshetravega.chakravega.com`
+   - `kshetravega-57p9.onrender.com`
 
 ### 5.2 Update reCAPTCHA Settings
 1. Go to Firebase Console > Authentication > Sign-in method
@@ -143,8 +143,8 @@ VITE_GOOGLE_CLIENT_ID=1024746152320-gtvf37pthnj4o1u6cunmbr8q0lk09804.apps.google
 1. Click "Deploy" on both services
 2. Wait for deployment to complete (5-10 minutes)
 3. Note the generated URLs:
-   - Backend: `https://achhadam-backend.onrender.com`
-   - Frontend: `https://achhadam-frontend.onrender.com`
+   - Backend: `https://kshetravega-57p9.onrender.com`
+   - Frontend: `https://kshetravega.chakravega.com`
 
 ### 6.2 Test Deployment
 1. Visit your frontend URL
@@ -231,8 +231,8 @@ If you encounter issues:
 ## 🎉 Success!
 
 Once deployed, your KSHETRAVEGA Digital Farming Platform will be live at:
-- **Frontend:** `https://achhadam-frontend.onrender.com`
-- **Backend API:** `https://achhadam-backend.onrender.com`
+- **Frontend:** `https://kshetravega.chakravega.com`
+- **Backend API:** `https://kshetravega-57p9.onrender.com`
 
 Your platform is now ready for users! 🚀
 

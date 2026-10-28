@@ -36,7 +36,7 @@ FIREBASE_CLIENT_EMAIL = firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount
 
 ### **5. CORS Configuration:**
 ```
-CORS_ORIGIN = https://achhadam-frontend.onrender.com
+CORS_ORIGIN = https://kshetravega.chakravega.com
 ```
 
 ## 🔥 **Firebase Setup Steps:**
@@ -58,8 +58,8 @@ CORS_ORIGIN = https://achhadam-frontend.onrender.com
 ### **Step 3: Update Firebase Settings**
 1. Go to Authentication → Settings
 2. Add authorized domains:
-   - `achhadam-frontend.onrender.com`
-   - `achhadam-backend.onrender.com`
+   - `kshetravega.chakravega.com`
+   - `kshetravega-57p9.onrender.com`
 
 ## 🗄️ **Database Setup:**
 
@@ -103,7 +103,7 @@ JWT_SECRET=your-super-secret-jwt-key-here
 FIREBASE_PROJECT_ID=your-firebase-project-id
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour private key here\n-----END PRIVATE KEY-----\n"
 FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com
-CORS_ORIGIN=https://achhadam-frontend.onrender.com
+CORS_ORIGIN=https://kshetravega.chakravega.com
 ```
 
 ## ✅ **Verification Checklist:**
