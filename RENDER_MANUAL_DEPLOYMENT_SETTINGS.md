@@ -41,7 +41,7 @@ Branch: main
 
 #### **Build & Deploy:**
 ```
-Build Command: npm install
+Build Command: npm ci
 Start Command: npm start
 ```
 
@@ -65,7 +65,7 @@ Root Directory: backend
 2. Click on your backend service
 3. Go to **Settings** tab
 4. Set **Root Directory** to: `backend`
-5. Update **Build Command** to: `npm install`
+5. Update **Build Command** to: `npm ci`
 6. Update **Start Command** to: `npm start`
 
 ## 📋 **Complete Service Configuration:**
@@ -90,7 +90,7 @@ Environment: Node
 Region: Oregon (US West)
 Branch: main
 Root Directory: backend
-Build Command: npm install
+Build Command: npm ci
 Start Command: npm start
 Plan: Free
 Auto-Deploy: Yes
@@ -114,7 +114,7 @@ Auto-Deploy: Yes
 3. Click **Settings** tab
 4. Scroll down to **Build & Deploy**
 5. Set **Root Directory**: `backend`
-6. Set **Build Command**: `npm install`
+6. Set **Build Command**: `npm ci`
 7. Set **Start Command**: `npm start`
 8. Click **Save Changes**
 
@@ -152,7 +152,7 @@ Auto-Deploy: Yes
    Name: achhadam-backend
    Environment: Node
    Root Directory: backend
-   Build Command: npm install
+   Build Command: npm ci
    Start Command: npm start
    ```
 

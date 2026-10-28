@@ -13,7 +13,7 @@ Root Directory: backend
 
 ### **Build & Deploy Settings:**
 ```
-Build Command: npm install
+Build Command: npm ci
 Start Command: npm start
 Plan: Free
 Auto-Deploy: Yes
@@ -37,7 +37,7 @@ Root Directory: backend
 
 ### **Step 3: Build Settings**
 ```
-Build Command: npm install
+Build Command: npm ci
 Start Command: npm start
 Plan: Free
 ```
