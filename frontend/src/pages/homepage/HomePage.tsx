@@ -166,7 +166,7 @@ const getHeroSlides = (t: (key: string) => string) => [
 // Data arrays
 const stats = [
   { 
-    value: '100+', 
+    value: '0', 
     label: 'Active Farmers', 
     icon: Users, 
     color: 'text-gray-600 group-hover:text-green-600',
@@ -175,7 +175,7 @@ const stats = [
     cardBg: 'bg-green-50/80'
   },
   { 
-    value: '50+', 
+    value: '0', 
     label: 'Verified Buyers', 
     icon: Shield, 
     color: 'text-gray-600 group-hover:text-blue-600',
@@ -184,7 +184,7 @@ const stats = [
     cardBg: 'bg-blue-50/80'
   },
   { 
-    value: '20+', 
+    value: '0', 
     label: 'Transport Partners', 
     icon: Truck, 
     color: 'text-gray-600 group-hover:text-orange-600',
@@ -193,7 +193,7 @@ const stats = [
     cardBg: 'bg-orange-50/80'
   },
   { 
-    value: '₹1000+', 
+    value: '₹0', 
     label: 'Trade Volume', 
     icon: TrendingUp, 
     color: 'text-gray-600 group-hover:text-purple-600',
@@ -583,7 +583,7 @@ const HomePage: React.FC = () => {
                            WebkitTextFillColor: 'transparent',
                            filter: 'none'
                          }}>
-                       A<span className="lowercase">chhadam</span>
+                       Kshetravega
                      </h1>
                    </div>
 
@@ -858,7 +858,7 @@ const HomePage: React.FC = () => {
 {t('farmersTitle')}
                    </h2>
                    <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4 sm:px-0 group-hover:text-gray-700 transition-colors duration-500">
-                     Join 10,000+ farmers who have transformed their lives through direct selling
+                     Grow your farming business through direct selling
                    </p>
                  </div>
                  
@@ -892,7 +892,7 @@ const HomePage: React.FC = () => {
                          </div>
                          <div>
                            <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-orange-900 transition-colors duration-300">Success Stories</h3>
-                           <p className="text-gray-600 group-hover:text-orange-700 transition-colors duration-300">Join 10,000+ farmers who have transformed their lives through our platform</p>
+                           <p className="text-gray-600 group-hover:text-orange-700 transition-colors duration-300">Use our platform to connect with buyers and grow your business</p>
                          </div>
                        </div>
                      </div>
@@ -916,7 +916,7 @@ const HomePage: React.FC = () => {
                          <div className="w-8 h-8 rounded-full bg-gray-500 border-2 border-white group-hover:bg-green-500 transition-colors duration-300"></div>
                        </div>
                        <div className="text-sm text-gray-600 group-hover:text-green-700 transition-colors duration-300 mobile-text-touch">
-                         <span className="font-semibold group-hover:text-green-800 transition-colors duration-300">10,000+</span> farmers earning more
+                         Farmers growing through direct buyer connections
                        </div>
                      </div>
                    </div>

@@ -153,13 +153,13 @@ const BuyersLanding: React.FC = () => {
     };
 
     const traditionalPrice = basePrices[cropType] || 2000;
-    const achhadamPrice = traditionalPrice * 0.75; // 25% lower through direct sourcing
+    const kshetravegaPrice = traditionalPrice * 0.75; // 25% lower through direct sourcing
     
     const quantityNum = parseFloat(quantity);
     const traditionalTotal = traditionalPrice * qualityMultipliers[quality] * quantityNum;
-    const achhadamTotal = achhadamPrice * qualityMultipliers[quality] * quantityNum;
+    const kshetravegaTotal = kshetravegaPrice * qualityMultipliers[quality] * quantityNum;
     
-    const savings = traditionalTotal - achhadamTotal;
+    const savings = traditionalTotal - kshetravegaTotal;
     setCalculatedSavings(savings);
   };
 

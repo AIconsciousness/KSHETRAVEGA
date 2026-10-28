@@ -5,19 +5,19 @@ import { Users, TrendingUp, AlertTriangle, Shield, BarChart3, Clock, CheckCircle
 
 const AdminDashboard: React.FC = () => {
   const mockData = {
-    totalUsers: 12500,
+    totalUsers: 0,
     totalRevenue: 25000000,
     pendingApprovals: 45,
     systemHealth: 'Good',
     userDistribution: {
-      farmers: 8500,
-      buyers: 3200,
-      transporters: 800
+      farmers: 0,
+      buyers: 0,
+      transporters: 0
     },
     systemPerformance: {
       uptime: '99.9%',
       responseTime: '120ms',
-      activeUsers: 1250
+      activeUsers: 0
     },
     recentActivities: [
       { id: 1, action: 'New farmer registration', user: 'Rajesh Patel', time: '2 minutes ago', status: 'pending' },
@@ -110,7 +110,7 @@ const AdminDashboard: React.FC = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-blue-600">{mockData.userDistribution.farmers.toLocaleString()}</p>
-                    <p className="text-sm text-gray-600">{((mockData.userDistribution.farmers / mockData.totalUsers) * 100).toFixed(1)}%</p>
+                    <p className="text-sm text-gray-600">0.0%</p>
                   </div>
                 </div>
 
@@ -121,7 +121,7 @@ const AdminDashboard: React.FC = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-green-600">{mockData.userDistribution.buyers.toLocaleString()}</p>
-                    <p className="text-sm text-gray-600">{((mockData.userDistribution.buyers / mockData.totalUsers) * 100).toFixed(1)}%</p>
+                    <p className="text-sm text-gray-600">0.0%</p>
                   </div>
                 </div>
 
@@ -132,7 +132,7 @@ const AdminDashboard: React.FC = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-purple-600">{mockData.userDistribution.transporters.toLocaleString()}</p>
-                    <p className="text-sm text-gray-600">{((mockData.userDistribution.transporters / mockData.totalUsers) * 100).toFixed(1)}%</p>
+                    <p className="text-sm text-gray-600">0.0%</p>
                   </div>
                 </div>
               </div>

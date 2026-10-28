@@ -399,7 +399,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBackToHome }) => {
             Ready to Get Started?
           </h2>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
-            Join thousands of farmers, buyers, and transporters who are already using KSHETRAVEGA
+            Connect with Kshetravega's tools for farmers, buyers, and transporters
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button

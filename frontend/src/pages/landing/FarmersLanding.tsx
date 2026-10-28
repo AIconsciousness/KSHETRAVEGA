@@ -192,7 +192,7 @@ const FarmersLanding: React.FC = () => {
             Sell Direct, Earn More
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-green-100 max-w-3xl mx-auto">
-            Connect directly with buyers, eliminate middlemen, and get the best prices for your crops. Join thousands of farmers who have already increased their income by 20-40%.
+            Connect directly with buyers, eliminate middlemen, and get the best prices for your crops through Kshetravega.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -400,7 +400,7 @@ const FarmersLanding: React.FC = () => {
             Ready to Increase Your Income?
           </h2>
           <p className="text-xl text-green-100 mb-8">
-            Join thousands of farmers who are already earning more with KSHETRAVEGA. Registration is free and takes only 5 minutes.
+            Start using Kshetravega to connect with buyers and manage crop sales. Registration is free and takes only 5 minutes.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">

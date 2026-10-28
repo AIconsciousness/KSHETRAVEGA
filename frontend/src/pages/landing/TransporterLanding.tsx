@@ -40,7 +40,7 @@ const TransporterLanding: React.FC = () => {
               Maximize Your <span className="text-yellow-300">Transport Earnings</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Join thousands of transporters who've increased their income by 40%+ using KSHETRAVEGA's smart logistics platform
+              Use Kshetravega's logistics tools to connect with routes and business opportunities.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="xl" className="bg-yellow-500 hover:bg-yellow-600 text-blue-900">
@@ -195,7 +195,7 @@ const TransporterLanding: React.FC = () => {
             Ready to Increase Your Earnings?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Join thousands of successful transporters and start earning more today
+            Join Kshetravega to manage transport opportunities and connect with businesses.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="xl" className="bg-yellow-500 hover:bg-yellow-600 text-blue-900">

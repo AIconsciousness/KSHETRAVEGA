@@ -89,8 +89,8 @@ const InvestorPage: React.FC<InvestorPageProps> = ({ onBackToHome }) => {
     {
       icon: <TrendingUp className="w-8 h-8 text-green-600" />,
       title: "Rapid Growth Trajectory",
-      description: "40% year-over-year growth in farmer registrations and 60% increase in transaction volume.",
-      metrics: ["₹5000+ GMV", "10,000+ Active Users", "20+ Cities"]
+      description: "Kshetravega is building a digital agriculture marketplace for farmers and buyers.",
+      metrics: ["₹0 GMV", "0 Active Users", "0 Cities"]
     },
     {
       icon: <Shield className="w-8 h-8 text-blue-600" />,

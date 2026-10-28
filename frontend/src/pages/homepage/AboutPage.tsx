@@ -13,10 +13,10 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBackToHome }) => {
   const { t } = useLanguage();
 
   const stats = [
-    { value: '100+', label: 'Farmers', icon: Leaf, color: 'text-green-600', bgColor: 'bg-green-100' },
-    { value: '50+', label: 'Buyers', icon: Users, color: 'text-blue-600', bgColor: 'bg-blue-100' },
-    { value: '20+', label: 'Transporters', icon: Truck, color: 'text-orange-600', bgColor: 'bg-orange-100' },
-    { value: '₹1000+', label: 'Trade Volume', icon: TrendingUp, color: 'text-purple-600', bgColor: 'bg-purple-100' }
+    { value: '0', label: 'Farmers', icon: Leaf, color: 'text-green-600', bgColor: 'bg-green-100' },
+    { value: '0', label: 'Buyers', icon: Users, color: 'text-blue-600', bgColor: 'bg-blue-100' },
+    { value: '0', label: 'Transporters', icon: Truck, color: 'text-orange-600', bgColor: 'bg-orange-100' },
+    { value: '₹0', label: 'Trade Volume', icon: TrendingUp, color: 'text-purple-600', bgColor: 'bg-purple-100' }
   ];
 
   const values = [
@@ -52,22 +52,10 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBackToHome }) => {
 
   const team = [
     {
-      name: 'Sham Haribhau Pawar',
-      role: 'Founder & CEO',
+      name: 'Kamlesh Kumar Sharma',
+      role: 'Founder',
       avatar: '🌾',
-      description: 'Former farmer turned tech entrepreneur with 15+ years in agriculture'
-    },
-    {
-      name: 'Kundan Pal',
-      role: 'CTO',
-      avatar: '💻',
-      description: 'Tech leader with expertise in building scalable digital platforms'
-    },
-    {
-      name: 'Dipak Pawar & Maroti Shewale',
-      role: 'Head of Operations',
-      avatar: '🚛',
-      description: 'Logistics expert with deep understanding of supply chain management'
+      description: 'Founder of Chakravega Technologies Private Limited'
     }
   ];
 
@@ -79,8 +67,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBackToHome }) => {
     },
     {
       year: '2025 JULY',
-      title: 'First 1000 Farmers',
-      description: 'Reached our first milestone of 100 registered farmers'
+      title: 'Farmer Network',
+      description: 'Building digital tools and market access for farmers'
     },
     {
       year: '2025 AUGUST',
@@ -90,7 +78,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBackToHome }) => {
     {
       year: '2025 SEPT',
       title: 'Expansion',
-      description: 'Expanded to states across India with 10,000+ farmers'
+      description: 'Working to expand digital agriculture access across India'
     },
     {
       year: '2025 OCT',
@@ -170,7 +158,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBackToHome }) => {
                 Our Vision
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                To become India's leading digital agriculture platform, connecting 1 million+ farmers and creating a sustainable, profitable agricultural ecosystem.
+                To connect farmers with buyers and support a sustainable agricultural ecosystem.
               </p>
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">

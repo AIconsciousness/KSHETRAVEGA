@@ -168,10 +168,10 @@ const FeaturesPage: React.FC<FeaturesPageProps> = ({ onBackToHome }) => {
   ];
 
   const stats = [
-    { value: "100+", label: "Active Farmers", icon: Users },
-    { value: "50+", label: "Verified Buyers", icon: ShoppingCart },
-    { value: "20+", label: "Transport Partners", icon: Truck },
-    { value: "₹1000+", label: "Transaction Volume", icon: DollarSign }
+    { value: "0", label: "Active Farmers", icon: Users },
+    { value: "0", label: "Verified Buyers", icon: ShoppingCart },
+    { value: "0", label: "Transport Partners", icon: Truck },
+    { value: "₹0", label: "Transaction Volume", icon: DollarSign }
   ];
 
   return (
@@ -440,7 +440,7 @@ const FeaturesPage: React.FC<FeaturesPageProps> = ({ onBackToHome }) => {
                 Ready to Transform Your Agriculture Business?
               </h2>
               <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-                Join thousands of farmers, buyers, and transporters who are already using Kshetravega to grow their business.
+                Explore tools for farmers, buyers, and transporters to grow their business.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
