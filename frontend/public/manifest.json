@@ -9,9 +9,9 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/kshetravega-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/kshetravega-logo.png",
+      "sizes": "500x500",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],

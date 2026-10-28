@@ -174,7 +174,7 @@ const BuyersLanding: React.FC = () => {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover-scale animate-glow">
                   <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                     <img 
-                      src="/kshetravega-icon.svg" 
+                      src="/kshetravega-logo.png" 
                       alt="Kshetravega Logo" 
                       className="w-full h-full object-cover rounded-full"
                     />
@@ -542,7 +542,7 @@ const BuyersLanding: React.FC = () => {
                 <div className="w-10 h-10 sm:w-12 sm:h-12 hover-scale animate-glow">
                   <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-1 shadow-lg">
                     <img 
-                      src="/kshetravega-icon.svg" 
+                      src="/kshetravega-logo.png" 
                       alt="Kshetravega Logo" 
                       className="w-full h-full object-cover rounded-full"
                     />

@@ -3,7 +3,7 @@ const CACHE_NAME = 'kshetravega-v2';
 const urlsToCache = [
   '/',
   '/manifest.json',
-  '/kshetravega-icon.svg'
+  '/kshetravega-logo.png'
 ];
 
 // Install event
