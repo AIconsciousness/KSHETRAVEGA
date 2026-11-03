@@ -14,7 +14,7 @@ function validateAuthToken(): { isValid: boolean; token: string | null; error?: 
   // Check token format (JWT should have 3 parts separated by dots)
   const tokenParts = token.split('.');
   if (tokenParts.length !== 3) {
-    console.error('❌ Invalid token format:', token.substring(0, 20) + '...');
+    console.error('❌ Invalid token format');
     return { isValid: false, token: null, error: 'Invalid token format' };
   }
   
@@ -28,11 +28,7 @@ function validateAuthToken(): { isValid: boolean; token: string | null; error?: 
       return { isValid: false, token: null, error: 'Token expired' };
     }
     
-    console.log('✅ Token validation passed:', {
-      userId: payload.userId,
-      exp: new Date(payload.exp * 1000),
-      iat: new Date(payload.iat * 1000)
-    });
+    console.log('✅ Token validation passed');
     
     return { isValid: true, token };
   } catch (error) {

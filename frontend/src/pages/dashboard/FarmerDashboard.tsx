@@ -1012,9 +1012,7 @@ const FarmerDashboard: React.FC<{ user?: any; onLogout?: () => void }> = ({ user
       
       const authToken = localStorage.getItem('authToken');
       console.log(`🔑 Auth token check:`, { 
-        hasToken: !!authToken, 
-        tokenLength: authToken?.length || 0,
-        tokenStart: authToken?.substring(0, 20) + '...' || 'No token'
+        hasToken: !!authToken
       });
       
       // If no token, try to get fresh token

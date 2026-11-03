@@ -115,39 +115,21 @@ export const saveToMongoDB = async (cropData: CropData): Promise<{ success: bool
       throw new Error('No authentication token found');
     }
     
-    console.log('🌾 Using auth token:', authToken.substring(0, 20) + '...');
-    console.log('🔑 Full token for debugging:', authToken);
-    
     // Validate token format
     const tokenParts = authToken.split('.');
     if (tokenParts.length !== 3) {
       throw new Error('Invalid token format');
     }
     
-    // Decode token for debugging
+    let tokenPayload: { exp?: number } | null = null;
     try {
-      const payload = JSON.parse(atob(tokenParts[1]));
-      console.log('🔑 Token payload:', {
-        userId: payload.userId,
-        userType: payload.userType,
-        phone: payload.phone,
-        exp: payload.exp,
-        iat: payload.iat,
-        expiresAt: new Date(payload.exp * 1000)
-      });
-      
-      // Check if token is expired
-      const now = Math.floor(Date.now() / 1000);
-      if (payload.exp && payload.exp < now) {
-        console.log('❌ Token expired:', {
-          exp: payload.exp,
-          now: now,
-          diff: now - payload.exp
-        });
-        throw new Error('Token expired');
-      }
-    } catch (e) {
-      console.log('🔑 Could not decode token payload:', e);
+      tokenPayload = JSON.parse(atob(tokenParts[1]));
+    } catch {
+      console.log('🔑 Could not validate token expiry');
+    }
+
+    if (tokenPayload?.exp && tokenPayload.exp < Math.floor(Date.now() / 1000)) {
+      throw new Error('Token expired');
     }
     
     // Make API call to save crop - using local backend

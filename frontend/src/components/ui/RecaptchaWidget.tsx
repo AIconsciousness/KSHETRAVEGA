@@ -37,7 +37,7 @@ const RecaptchaWidget: React.FC<RecaptchaWidgetProps> = ({
             theme: theme,
             size: size,
             callback: (token: string) => {
-              console.log('✅ reCAPTCHA verified:', token);
+              console.log('✅ reCAPTCHA verified');
               onVerify(token);
             },
             'expired-callback': () => {
