@@ -1789,6 +1789,8 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
         return renderOverview();
       case 'orders':
         return renderOrders();
+      case 'products':
+        return renderMarketplace();
       case 'suppliers':
         return <SuppliersPage />;
       case 'analytics':
