@@ -1,13 +1,13 @@
 // Service Worker for Kshetravega PWA
-const CACHE_NAME = 'kshetravega-v2';
+const CACHE_NAME = 'kshetravega-v3';
 const urlsToCache = [
-  '/',
   '/manifest.json',
   '/kshetravega-logo.png'
 ];
 
 // Install event
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
@@ -24,12 +24,25 @@ self.addEventListener('install', (event) => {
 // Fetch event
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then((response) => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request);
-      }
-    )
+        if (
+          event.request.method === 'GET'
+          && response.ok
+          && new URL(event.request.url).origin === self.location.origin
+        ) {
+          const responseToCache = response.clone();
+          event.waitUntil(
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache))
+          );
+        }
+        return response;
+      })
+      .catch(async () => {
+        const cachedResponse = await caches.match(event.request);
+        if (cachedResponse) return cachedResponse;
+        throw new Error(`Network request failed and no cached response exists: ${event.request.url}`);
+      })
   );
 });
 
@@ -45,9 +58,7 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
-
-
 
