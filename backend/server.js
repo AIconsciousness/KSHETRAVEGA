@@ -5,17 +5,18 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const session = require('express-session');
 const mongoose = require('mongoose');
-// PostgreSQL connection (optional - only if needed)
-// const { Pool } = require('pg');
+const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const admin = require('firebase-admin');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
+const path = require('path');
 
-// Load environment variables
-dotenv.config();
+// Load Neon variables from the project root and app-specific settings from backend/.env.
+dotenv.config({ path: path.resolve(__dirname, '..', '.env.local') });
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -182,8 +183,28 @@ async function connectMongoDB() {
   }
 }
 
-// PostgreSQL Connection (commented out for now - using MongoDB only)
+// PostgreSQL Connection
 async function connectPostgreSQL() {
+  const postgresURI = process.env.DATABASE_URL
+    || process.env.POSTGRES_URL
+    || process.env.POSTGRES_URI
+    || process.env.POSTGRESQL_URL;
+
+  if (!postgresURI) {
+    console.log('ℹ️ PostgreSQL is not configured; skipping connection');
+    return;
+  }
+
+  postgresConnection = new Pool({
+    connectionString: postgresURI,
+    max: 10,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000
+  });
+  postgresConnection.on('error', (error) => {
+    console.error('❌ Unexpected PostgreSQL pool error:', error.message);
+  });
+
   try {
     // const postgresURI = process.env.POSTGRES_URI || 'postgresql://neondb_owner:npg_Ozpa3sFKwS0d@ep-jolly-mode-a156f3rx-pooler.ap-southeast-1.aws.neon.tech/krishi1?sslmode=require&channel_binding=require';
     // postgresConnection = new Pool({
@@ -191,13 +212,14 @@ async function connectPostgreSQL() {
     //   ssl: { rejectUnauthorized: false }
     // });
     
-    // Test connection (commented out)
-    // const client = await postgresConnection.connect();
-    // await client.query('SELECT NOW()');
-    // client.release();
-    console.log('✅ PostgreSQL connection skipped (using MongoDB only)');
+    await postgresConnection.query('SELECT 1');
+    console.log('✅ PostgreSQL connected successfully!');
   } catch (error) {
     console.error('❌ PostgreSQL connection failed:', error.message);
+    const failedPool = postgresConnection;
+    postgresConnection = null;
+    await failedPool.end();
+    throw error;
   }
 }
 
@@ -371,10 +393,19 @@ const otpService = new FirebaseOTPService();
 app.get('/health', async (req, res) => {
   try {
     const mongoStatus = mongoConnection ? 'connected' : 'disconnected';
-    const postgresStatus = postgresConnection ? 'connected' : 'disconnected';
+    let postgresStatus = postgresConnection ? 'disconnected' : 'not_configured';
+
+    if (postgresConnection) {
+      try {
+        await postgresConnection.query('SELECT 1');
+        postgresStatus = 'connected';
+      } catch (error) {
+        console.error('❌ PostgreSQL health check failed:', error.message);
+      }
+    }
     
-    res.json({
-      status: 'OK',
+    res.status(postgresStatus === 'disconnected' ? 503 : 200).json({
+      status: postgresStatus === 'disconnected' ? 'DEGRADED' : 'OK',
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       environment: process.env.NODE_ENV || 'development',

@@ -1,9 +1,13 @@
 // API service for authentication and user management
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://kshetravega-57p9.onrender.com';
+const DEFAULT_API_URL = 'https://kshetravega-57p9.onrender.com';
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim().replace(/\/+$/, '');
+const isLocalApiUrl = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(?:\/|$)/i.test(configuredApiUrl || '');
+export const API_BASE_URL = import.meta.env.PROD && isLocalApiUrl
+  ? DEFAULT_API_URL
+  : configuredApiUrl || DEFAULT_API_URL;
 
 // Debug: Log the API URL being used
 console.log('🌐 API_BASE_URL:', API_BASE_URL);
-console.log('🌐 Environment VITE_API_URL:', import.meta.env.VITE_API_URL);
 
 // API Response interface
 export interface ApiResponse {

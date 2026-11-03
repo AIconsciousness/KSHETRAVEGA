@@ -75,6 +75,12 @@ Required environment variables:
 - `MONGODB_URL`: MongoDB connection string
 - `JWT_SECRET`: JWT secret key (min 32 characters)
 
+### Neon PostgreSQL for the active server
+
+The active `server.js` loads the pooled `DATABASE_URL` from the repository-root `.env.local` created by `neon deploy`, then loads app-specific settings from `backend/.env`. Keep `.env.local` out of source control. The backend uses `pg` with a reusable connection pool and checks Neon with `SELECT 1` at startup and in `/health`.
+
+Use `DATABASE_URL_UNPOOLED` for schema migrations and administrative work, not normal application queries. Existing MongoDB-backed models are unchanged; connecting Neon does not migrate MongoDB data or make existing routes write to PostgreSQL.
+
 ### 3. Database Setup
 
 ```bash
@@ -249,7 +255,6 @@ For support and questions:
 ---
 
 **Built with ❤️ for KSHETRAVEGA Digital Farming Platform**
-
 
 
 
