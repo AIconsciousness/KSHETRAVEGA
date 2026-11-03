@@ -16,6 +16,9 @@ import {
   sortCrops, 
   getCropCategories,
   getMarketplaceStats,
+  debugLocalStorageData,
+  recoverFarmerData,
+  forceRefreshMarketplace,
   type MarketplaceCrop 
 } from '../../services/marketplaceService';
 import razorpayService from '../../services/razorpayService';
@@ -171,24 +174,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
     }
   }, [user]);
 
-  // Auto-sync all data to database on component mount
-  useEffect(() => {
-    const performAutoSync = async () => {
-      console.log('🔄 AUTO-SYNC: Starting automatic data synchronization...');
-      
-      try {
-        await autoSyncAllData();
-        console.log('✅ AUTO-SYNC COMPLETE: All data synced to database');
-      } catch (error) {
-        console.error('❌ AUTO-SYNC FAILED:', error);
-      }
-    };
-
-    // Run auto-sync after a short delay to ensure component is fully loaded
-    const syncTimeout = setTimeout(performAutoSync, 2000);
-    
-    return () => clearTimeout(syncTimeout);
-  }, []);
+  // Crops are saved by the farmer flow and loaded from the marketplace API below.
   
   // Marketplace states
   const [marketplaceCrops, setMarketplaceCrops] = useState<MarketplaceCrop[]>([]);
@@ -460,7 +446,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
         if (recoveredData.length > 0) {
           console.log(`✅ Found ${recoveredData.length} farmers with data!`);
           console.log('🔄 Attempting to refresh marketplace...');
-          const refreshedCrops = forceRefreshMarketplace();
+          const refreshedCrops = await forceRefreshMarketplace();
           
           if (refreshedCrops.length > 0) {
             console.log(`🎉 Successfully recovered ${refreshedCrops.length} crops!`);

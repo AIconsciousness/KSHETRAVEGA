@@ -1304,24 +1304,7 @@ const FarmerDashboard: React.FC<{ user?: any; onLogout?: () => void }> = ({ user
     }
   }, []);
 
-  // Auto-sync all data to database on component mount
-  useEffect(() => {
-    const performAutoSync = async () => {
-      console.log('🔄 AUTO-SYNC: Starting automatic data synchronization...');
-      
-      try {
-        await autoSyncAllData();
-        console.log('✅ AUTO-SYNC COMPLETE: All data synced to database');
-      } catch (error) {
-        console.error('❌ AUTO-SYNC FAILED:', error);
-      }
-    };
-
-    // Run auto-sync after a short delay to ensure component is fully loaded
-    const syncTimeout = setTimeout(performAutoSync, 2000);
-    
-    return () => clearTimeout(syncTimeout);
-  }, []);
+  // Crops are saved when farmers create listings and loaded from the database.
   
   // NO MANUAL SYNC - AUTOMATIC DATABASE SAVE ONLY
   // Manual sync buttons removed - crops are saved to database immediately
