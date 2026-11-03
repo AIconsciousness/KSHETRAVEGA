@@ -81,6 +81,20 @@ The active `server.js` loads the pooled `DATABASE_URL` from the repository-root 
 
 Use `DATABASE_URL_UNPOOLED` for schema migrations and administrative work, not normal application queries. Existing MongoDB-backed models are unchanged; connecting Neon does not migrate MongoDB data or make existing routes write to PostgreSQL.
 
+### Razorpay checkout and Neon payment ledger
+
+The buyer checkout creates Razorpay orders on the backend, calculates the amount from the active crop listing, verifies payment signatures server-side, and records orders, payment transactions, refunds, and webhook events in Neon. Payment history is read from Neon; card, UPI, and bank credentials are never stored by this app.
+
+Set these variables in the backend's Render environment (never in `VITE_*` variables or frontend source):
+
+- `DATABASE_URL` — Neon pooled connection string for the running API.
+- `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` — matching credentials from the same Razorpay mode.
+- `RAZORPAY_WEBHOOK_SECRET` — a secret created for the Razorpay webhook.
+
+Apply the additive payment schema from the backend directory with `npm run migrate:neon:payments`; this requires the root `.env.local` to contain `DATABASE_URL_UNPOOLED`. Configure the Razorpay webhook URL as `https://<backend-host>/api/payments/webhook` and subscribe to `payment.authorized`, `payment.captured`, `payment.failed`, `refund.created`, `refund.processed`, and `refund.failed`. Keep the webhook secret only in the backend environment.
+
+Use Razorpay test credentials in local development. Before enabling live payments, rotate any exposed Razorpay credentials and set the newly issued, matching live credentials and webhook secret in Render. Never paste secrets into source control or the browser.
+
 ### 3. Database Setup
 
 ```bash
@@ -136,9 +150,10 @@ Server will start on `http://localhost:5000`
 - `GET /api/transport/track/:id` - Track transport
 
 ### Payments
-- `POST /api/payments/initiate` - Initiate payment
-- `POST /api/payments/verify` - Verify payment
-- `GET /api/payments/history` - Payment history
+- `POST /api/payments/orders` - Create a buyer checkout order
+- `POST /api/payments/verify` - Verify/capture a payment
+- `GET /api/payments/orders` - Read the buyer's payment history
+- `POST /api/payments/webhook` - Process signed Razorpay events
 
 ### Analytics
 - `GET /api/analytics/dashboard` - Dashboard data
@@ -255,10 +270,6 @@ For support and questions:
 ---
 
 **Built with ❤️ for KSHETRAVEGA Digital Farming Platform**
-
-
-
-
 
 
 

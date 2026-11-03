@@ -7,6 +7,7 @@ import ContractsPage from './ContractsPage';
 import ProfileModal from '../../components/ui/ProfileModal';
 import ChatModal from '../../components/ui/ChatModal';
 import { authenticatedFetch } from '../../services/tokenService';
+import { API_BASE_URL } from '../../services/api';
 // dataSyncService removed - using automatic database save only
 // ImmediateSyncButton removed - using automatic database save only
 import { 
@@ -35,16 +36,43 @@ interface CartItem {
 
 interface OrderItem {
   id: string;
-  crop: MarketplaceCrop;
+  crop: Pick<MarketplaceCrop, 'id' | 'name' | 'unit'>;
   quantity: number;
   price: number;
   totalPrice: number;
+  status?: 'creating' | 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'completed' | 'failed' | 'cancelled' | 'refunded' | 'partially_refunded';
+  orderDate?: string;
+  deliveryDate?: string;
+  deliveryAddress?: Record<string, unknown>;
+  paymentMethod?: string;
+  paymentId?: string;
   farmer: {
     id: string;
     name: string;
     phone: string;
     location: string;
   };
+}
+
+interface PaymentHistoryOrder {
+  id: string;
+  cropId: string;
+  crop?: {
+    name?: string;
+    farmerId?: string;
+    farmerName?: string;
+    location?: { city?: string; state?: string };
+  };
+  quantity: number;
+  unit: string;
+  price: number;
+  totalPrice: number;
+  status: string;
+  paymentId?: string;
+  paymentMethod?: string;
+  orderDate: string;
+  paidAt?: string;
+  deliveryAddress: Record<string, unknown>;
 }
 
 interface Order {
@@ -292,14 +320,11 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
     pincode: '',
     landmark: ''
   });
-  const [paymentMethod, setPaymentMethod] = useState('');
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [orderSummary, setOrderSummary] = useState<any>(null);
+  const [orderSummary, setOrderSummary] = useState<Order | null>(null);
   
   // Razorpay Payment States
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'failed'>('idle');
-  const [paymentError, setPaymentError] = useState<string | null>(null);
   
   // Orders State
   const [orders, setOrders] = useState<OrderItem[]>([]);
@@ -317,15 +342,16 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
         // Load orders from database first (PERMANENT DATA)
         const actualBuyerId = user?._id || user?.id || userProfile?.id;
         console.log(`🔑 Using actual buyer ID: ${actualBuyerId} (not generated ID: ${userProfile?.id})`);
-        const ordersResponse = await authenticatedFetch(`https://kshetravega-57p9.onrender.com/api/orders/buyer/${actualBuyerId}`, {
+        const ordersResponse = await authenticatedFetch(`${API_BASE_URL}/api/orders/buyer/${actualBuyerId}`, {
           method: 'GET'
         });
+        let persistedOrders: OrderItem[] = [];
 
         if (ordersResponse.ok) {
           const ordersData = await ordersResponse.json();
           console.log(`✅ PERMANENT LOAD: Loaded ${ordersData.data.length} orders from database`);
           console.log(`🌐 These orders are available across all devices and sessions`);
-          setOrders(ordersData.data);
+          persistedOrders = ordersData.data;
         } else {
           console.log('No permanent orders found in database, loading from localStorage');
           
@@ -333,13 +359,54 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
           const savedOrders = localStorage.getItem(`buyer_orders_${userKey}`);
           if (savedOrders) {
             try {
-              const parsedOrders = JSON.parse(savedOrders);
-              setOrders(parsedOrders);
-              console.log(`📱 Loaded ${parsedOrders.length} orders from localStorage as fallback`);
+              persistedOrders = JSON.parse(savedOrders);
+              console.log(`📱 Loaded ${persistedOrders.length} orders from localStorage as fallback`);
             } catch (error) {
               console.error('❌ Error loading orders from localStorage:', error);
             }
           }
+        }
+
+        const paymentOrdersResponse = await authenticatedFetch(`${API_BASE_URL}/api/payments/orders`, {
+          method: 'GET'
+        });
+        if (paymentOrdersResponse.ok) {
+          const paymentOrdersData: { data: PaymentHistoryOrder[] } = await paymentOrdersResponse.json();
+          const paymentOrders: OrderItem[] = paymentOrdersData.data.map((paymentOrder) => ({
+            id: paymentOrder.id,
+            crop: {
+              id: paymentOrder.cropId,
+              name: paymentOrder.crop?.name || 'Crop',
+              unit: paymentOrder.unit
+            },
+            quantity: paymentOrder.quantity,
+            price: paymentOrder.price,
+            totalPrice: paymentOrder.totalPrice,
+            status: paymentOrder.status === 'paid'
+              ? 'confirmed'
+              : ['creating', 'created'].includes(paymentOrder.status)
+                ? 'pending'
+                : ['refunded', 'partially_refunded'].includes(paymentOrder.status)
+                  ? 'cancelled'
+                  : paymentOrder.status === 'failed'
+                    ? 'failed'
+                    : 'pending',
+            orderDate: paymentOrder.paidAt || paymentOrder.orderDate,
+            deliveryAddress: paymentOrder.deliveryAddress,
+            paymentMethod: paymentOrder.paymentMethod,
+            paymentId: paymentOrder.paymentId,
+            farmer: {
+              id: paymentOrder.crop?.farmerId || '',
+              name: paymentOrder.crop?.farmerName || 'Farmer',
+              phone: '',
+              location: [paymentOrder.crop?.location?.city, paymentOrder.crop?.location?.state]
+                .filter(Boolean)
+                .join(', ')
+            }
+          }));
+          setOrders([...paymentOrders, ...persistedOrders]);
+        } else {
+          setOrders(persistedOrders);
         }
       } catch (error) {
         console.error('Error loading permanent buyer data from database:', error);
@@ -352,15 +419,17 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
   // PERMANENT DATA SAVE - Cross-device, Cross-session for Buyer
   useEffect(() => {
     if (orders.length > 0 && userKey) {
-      console.log(`💾 PERMANENT SAVE: Saving ${orders.length} orders for buyer ${userKey}`);
-      console.log(`🌐 These orders will be available on any device, any session`);
-      
-      // Save to database (PERMANENT)
-      saveOrdersToDatabase(orders);
-      
-      // Also save to localStorage as backup
-      localStorage.setItem(`buyer_orders_${userKey}`, JSON.stringify(orders));
-      console.log(`💾 Saved orders for buyer ${userKey}:`, orders.length);
+      const displayBackup = orders.map((order) => ({
+        id: order.id,
+        crop: order.crop,
+        quantity: order.quantity,
+        price: order.price,
+        totalPrice: order.totalPrice,
+        status: order.status,
+        orderDate: order.orderDate,
+        farmer: order.farmer
+      }));
+      localStorage.setItem(`buyer_orders_${userKey}`, JSON.stringify(displayBackup));
     }
   }, [orders, userKey]);
   
@@ -513,8 +582,10 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
   const stats: DashboardStats = {
     totalOrders: orders.length,
     pendingOrders: orders.filter(order => order.status === 'pending').length,
-    completedOrders: orders.filter(order => order.status === 'completed').length,
-    totalSpent: orders.reduce((sum, order) => sum + order.totalPrice, 0),
+    completedOrders: orders.filter(order => order.status === 'completed' || order.status === 'confirmed').length,
+    totalSpent: orders
+      .filter(order => ['confirmed', 'completed', 'shipped', 'delivered'].includes(order.status || ''))
+      .reduce((sum, order) => sum + order.totalPrice, 0),
     favoriteSuppliers: 0, // Will be calculated from supplier data
     activeContracts: 0 // Will be loaded from contracts
   };
@@ -526,8 +597,12 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
     supplier: order.farmer.name,
     quantity: order.quantity,
     totalPrice: order.totalPrice,
-    status: order.status as 'pending' | 'completed' | 'cancelled',
-    orderDate: order.orderDate,
+    status: ['creating', 'pending'].includes(order.status || '')
+      ? 'pending'
+      : ['failed', 'cancelled', 'refunded', 'partially_refunded'].includes(order.status || '')
+        ? 'cancelled'
+        : 'completed',
+    orderDate: order.orderDate || new Date().toISOString(),
     deliveryDate: order.deliveryDate || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
   })) : [];
 
@@ -1611,171 +1686,85 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
 
 
   // Razorpay Payment Handler
-  const handleRazorpayPayment = async (orderSummary: any) => {
+  const handleRazorpayPayment = async (checkout: {
+    crop: Pick<MarketplaceCrop, 'id' | 'name' | 'unit'>;
+    quantity: number;
+    farmer: OrderItem['farmer'];
+  }) => {
     try {
       setIsPaymentProcessing(true);
-      setPaymentStatus('processing');
-      setPaymentError(null);
-
-      // Create Razorpay order
-      const razorpayOrder = await razorpayService.createOrder(
-        orderSummary.totalAmount,
-        'INR',
-        orderSummary.orderId
+      const session = await razorpayService.createOrder(
+        checkout.crop.id,
+        checkout.quantity,
+        deliveryAddress
       );
 
-      // Initialize Razorpay payment
       const razorpayConfig = {
-        key: razorpayService.getKeyId(),
-        amount: Math.round(orderSummary.totalAmount * 100), // Convert to paise and round
-        currency: 'INR',
+        key: session.keyId,
+        amount: session.order.amount,
+        currency: session.order.currency,
         name: 'KSHETRAVEGA',
-        description: `Payment for ${orderSummary.cropName}`,
-        order_id: razorpayOrder.id, // Add order_id back
+        description: `Payment for ${checkout.crop.name}`,
+        order_id: session.order.id,
         prefill: {
           name: userProfile.name,
           email: userProfile.email,
           contact: userProfile.phone
         },
         notes: {
-          address: deliveryAddress.address,
-          order_id: orderSummary.orderId
+          order_id: session.purchase.id
         },
         theme: {
           color: '#10B981'
         },
-        // Enable UPI and QR Code options
-        method: {
-          netbanking: true,
-          wallet: true,
-          upi: true,
-          card: true,
-          emi: true
-        },
-        // Enable UPI apps
-        upi: {
-          flow: 'collect',
-          vpa: 'achhadam@paytm' // You can set your UPI ID
-        },
-        handler: async (response: any) => {
+        handler: async (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
           try {
-            console.log('💳 Payment successful:', response);
-            
-            // Verify payment
-            const isVerified = await razorpayService.verifyPayment(
-              response.razorpay_payment_id,
-              response.razorpay_order_id,
-              response.razorpay_signature
-            );
+            const paymentOrder = await razorpayService.verifyPayment(response);
+            const orderItem: OrderItem = {
+              id: paymentOrder.id,
+              crop: checkout.crop,
+              quantity: checkout.quantity,
+              price: session.purchase.unitPrice,
+              totalPrice: paymentOrder.amount,
+              status: 'confirmed',
+              orderDate: new Date().toISOString(),
+              deliveryAddress,
+              paymentMethod: 'razorpay',
+              paymentId: paymentOrder.paymentId,
+              farmer: checkout.farmer
+            };
 
-            if (isVerified) {
-              setPaymentStatus('success');
-              console.log('✅ Payment verified successfully');
-              
-              // Add to orders
-              const orderItem: OrderItem = {
-                id: orderSummary.orderId,
-                crop: orderSummary.crop,
-                quantity: orderSummary.quantity,
-                price: orderSummary.price,
-                totalPrice: orderSummary.totalAmount,
-                status: 'confirmed',
-                orderDate: new Date().toISOString(),
-                deliveryAddress: deliveryAddress,
-                paymentMethod: 'razorpay',
-                paymentId: response.razorpay_payment_id,
-                farmer: orderSummary.farmer
-              };
-
-              setOrders(prev => [orderItem, ...prev]);
-              setShowPaymentModal(false);
-              setShowOrderModal(false);
-              setSelectedCropForOrder(null);
-              
-              // Show success message
-              alert('🎉 Order placed successfully! Payment confirmed.');
-              
-              // Update stats
-              console.log('📊 Updated orders count:', orders.length + 1);
-              console.log('💰 Total spent updated:', orders.reduce((sum, order) => sum + order.totalPrice, 0) + orderItem.totalPrice);
-            } else {
-              setPaymentStatus('failed');
-              setPaymentError('Payment verification failed');
-              alert('❌ Payment verification failed. Please try again.');
-            }
+            setOrders((previousOrders) => [orderItem, ...previousOrders]);
+            setShowOrderModal(false);
+            setSelectedCropForOrder(null);
+            setIsPaymentProcessing(false);
+            alert('🎉 Payment verified and order saved successfully.');
           } catch (error) {
-            console.error('❌ Payment verification error:', error);
-            setPaymentStatus('failed');
-            setPaymentError('Payment verification failed');
-            alert('❌ Payment verification failed. Please try again.');
+            console.error('Payment verification failed:', error);
+            setIsPaymentProcessing(false);
+            alert(error instanceof Error ? error.message : 'Payment verification failed. Contact support if money was debited.');
           }
         },
         modal: {
           ondismiss: () => {
             setIsPaymentProcessing(false);
-            setPaymentStatus('idle');
-            console.log('💳 Payment cancelled by user');
           }
         }
       };
 
       razorpayService.initializePayment(razorpayConfig);
     } catch (error) {
-      console.error('❌ Razorpay payment error:', error);
-      setPaymentStatus('failed');
-      setPaymentError('Payment initialization failed');
-      alert('❌ Payment initialization failed. Please try again.');
-    } finally {
       setIsPaymentProcessing(false);
+      console.error('Razorpay payment initialization failed:', error);
+      alert(error instanceof Error ? error.message : 'Payment initialization failed. Please try again.');
     }
   };
 
-  const handlePlaceOrder = () => {
-    if (!selectedCropForOrder) return;
-    
-    const orderItem: OrderItem = {
-      id: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      crop: selectedCropForOrder,
-      quantity: orderQuantity,
-      price: selectedCropForOrder.price,
-      totalPrice: selectedCropForOrder.price * orderQuantity,
-      farmer: {
-        id: selectedCropForOrder.farmer.id,
-        name: selectedCropForOrder.farmer.name,
-        phone: selectedCropForOrder.farmer.phone,
-        location: selectedCropForOrder.farmer.location
-      }
-    };
-
-    const order: Order = {
-      id: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      items: [orderItem],
-      totalAmount: orderItem.totalPrice,
-      deliveryAddress,
-      paymentMethod,
-      status: 'pending',
-      createdAt: new Date().toISOString(),
-      estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
-    };
-
-    setOrderSummary(order);
-    setShowOrderModal(false);
-    setShowPaymentModal(true);
-    
-    console.log('📦 Order placed:', order);
-  };
-
-  const handlePayment = (method: string) => {
-    setPaymentMethod(method);
-    console.log('💳 Payment method selected:', method);
-    
-    // Simulate payment processing
-    setTimeout(() => {
-      console.log('✅ Payment successful!');
-      setShowPaymentModal(false);
-      setOrderSummary(null);
-      alert('Order placed successfully! Payment completed.');
-    }, 2000);
+  const handlePayment = () => {
+    const item = orderSummary?.items[0];
+    if (!item) return;
+    setShowPaymentModal(false);
+    handleRazorpayPayment({ crop: item.crop, quantity: item.quantity, farmer: item.farmer });
   };
 
   const handleDeleteAccount = () => {
@@ -2337,16 +2326,13 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                 </button>
                 <button
                   onClick={() => {
-                    const orderSummary = {
-                      orderId: `order_${Date.now()}`,
-                      crop: selectedCropForOrder,
-                      cropName: selectedCropForOrder?.cropName || '',
-                      quantity: orderQuantity,
-                      price: selectedCropForOrder?.price || 0,
-                      totalAmount: (selectedCropForOrder?.price || 0) * orderQuantity,
-                      farmer: selectedCropForOrder?.farmer
-                    };
-                    handleRazorpayPayment(orderSummary);
+                    if (selectedCropForOrder) {
+                      handleRazorpayPayment({
+                        crop: selectedCropForOrder,
+                        quantity: orderQuantity,
+                        farmer: selectedCropForOrder.farmer
+                      });
+                    }
                   }}
                   disabled={isPaymentProcessing}
                   className="flex-1 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -2355,67 +2341,9 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                 </button>
               </div>
               
-              {/* UPI Payment Section */}
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <div className="text-center">
-                  <h3 className="text-lg font-semibold text-blue-900 mb-3">📱 Direct UPI Payment</h3>
-                  <div className="space-y-3">
-                    <div className="bg-white p-3 rounded-lg border">
-                      <p className="text-sm text-gray-600 mb-1">UPI ID:</p>
-                      <div className="flex items-center justify-between">
-                        <p className="text-lg font-mono font-bold text-blue-600">7209213003@axl</p>
-                        <button
-                          onClick={() => {
-                            navigator.clipboard.writeText('7209213003@axl');
-                            alert('UPI ID copied to clipboard!');
-                          }}
-                          className="ml-2 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
-                        >
-                          Copy
-                        </button>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-white p-3 rounded-lg border">
-                      <p className="text-sm text-gray-600 mb-2">Amount to Pay:</p>
-                      <div className="flex items-center justify-between">
-                        <p className="text-xl font-bold text-green-600">
-                          ₹{((selectedCropForOrder?.price || 0) * orderQuantity).toFixed(2)}
-                        </p>
-                        <button
-                          onClick={() => {
-                            const amount = ((selectedCropForOrder?.price || 0) * orderQuantity).toFixed(2);
-                            navigator.clipboard.writeText(amount);
-                            alert(`Amount ₹${amount} copied to clipboard!`);
-                          }}
-                          className="ml-2 px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors"
-                        >
-                          Copy
-                        </button>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-white p-3 rounded-lg border">
-                      <p className="text-sm text-gray-600 mb-2">QR Code:</p>
-                      <div className="flex justify-center">
-                        <div className="w-32 h-32 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                          <div className="text-center">
-                            <div className="text-2xl mb-1">📱</div>
-                            <p className="text-xs text-gray-500">QR Code</p>
-                            <p className="text-xs text-gray-400">Scan with UPI app</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="text-xs text-gray-500">
-                      <p>💡 Send exact amount to UPI ID above</p>
-                      <p>📱 Use any UPI app: Google Pay, PhonePe, Paytm</p>
-                      <p>🔍 Scan QR code with your UPI app</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <p className="mt-4 text-sm text-gray-600">
+                UPI and QR payments are available through the secure Razorpay checkout.
+              </p>
             </div>
           </div>
         </div>
@@ -2463,7 +2391,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                 <h4 className="font-semibold text-gray-900 mb-3">Choose Payment Method</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <button
-                    onClick={() => handlePayment('debit_card')}
+                    onClick={handlePayment}
                     className="p-4 border border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors text-left"
                   >
                     <div className="flex items-center space-x-3">
@@ -2476,7 +2404,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                   </button>
 
                   <button
-                    onClick={() => handlePayment('credit_card')}
+                    onClick={handlePayment}
                     className="p-4 border border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors text-left"
                   >
                     <div className="flex items-center space-x-3">
@@ -2489,7 +2417,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                   </button>
 
                   <button
-                    onClick={() => handlePayment('upi')}
+                    onClick={handlePayment}
                     className="p-4 border border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors text-left"
                   >
                     <div className="flex items-center space-x-3">
@@ -2502,7 +2430,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                   </button>
 
                   <button
-                    onClick={() => handlePayment('netbanking')}
+                    onClick={handlePayment}
                     className="p-4 border border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors text-left"
                   >
                     <div className="flex items-center space-x-3">
@@ -2515,7 +2443,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                   </button>
 
                   <button
-                    onClick={() => handlePayment('wallet')}
+                    onClick={handlePayment}
                     className="p-4 border border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors text-left"
                   >
                     <div className="flex items-center space-x-3">
@@ -2528,7 +2456,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                   </button>
 
                   <button
-                    onClick={() => handlePayment('qr_code')}
+                    onClick={handlePayment}
                     className="p-4 border border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors text-left"
                   >
                     <div className="flex items-center space-x-3">

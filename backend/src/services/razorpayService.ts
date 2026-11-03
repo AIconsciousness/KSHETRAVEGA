@@ -1,11 +1,14 @@
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
 
-// Razorpay Configuration
-const razorpay = new Razorpay({
-  key_id: 'rzp_test_RLB4SWduV7kkkH',
-  key_secret: 'uInXqvJaNy3K007tsSxk3X96'
-});
+const getRazorpay = () => {
+  const keyId = process.env.RAZORPAY_KEY_ID;
+  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  if (!keyId || !keySecret) {
+    throw new Error('Razorpay credentials are not configured');
+  }
+  return new Razorpay({ key_id: keyId, key_secret: keySecret });
+};
 
 export interface RazorpayOrderRequest {
   amount: number;
@@ -50,7 +53,7 @@ class RazorpayService {
         notes: orderData.notes || {}
       };
 
-      const order = await razorpay.orders.create(options);
+      const order = await getRazorpay().orders.create(options);
       
       console.log('🔑 Razorpay Order Created:', order);
       return {
@@ -74,19 +77,22 @@ class RazorpayService {
       
       // Create signature string
       const body = razorpay_order_id + "|" + razorpay_payment_id;
+      const keySecret = process.env.RAZORPAY_KEY_SECRET;
+      if (!keySecret) {
+        throw new Error('Razorpay credentials are not configured');
+      }
       
       // Generate expected signature
-      const expectedSignature = crypto
-        .createHmac("sha256", 'uInXqvJaNy3K007tsSxk3X96')
-        .update(body.toString())
-        .digest("hex");
-
-      // Compare signatures
-      const isAuthentic = expectedSignature === razorpay_signature;
+      const expectedSignature = crypto.createHmac('sha256', keySecret)
+        .update(body)
+        .digest();
+      const providedSignature = Buffer.from(razorpay_signature, 'hex');
+      const isAuthentic = providedSignature.length === expectedSignature.length
+        && crypto.timingSafeEqual(providedSignature, expectedSignature);
 
       if (isAuthentic) {
         // Get payment details
-        const payment = await razorpay.payments.fetch(razorpay_payment_id);
+        const payment = await getRazorpay().payments.fetch(razorpay_payment_id);
         
         return {
           success: true,
@@ -107,7 +113,7 @@ class RazorpayService {
         };
       }
     } catch (error) {
-      console.error('❌ Error verifying payment:', error);
+      console.error('❌ Error verifying payment:', error.statusCode || error.code || 'provider error');
       throw error;
     }
   }
@@ -115,7 +121,7 @@ class RazorpayService {
   // Get Payment Details
   async getPaymentDetails(paymentId: string) {
     try {
-      const payment = await razorpay.payments.fetch(paymentId);
+      const payment = await getRazorpay().payments.fetch(paymentId);
       return payment;
     } catch (error) {
       console.error('❌ Error fetching payment details:', error);
@@ -123,10 +129,14 @@ class RazorpayService {
     }
   }
 
+  async capturePayment(paymentId: string, amountPaise: number, currency: string) {
+    return getRazorpay().payments.capture(paymentId, amountPaise, currency);
+  }
+
   // Get Order Details
   async getOrderDetails(orderId: string) {
     try {
-      const order = await razorpay.orders.fetch(orderId);
+      const order = await getRazorpay().orders.fetch(orderId);
       return order;
     } catch (error) {
       console.error('❌ Error fetching order details:', error);
@@ -155,7 +165,7 @@ class RazorpayService {
         callback_method: 'get'
       };
 
-      const paymentLink = await razorpay.paymentLink.create(options);
+      const paymentLink = await getRazorpay().paymentLink.create(options);
       return paymentLink;
     } catch (error) {
       console.error('❌ Error creating payment link:', error);

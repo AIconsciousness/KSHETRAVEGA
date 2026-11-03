@@ -131,7 +131,14 @@ app.use(cors({
 }));
 app.use(limiter);
 app.use(morgan('combined'));
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({
+  limit: '10mb',
+  verify: (req, res, buffer) => {
+    if (req.originalUrl.startsWith('/api/payments/webhook')) {
+      req.rawBody = Buffer.from(buffer);
+    }
+  }
+}));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
@@ -783,71 +790,31 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-// Protected route middleware - ENHANCED DEBUGGING
+// Protected route middleware
 const authenticateToken = async (req, res, next) => {
   try {
-    console.time('Token Authentication');
-    console.log('🔍 AUTH DEBUG: Starting token authentication');
-    console.log('🔍 AUTH DEBUG: Request URL:', req.url);
-    console.log('🔍 AUTH DEBUG: Request Method:', req.method);
-    
     const authHeader = req.headers['authorization'];
-    console.log('🔍 AUTH DEBUG: Authorization header:', authHeader);
-    
     const token = authHeader && authHeader.split(' ')[1];
-    console.log('🔍 AUTH DEBUG: Extracted token:', token ? token.substring(0, 20) + '...' : 'NO TOKEN');
 
     if (!token) {
-      console.log('❌ AUTH DEBUG: No token found in Authorization header');
-      console.timeEnd('Token Authentication');
       return res.status(401).json({ success: false, message: 'Access token required' });
     }
 
-    // Verify token with detailed debugging
-    console.log('🔍 AUTH DEBUG: Verifying token with JWT_SECRET...');
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key-change-in-production');
-    console.log('🔍 AUTH DEBUG: Token decoded successfully:', {
-      userId: decoded.userId,
-      userType: decoded.userType,
-      phone: decoded.phone,
-      exp: decoded.exp,
-      iat: decoded.iat
-    });
     
-    // Store decoded info directly
     req.userId = decoded.userId;
     req.userType = decoded.userType;
     req.userPhone = decoded.phone;
     
-    console.log('🔍 AUTH DEBUG: Looking up user in database with ID:', decoded.userId);
-    // Use lean() for better performance and only fetch if needed
     const user = await User.findById(decoded.userId).lean();
-    console.log('🔍 AUTH DEBUG: User found in database:', user ? 'YES' : 'NO');
     
     if (!user) {
-      console.log('❌ AUTH DEBUG: User not found in database for ID:', decoded.userId);
-      console.timeEnd('Token Authentication');
       return res.status(401).json({ success: false, message: 'Invalid token - user not found' });
     }
 
-    console.log('🔍 AUTH DEBUG: User details:', {
-      _id: user._id,
-      firstName: user.firstName,
-      userType: user.userType,
-      phone: user.phone
-    });
-
     req.user = user;
-    console.log('✅ AUTH DEBUG: Token authentication successful');
-    console.timeEnd('Token Authentication');
     next();
   } catch (error) {
-    console.error('❌ AUTH DEBUG: Token authentication error:', error);
-    console.error('❌ AUTH DEBUG: Error details:', {
-      name: error.name,
-      message: error.message,
-      expiredAt: error.expiredAt
-    });
     return res.status(401).json({ success: false, message: 'Invalid or expired token' });
   }
 };
@@ -858,6 +825,7 @@ const passwordResetRoutes = require('./routes/auth.js');
 const cookieRoutes = require('./src/routes/cookieRoutes.js');
 const cropRoutes = require('./src/routes/crops.js');
 const orderRoutes = require('./src/routes/orders.js');
+const createPaymentsRouter = require('./src/routes/payments.js');
 
 // Clear mongoose models to prevent overwrite errors
 if (mongoose.models) {
@@ -878,13 +846,14 @@ app.use('/api/crops', cropRoutes);
 
 // Order routes - PERMANENT PERSISTENCE for buyer data
 app.use('/api/orders', orderRoutes);
+app.use('/api/payments', createPaymentsRouter({
+  authenticateToken,
+  getPool: () => postgresConnection
+}));
 
 // Cart routes - PERMANENT PERSISTENCE for buyer data
 const cartRoutes = require('./src/routes/cart');
 app.use('/api/cart', cartRoutes);
-
-// Razorpay Routes - Temporarily commented out
-// app.use('/api/razorpay', require('./src/routes/razorpay.js'));
 
 // Get current user profile
 app.get('/api/auth/me', authenticateToken, async (req, res) => {

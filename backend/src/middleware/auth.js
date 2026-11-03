@@ -9,10 +9,10 @@ const auth = async (req, res, next) => {
     console.log('🔍 AUTH MIDDLEWARE: Request Method:', req.method);
     
     const authHeader = req.header('Authorization');
-    console.log('🔍 AUTH MIDDLEWARE: Authorization header:', authHeader);
+    console.log('🔍 AUTH MIDDLEWARE: Authorization header present:', Boolean(authHeader));
     
     const token = authHeader?.replace('Bearer ', '');
-    console.log('🔍 AUTH MIDDLEWARE: Extracted token:', token ? token.substring(0, 20) + '...' : 'NO TOKEN');
+    console.log('🔍 AUTH MIDDLEWARE: Token present:', Boolean(token));
     
     if (!token) {
       console.log('❌ AUTH MIDDLEWARE: No token provided');
@@ -24,13 +24,7 @@ const auth = async (req, res, next) => {
 
     console.log('🔍 AUTH MIDDLEWARE: Verifying token with JWT_SECRET...');
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-    console.log('🔍 AUTH MIDDLEWARE: Token decoded successfully:', {
-      userId: decoded.userId,
-      userType: decoded.userType,
-      phone: decoded.phone,
-      exp: decoded.exp,
-      iat: decoded.iat
-    });
+    console.log('🔍 AUTH MIDDLEWARE: Token decoded successfully');
     
     console.log('🔍 AUTH MIDDLEWARE: Looking up user in database with ID:', decoded.userId);
     console.log('🔍 AUTH MIDDLEWARE: Searching for user with userId:', decoded.userId);
@@ -118,7 +112,6 @@ const auth = async (req, res, next) => {
 };
 
 module.exports = auth;
-
 
 
 
