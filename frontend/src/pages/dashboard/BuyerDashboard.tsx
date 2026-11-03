@@ -90,7 +90,8 @@ import {
   ChevronDown,
   X,
   Home,
-  MessageCircle
+  MessageCircle,
+  RefreshCw
 } from 'lucide-react';
 
 interface DashboardStats {
