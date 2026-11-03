@@ -22,7 +22,7 @@ import {
   forceRefreshMarketplace,
   type MarketplaceCrop 
 } from '../../services/marketplaceService';
-import razorpayService from '../../services/razorpayService';
+import razorpayService, { type PendingPaymentRecovery } from '../../services/razorpayService';
 
 // Professional Marketplace Interfaces
 interface CartItem {
@@ -36,7 +36,7 @@ interface CartItem {
 
 interface OrderItem {
   id: string;
-  crop: Pick<MarketplaceCrop, 'id' | 'name' | 'unit'>;
+  crop: Pick<MarketplaceCrop, 'id' | 'name' | 'unit'> & { variety?: string; type?: string };
   quantity: number;
   price: number;
   totalPrice: number;
@@ -59,6 +59,10 @@ interface PaymentHistoryOrder {
   cropId: string;
   crop?: {
     name?: string;
+    type?: string;
+    variety?: string;
+    quality?: string;
+    unit?: string;
     farmerId?: string;
     farmerName?: string;
     location?: { city?: string; state?: string };
@@ -134,13 +138,82 @@ interface DashboardStats {
 interface RecentOrder {
   id: string;
   supplier: string;
-  product: string;
+  productName: string;
   quantity: number;
-  price: number;
-  status: 'pending' | 'confirmed' | 'shipped' | 'delivered';
-  date: string;
+  totalPrice: number;
+  status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+  orderDate: string;
   location: string;
 }
+
+interface PaymentReceiptDetails {
+  purchase: PendingPaymentRecovery['purchase'];
+  paymentId: string;
+  createdAt: string;
+}
+
+const escapeReceiptHtml = (value: unknown) =>
+  String(value ?? '').replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[character] || character);
+
+const printPaymentReceipt = (receipt: PaymentReceiptDetails) => {
+  const receiptWindow = window.open('', '_blank');
+  if (!receiptWindow) {
+    alert('Receipt window was blocked. Allow pop-ups for this site and try again.');
+    return;
+  }
+
+  receiptWindow.opener = null;
+  const purchase = receipt.purchase;
+  const address = purchase.deliveryAddress;
+  const addressText = [
+    address.fullName,
+    address.address,
+    address.landmark,
+    address.city,
+    address.state,
+    address.pincode,
+    address.phone
+  ].filter(Boolean).map(escapeReceiptHtml).join(', ');
+  const amount = new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 2
+  }).format(purchase.amount);
+
+  receiptWindow.document.write(`<!doctype html>
+    <html><head><meta charset="utf-8"><title>Kshetravega payment receipt ${escapeReceiptHtml(purchase.id)}</title>
+    <style>
+      body{font:15px Arial,sans-serif;color:#17211b;margin:40px auto;max-width:720px;padding:24px}
+      h1{color:#16803c;margin-bottom:4px}.muted{color:#66736a}.box{border:1px solid #d5ded7;border-radius:8px;padding:18px;margin:18px 0}
+      .row{display:flex;justify-content:space-between;gap:20px;padding:9px 0;border-bottom:1px solid #edf0ed}
+      .row:last-child{border:0}.total{font-size:20px;font-weight:bold}.foot{margin-top:30px;font-size:12px;color:#66736a}
+      @media print{body{margin:0 auto}}
+    </style></head><body>
+    <h1>KSHETRAVEGA</h1><div class="muted">Payment receipt</div>
+    <div class="box">
+      <div class="row"><strong>Order ID</strong><span>${escapeReceiptHtml(purchase.id)}</span></div>
+      <div class="row"><strong>Payment ID</strong><span>${escapeReceiptHtml(receipt.paymentId)}</span></div>
+      <div class="row"><strong>Payment date</strong><span>${escapeReceiptHtml(new Date(receipt.createdAt).toLocaleString('en-IN'))}</span></div>
+      <div class="row"><strong>Status</strong><span>Paid</span></div>
+    </div>
+    <div class="box">
+      <h3>Product</h3>
+      <div class="row"><strong>${escapeReceiptHtml(purchase.crop.name)}${purchase.crop.variety ? ` — ${escapeReceiptHtml(purchase.crop.variety)}` : ''}</strong><span>${escapeReceiptHtml(purchase.quantity)} ${escapeReceiptHtml(purchase.crop.unit)}</span></div>
+      <div class="row"><span>Price per ${escapeReceiptHtml(purchase.crop.unit)}</span><span>${escapeReceiptHtml(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(purchase.unitPrice))}</span></div>
+      <div class="row total"><span>Total paid</span><span>${escapeReceiptHtml(amount)}</span></div>
+      <p>Farmer: ${escapeReceiptHtml(purchase.farmer.name)}</p>
+    </div>
+    <div class="box"><h3>Delivery address</h3><p>${addressText || 'Not provided'}</p></div>
+    <p class="foot">This is a payment receipt, not a tax invoice. Payment was processed securely by Razorpay.</p>
+    <script>window.onload=()=>window.print();</script></body></html>`);
+  receiptWindow.document.close();
+};
 
 interface Supplier {
   id: string;
@@ -325,6 +398,14 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
   
   // Razorpay Payment States
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
+  const [pendingPaymentRecovery, setPendingPaymentRecovery] = useState<PendingPaymentRecovery | null>(
+    () => razorpayService.getPendingPayment()
+  );
+  const [showPendingPaymentPrompt, setShowPendingPaymentPrompt] = useState(
+    () => Boolean(razorpayService.getPendingPayment())
+  );
+  const [pendingPaymentError, setPendingPaymentError] = useState('');
+  const [completedPayment, setCompletedPayment] = useState<PendingPaymentRecovery | null>(null);
   
   // Orders State
   const [orders, setOrders] = useState<OrderItem[]>([]);
@@ -377,7 +458,9 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
             crop: {
               id: paymentOrder.cropId,
               name: paymentOrder.crop?.name || 'Crop',
-              unit: paymentOrder.unit
+              unit: paymentOrder.unit,
+              variety: paymentOrder.crop?.variety,
+              type: paymentOrder.crop?.type
             },
             quantity: paymentOrder.quantity,
             price: paymentOrder.price,
@@ -427,7 +510,10 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
         totalPrice: order.totalPrice,
         status: order.status,
         orderDate: order.orderDate,
-        farmer: order.farmer
+        farmer: order.farmer,
+        paymentId: order.paymentId,
+        paymentMethod: order.paymentMethod,
+        deliveryAddress: order.deliveryAddress
       }));
       localStorage.setItem(`buyer_orders_${userKey}`, JSON.stringify(displayBackup));
     }
@@ -601,9 +687,9 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
       ? 'pending'
       : ['failed', 'cancelled', 'refunded', 'partially_refunded'].includes(order.status || '')
         ? 'cancelled'
-        : 'completed',
+        : 'confirmed',
     orderDate: order.orderDate || new Date().toISOString(),
-    deliveryDate: order.deliveryDate || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+    location: order.farmer.location
   })) : [];
 
   // Real suppliers - loaded from actual farmer data
@@ -626,6 +712,10 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
       case 'confirmed': return 'bg-blue-100 text-blue-800';
       case 'shipped': return 'bg-purple-100 text-purple-800';
       case 'delivered': return 'bg-green-100 text-green-800';
+      case 'failed':
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      case 'refunded':
+      case 'partially_refunded': return 'bg-gray-100 text-gray-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -921,7 +1011,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-sm font-semibold text-gray-900">{order.id}</h4>
-                    <p className="text-xs text-gray-500">{new Date(order.date).toLocaleDateString()}</p>
+                    <p className="text-xs text-gray-500">{new Date(order.orderDate).toLocaleDateString()}</p>
                   </div>
                   <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}>
                     {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
@@ -934,11 +1024,11 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                     <Package className="h-5 w-5 text-blue-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">{order.product}</p>
-                    <p className="text-xs text-gray-500">{order.quantity} kg</p>
+                    <p className="text-sm font-medium text-gray-900">{order.productName}</p>
+                    <p className="text-xs text-gray-500">{order.quantity}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-semibold text-gray-900">{formatCurrency(order.price)}</p>
+                    <p className="text-sm font-semibold text-gray-900">{formatCurrency(order.totalPrice)}</p>
                   </div>
                 </div>
                 
@@ -1427,9 +1517,22 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
 
   const renderOrders = () => (
     <div className="space-y-6">
+      {pendingPaymentRecovery && !showPendingPaymentPrompt && (
+        <div className="flex flex-col gap-3 rounded-lg border border-amber-300 bg-amber-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-amber-900">
+            A payment is awaiting confirmation. Do not pay again; retry verification to update its status.
+          </p>
+          <button
+            onClick={() => setShowPendingPaymentPrompt(true)}
+            className="shrink-0 rounded-lg bg-amber-700 px-4 py-2 text-sm font-medium text-white hover:bg-amber-800"
+          >
+            Check payment
+          </button>
+        </div>
+      )}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">My Orders</h2>
-        <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <button onClick={() => setActiveTab('products')} className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
           <Plus className="h-4 w-4" />
           <span>New Order</span>
         </button>
@@ -1469,17 +1572,19 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
           <h3 className="text-lg font-semibold text-gray-900">All Orders</h3>
         </div>
         <div className="space-y-3 p-4">
-          {recentOrders.map((order) => (
+          {orders.map((order) => (
             <div key={order.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
               <div className="flex flex-col space-y-3">
                 {/* Order Header */}
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="text-sm font-semibold text-gray-900">{order.id}</h4>
-                    <p className="text-xs text-gray-500">{new Date(order.date).toLocaleDateString()}</p>
+                    <p className="text-xs text-gray-500">
+                      {new Date(order.orderDate || new Date().toISOString()).toLocaleString('en-IN')}
+                    </p>
                   </div>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                    {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                  <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status || 'pending')}`}>
+                    {(order.status || 'pending').replace('_', ' ').toUpperCase()}
                   </span>
                 </div>
                 
@@ -1489,11 +1594,14 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                     <Package className="h-5 w-5 text-blue-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">{order.product}</p>
-                    <p className="text-xs text-gray-500">{order.quantity} kg</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      {order.crop.name}{order.crop.variety ? ` — ${order.crop.variety}` : ''}
+                    </p>
+                    <p className="text-xs text-gray-500">{order.quantity} {order.crop.unit}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-semibold text-gray-900">{formatCurrency(order.price)}</p>
+                    <p className="text-xs text-gray-500">{formatCurrency(order.price)} / {order.crop.unit}</p>
+                    <p className="text-sm font-semibold text-gray-900">{formatCurrency(order.totalPrice)}</p>
                   </div>
                 </div>
                 
@@ -1503,34 +1611,63 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                     <Users className="h-4 w-4 text-green-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">{order.supplier}</p>
+                    <p className="text-sm font-medium text-gray-900">{order.farmer.name}</p>
                     <p className="text-xs text-gray-500 flex items-center">
                       <MapPin className="h-3 w-3 mr-1" />
-                      {order.location}
+                      {order.farmer.location || 'Location unavailable'}
                     </p>
                   </div>
                 </div>
                 
                 {/* Actions */}
                 <div className="flex items-center justify-between pt-2 border-t border-gray-200">
-                  <div className="flex space-x-2">
-                    <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="View">
-                      <Eye className="h-4 w-4" />
-                    </button>
-                    <button className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors" title="Edit">
-                      <Edit className="h-4 w-4" />
-                    </button>
-                    <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Cancel">
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                  <div className="min-w-0 text-xs text-gray-500">
+                    <div>Order: {order.id}</div>
+                    {order.paymentId && <div>Payment: {order.paymentId}</div>}
+                    {order.deliveryAddress?.address && (
+                      <div>
+                        Delivery: {[
+                          order.deliveryAddress.address,
+                          order.deliveryAddress.city,
+                          order.deliveryAddress.state,
+                          order.deliveryAddress.pincode
+                        ].filter(Boolean).join(', ')}
+                      </div>
+                    )}
                   </div>
-                  <button className="text-xs text-gray-500 hover:text-gray-700">
-                    View Details →
-                  </button>
+                  {order.paymentId && ['confirmed', 'shipped', 'delivered', 'completed'].includes(order.status || '') && (
+                    <button
+                      onClick={() => printPaymentReceipt({
+                        paymentId: order.paymentId || '',
+                        createdAt: order.orderDate || new Date().toISOString(),
+                        purchase: {
+                          id: order.id,
+                          crop: {
+                            id: order.crop.id,
+                            name: order.crop.name,
+                            unit: order.crop.unit,
+                            variety: order.crop.variety
+                          },
+                          quantity: order.quantity,
+                          unitPrice: order.price,
+                          amount: order.totalPrice,
+                          farmer: order.farmer,
+                          deliveryAddress: order.deliveryAddress || {}
+                        }
+                      })}
+                      className="ml-3 flex shrink-0 items-center gap-2 rounded-lg bg-green-700 px-3 py-2 text-sm font-medium text-white hover:bg-green-800"
+                    >
+                      <Download className="h-4 w-4" />
+                      Receipt
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
           ))}
+          {orders.length === 0 && (
+            <p className="py-8 text-center text-sm text-gray-500">No orders found yet.</p>
+          )}
         </div>
       </div>
     </div>
@@ -1718,37 +1855,102 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
           color: '#10B981'
         },
         handler: async (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
+          const recovery: PendingPaymentRecovery = {
+            verification: response,
+            purchase: {
+              id: session.purchase.id,
+              crop: {
+                id: checkout.crop.id,
+                name: checkout.crop.name,
+                unit: checkout.crop.unit,
+                variety: 'variety' in checkout.crop ? String(checkout.crop.variety || '') : undefined
+              },
+              quantity: checkout.quantity,
+              unitPrice: session.purchase.unitPrice,
+              amount: session.purchase.amount,
+              farmer: checkout.farmer,
+              deliveryAddress
+            },
+            createdAt: new Date().toISOString()
+          };
+          razorpayService.rememberPendingPayment(recovery);
+          setPendingPaymentRecovery(recovery);
+          setShowPendingPaymentPrompt(true);
+          setPendingPaymentError('');
           try {
             const paymentOrder = await razorpayService.verifyPayment(response);
             const orderItem: OrderItem = {
               id: paymentOrder.id,
-              crop: checkout.crop,
+              crop: recovery.purchase.crop,
               quantity: checkout.quantity,
               price: session.purchase.unitPrice,
               totalPrice: paymentOrder.amount,
               status: 'confirmed',
-              orderDate: new Date().toISOString(),
+              orderDate: paymentOrder.createdAt,
               deliveryAddress,
               paymentMethod: 'razorpay',
               paymentId: paymentOrder.paymentId,
               farmer: checkout.farmer
             };
 
+            razorpayService.clearPendingPayment();
+            setPendingPaymentRecovery(null);
+            setShowPendingPaymentPrompt(false);
+            setCompletedPayment(recovery);
             setOrders((previousOrders) => [orderItem, ...previousOrders]);
             setShowOrderModal(false);
             setSelectedCropForOrder(null);
             setIsPaymentProcessing(false);
-            alert('🎉 Payment verified and order saved successfully.');
+            setActiveTab('orders');
           } catch (error) {
             console.error('Payment verification failed:', error);
             setIsPaymentProcessing(false);
-            alert(error instanceof Error ? error.message : 'Payment verification failed. Contact support if money was debited.');
+            setPendingPaymentError(
+              error instanceof Error ? error.message : 'Payment confirmation is pending. Do not pay again.'
+            );
+            setActiveTab('orders');
           }
         },
         modal: {
           ondismiss: () => {
             setIsPaymentProcessing(false);
           }
+        }
+      };
+
+      const retryPendingPaymentVerification = async () => {
+        if (!pendingPaymentRecovery) return;
+        setIsPaymentProcessing(true);
+        setPendingPaymentError('');
+        try {
+          const paymentOrder = await razorpayService.verifyPayment(pendingPaymentRecovery.verification);
+          const recovery = pendingPaymentRecovery;
+          const orderItem: OrderItem = {
+            id: paymentOrder.id,
+            crop: recovery.purchase.crop,
+            quantity: recovery.purchase.quantity,
+            price: recovery.purchase.unitPrice,
+            totalPrice: paymentOrder.amount,
+            status: 'confirmed',
+            orderDate: paymentOrder.createdAt,
+            deliveryAddress: recovery.purchase.deliveryAddress,
+            paymentMethod: 'razorpay',
+            paymentId: paymentOrder.paymentId,
+            farmer: recovery.purchase.farmer
+          };
+
+          razorpayService.clearPendingPayment();
+          setPendingPaymentRecovery(null);
+          setShowPendingPaymentPrompt(false);
+          setCompletedPayment(recovery);
+          setOrders((previousOrders) => [orderItem, ...previousOrders.filter((order) => order.id !== orderItem.id)]);
+          setActiveTab('orders');
+        } catch (error) {
+          setPendingPaymentError(
+            error instanceof Error ? error.message : 'Payment confirmation is pending. Do not pay again.'
+          );
+        } finally {
+          setIsPaymentProcessing(false);
         }
       };
 
@@ -2480,6 +2682,84 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                   Your payment information is encrypted and secure. We use industry-standard SSL encryption.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {pendingPaymentRecovery && showPendingPaymentPrompt && !completedPayment && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4">
+          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
+            <div className="mb-4 flex items-center gap-3">
+              <Clock className="h-7 w-7 text-amber-600" />
+              <h3 className="text-xl font-bold text-gray-900">Payment confirmation pending</h3>
+            </div>
+            <p className="text-sm text-gray-700">
+              Razorpay returned your payment, but the server did not confirm the order yet. Do not make another payment.
+            </p>
+            <div className="my-4 rounded-lg bg-gray-50 p-4 text-sm">
+              <p><strong>Product:</strong> {pendingPaymentRecovery.purchase.crop.name}</p>
+              <p><strong>Quantity:</strong> {pendingPaymentRecovery.purchase.quantity} {pendingPaymentRecovery.purchase.crop.unit}</p>
+              <p><strong>Amount:</strong> {formatCurrency(pendingPaymentRecovery.purchase.amount)}</p>
+              <p className="break-all"><strong>Payment ID:</strong> {pendingPaymentRecovery.verification.razorpay_payment_id}</p>
+              <p className="break-all"><strong>Order ID:</strong> {pendingPaymentRecovery.purchase.id}</p>
+            </div>
+            {pendingPaymentError && (
+              <p role="alert" className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-800">
+                {pendingPaymentError}
+              </p>
+            )}
+            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <button
+                onClick={() => setShowPendingPaymentPrompt(false)}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Check later
+              </button>
+              <button
+                onClick={retryPendingPaymentVerification}
+                disabled={isPaymentProcessing}
+                className="rounded-lg bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isPaymentProcessing ? 'Checking...' : 'Retry verification'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {completedPayment && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4">
+          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
+            <div className="mb-4 flex items-center gap-3">
+              <CheckCircle className="h-8 w-8 text-green-600" />
+              <h3 className="text-xl font-bold text-gray-900">Payment successful</h3>
+            </div>
+            <p className="text-sm text-gray-700">Your payment is verified and the order has been saved.</p>
+            <div className="my-4 rounded-lg bg-green-50 p-4 text-sm">
+              <p><strong>Product:</strong> {completedPayment.purchase.crop.name}</p>
+              <p><strong>Quantity:</strong> {completedPayment.purchase.quantity} {completedPayment.purchase.crop.unit}</p>
+              <p><strong>Total paid:</strong> {formatCurrency(completedPayment.purchase.amount)}</p>
+              <p><strong>Farmer:</strong> {completedPayment.purchase.farmer.name}</p>
+              <p className="break-all"><strong>Order ID:</strong> {completedPayment.purchase.id}</p>
+              <p className="break-all"><strong>Payment ID:</strong> {completedPayment.verification.razorpay_payment_id}</p>
+            </div>
+            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <button
+                onClick={() => setCompletedPayment(null)}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => printPaymentReceipt({
+                  purchase: completedPayment.purchase,
+                  paymentId: completedPayment.verification.razorpay_payment_id,
+                  createdAt: completedPayment.createdAt
+                })}
+                className="flex items-center justify-center gap-2 rounded-lg bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-800"
+              >
+                <Download className="h-4 w-4" />
+                Download / Print receipt
+              </button>
             </div>
           </div>
         </div>

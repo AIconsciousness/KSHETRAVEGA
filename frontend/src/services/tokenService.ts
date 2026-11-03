@@ -402,7 +402,11 @@ export const tokenService = new TokenService();
 tokenService.initializeNetworkRecovery();
 
 // Enhanced fetch with automatic token management
-export const authenticatedFetch = async (url: string, options: RequestInit = {}): Promise<Response> => {
+export const authenticatedFetch = async (
+  url: string,
+  options: RequestInit = {},
+  behavior: { queueOnNetworkError?: boolean } = {}
+): Promise<Response> => {
   try {
     // Get valid token
     const token = await tokenService.getValidToken();
@@ -520,7 +524,11 @@ export const authenticatedFetch = async (url: string, options: RequestInit = {})
     console.error('❌ Network error in authenticatedFetch:', error);
     
     // Network error - queue for retry
-    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+    if (
+      behavior.queueOnNetworkError !== false &&
+      error.name === 'TypeError' &&
+      error.message.includes('fetch')
+    ) {
       console.log('🔄 Network error, queuing request for retry...');
       await tokenService.queueDataForRetry(url, options);
     }
