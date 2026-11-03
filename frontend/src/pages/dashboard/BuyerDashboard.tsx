@@ -215,7 +215,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
     topSellingCrops: [],
     priceRange: { min: 0, max: 0 }
   });
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: Number.MAX_SAFE_INTEGER });
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [selectedQuality, setSelectedQuality] = useState('all');
   const [selectedOrganic, setSelectedOrganic] = useState('all');
@@ -1128,9 +1128,12 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                 />
                 <input
                   type="number"
-                  placeholder="Max"
-                  value={priceRange.max}
-                  onChange={(e) => handlePriceRangeChange(priceRange.min, Number(e.target.value))}
+                  placeholder="No max"
+                  value={priceRange.max === Number.MAX_SAFE_INTEGER ? '' : priceRange.max}
+                  onChange={(e) => handlePriceRangeChange(
+                    priceRange.min,
+                    e.target.value === '' ? Number.MAX_SAFE_INTEGER : Number(e.target.value)
+                  )}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -1517,7 +1520,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
     setSelectedCategory('all');
     setMarketplaceSearchQuery('');
     setSortBy('demand');
-    setPriceRange({ min: 0, max: 1000 });
+    setPriceRange({ min: 0, max: Number.MAX_SAFE_INTEGER });
     setSelectedQuality('all');
     setSelectedOrganic('all');
   };

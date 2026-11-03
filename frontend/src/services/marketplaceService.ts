@@ -1,5 +1,6 @@
 // Marketplace Service - Loads real farmer crop data for buyers
 import { authenticatedFetch } from './tokenService';
+import { API_BASE_URL } from './api';
 
 // Enhanced token validation function
 function validateAuthToken(): { isValid: boolean; token: string | null; error?: string } {
@@ -175,6 +176,171 @@ interface MarketplaceCrop extends CropData {
   };
 }
 
+type CropRecord = Record<string, unknown>;
+
+const asRecord = (value: unknown): CropRecord =>
+  typeof value === 'object' && value !== null ? value as CropRecord : {};
+
+const asString = (value: unknown, fallback: string): string =>
+  typeof value === 'string' && value.trim() ? value : fallback;
+
+const asNumber = (value: unknown, fallback = 0): number =>
+  typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+
+const cropCategoryAliases: Record<string, string> = {
+  grain: 'grains',
+  grains: 'grains',
+  cereal: 'grains',
+  cereals: 'grains',
+  vegetable: 'vegetables',
+  vegetables: 'vegetables',
+  fruit: 'fruits',
+  fruits: 'fruits',
+  pulse: 'pulses',
+  pulses: 'pulses',
+  legumes: 'pulses',
+  spice: 'spices',
+  spices: 'spices'
+};
+
+const cropNameCategories: Record<string, string> = {
+  rice: 'grains',
+  wheat: 'grains',
+  maize: 'grains',
+  barley: 'grains',
+  millet: 'grains',
+  tomato: 'vegetables',
+  onion: 'vegetables',
+  potato: 'vegetables',
+  carrot: 'vegetables',
+  cabbage: 'vegetables',
+  cauliflower: 'vegetables',
+  apple: 'fruits',
+  banana: 'fruits',
+  mango: 'fruits',
+  orange: 'fruits',
+  grapes: 'fruits',
+  pomegranate: 'fruits',
+  lentil: 'pulses',
+  chickpea: 'pulses',
+  'black gram': 'pulses',
+  'green gram': 'pulses',
+  'pigeon pea': 'pulses',
+  turmeric: 'spices',
+  chili: 'spices',
+  coriander: 'spices',
+  cumin: 'spices',
+  cardamom: 'spices'
+};
+
+const getCropCategory = (type: string, name: string): string => {
+  const normalizedType = type.trim().toLowerCase();
+  const normalizedName = name.trim().toLowerCase();
+
+  return cropCategoryAliases[normalizedType]
+    || cropNameCategories[normalizedName]
+    || cropNameCategories[normalizedType]
+    || 'other';
+};
+
+const mapMarketplaceCrop = (record: CropRecord): MarketplaceCrop => {
+  const cropDetails = asRecord(record.cropDetails);
+  const quantityDetails = asRecord(record.quantity);
+  const pricing = asRecord(record.pricing);
+  const locationDetails = asRecord(record.location);
+  const harvest = asRecord(record.harvest);
+  const status = asRecord(record.status);
+  const farmerRecord = asRecord(record.farmerId);
+  const farmerAssociation = asRecord(record.farmerAssociation);
+  const farmerAddress = asRecord(asRecord(farmerRecord.address).current);
+
+  const name = asString(
+    record.cropName,
+    asString(record.title, asString(cropDetails.name, asString(record.name, 'Unnamed crop')))
+  );
+  const type = asString(
+    record.cropType,
+    asString(cropDetails.category, asString(record.type, 'other'))
+  );
+  const price = asNumber(pricing.pricePerUnit, asNumber(record.price));
+  const quantity = asNumber(quantityDetails.available, asNumber(record.quantity));
+  const unit = asString(quantityDetails.unit, asString(record.unit, 'kg'));
+  const location = typeof record.location === 'string'
+    ? record.location
+    : [locationDetails.city, locationDetails.state].filter(
+      (part): part is string => typeof part === 'string' && part.length > 0
+    ).join(', ') || asString(locationDetails.farmAddress, 'Unknown Location');
+  const farmerId = asString(
+    farmerRecord._id,
+    asString(farmerRecord.id, asString(record.farmerId, asString(farmerAssociation.farmerId, 'unknown')))
+  );
+  const images = Array.isArray(record.images)
+    ? record.images.map((image) => {
+      const imageRecord = asRecord(image);
+      return {
+        ...imageRecord,
+        imageUrl: asString(imageRecord.imageUrl, asString(imageRecord.url, ''))
+      };
+    })
+    : [];
+  const cropData: CropData = {
+    id: asString(record._id, asString(record.listingId, asString(record.id, name))),
+    name,
+    type,
+    variety: asString(record.variety, asString(cropDetails.variety, '')),
+    quantity,
+    unit,
+    quality: asString(cropDetails.grade, asString(record.quality, asString(cropDetails.quality, 'Unknown'))),
+    price,
+    harvestDate: asString(harvest.harvestDate, asString(record.harvestDate, asString(record.uploadedAt, ''))),
+    organic: typeof record.organic === 'boolean'
+      ? record.organic
+      : cropDetails.organic === true,
+    location,
+    description: asString(record.description, ''),
+    status: status.isActive === false ? 'Inactive' : asString(record.status, 'Active'),
+    uploadedAt: asString(record.uploadedAt, asString(record.createdAt, '')),
+    farmerName: asString(farmerAssociation.farmerName, asString(record.farmerName, 'Unknown Farmer')),
+    farmerId,
+    images,
+    analytics: {
+      totalImages: images.length,
+      bestImageId: null,
+      averageImageQuality: null,
+      cropHealthScore: null,
+      marketValue: null,
+      demandScore: null
+    },
+    database: {
+      isSynced: true,
+      lastSyncDate: asString(record.lastUpdated, ''),
+      version: 1,
+      checksum: null
+    }
+  };
+  const farmerLocation = asString(farmerAddress.city, location);
+
+  return {
+    ...cropData,
+    farmer: {
+      id: farmerId,
+      name: asString(asRecord(farmerRecord.profile).fullName, cropData.farmerName),
+      phone: asString(farmerRecord.phone, '+91-XXXX-XXXX'),
+      location: farmerLocation,
+      rating: 4,
+      totalCrops: 1,
+      joinedDate: asString(record.createdAt, new Date().toISOString())
+    },
+    distance: 0,
+    demandScore: calculateDemandScore(cropData),
+    priceComparison: {
+      marketAverage: price,
+      isAboveAverage: false,
+      percentageDifference: 0
+    }
+  };
+};
+
 // Calculate demand score for crops based on real data
 const calculateDemandScore = (crop: CropData): number => {
   let score = 50; // Base score
@@ -230,7 +396,7 @@ export const loadAllFarmerCrops = async (): Promise<MarketplaceCrop[]> => {
       console.log('✅ Token validation passed, making API request');
       
       // Use authenticated fetch with automatic token management
-      const response = await authenticatedFetch('https://kshetravega-57p9.onrender.com/api/crops/marketplace', {
+      const response = await authenticatedFetch(`${API_BASE_URL}/api/crops/marketplace`, {
         method: 'GET'
       });
       
@@ -260,26 +426,7 @@ export const loadAllFarmerCrops = async (): Promise<MarketplaceCrop[]> => {
         
         // Ensure cropsData is valid before mapping
         if (Array.isArray(cropsData) && cropsData.length > 0) {
-          const mappedCrops = cropsData.map((crop: any) => ({
-            ...crop,
-            farmer: {
-              id: crop.farmerId?._id || 'unknown',
-              name: crop.farmerId?.profile?.fullName || 'Unknown Farmer',
-              phone: crop.farmerId?.phone || '+91-XXXX-XXXX',
-              location: crop.farmerId?.address?.current?.city || 'Unknown Location',
-              rating: Math.random() * 2 + 3,
-              totalCrops: 1,
-              joinedDate: new Date().toISOString(),
-              avatar: undefined
-            },
-            distance: Math.random() * 50 + 1,
-            demandScore: Math.random() * 100,
-            priceComparison: {
-              marketAverage: crop.price * (0.8 + Math.random() * 0.4),
-              isAboveAverage: Math.random() > 0.5,
-              percentageDifference: (Math.random() - 0.5) * 40
-            }
-          }));
+          const mappedCrops = cropsData.map((crop: CropRecord) => mapMarketplaceCrop(crop));
           
           console.log(`✅ Successfully mapped ${mappedCrops.length} crops from database`);
           return mappedCrops;
@@ -449,26 +596,9 @@ export const filterCropsByCategory = (crops: MarketplaceCrop[], category: string
   }
   
   if (!category || category === 'all') return crops;
-  
-  return crops.filter(crop => {
-    const cropType = crop.type.toLowerCase();
-    const categoryLower = category.toLowerCase();
-    
-    switch (categoryLower) {
-      case 'grains':
-        return ['rice', 'wheat', 'maize', 'barley', 'millet'].includes(cropType);
-      case 'vegetables':
-        return ['tomato', 'onion', 'potato', 'carrot', 'cabbage', 'cauliflower'].includes(cropType);
-      case 'fruits':
-        return ['apple', 'banana', 'mango', 'orange', 'grapes', 'pomegranate'].includes(cropType);
-      case 'pulses':
-        return ['lentil', 'chickpea', 'black gram', 'green gram', 'pigeon pea'].includes(cropType);
-      case 'spices':
-        return ['turmeric', 'chili', 'coriander', 'cumin', 'cardamom'].includes(cropType);
-      default:
-        return cropType.includes(categoryLower);
-    }
-  });
+
+  const normalizedCategory = cropCategoryAliases[category.toLowerCase()] || category.toLowerCase();
+  return crops.filter(crop => getCropCategory(crop.type, crop.name) === normalizedCategory);
 };
 
 // Search crops by name or type
@@ -532,21 +662,7 @@ export const getCropCategories = async (): Promise<{ value: string; label: strin
   const categories = new Map<string, number>();
   
   crops.forEach(crop => {
-    const type = crop.type.toLowerCase();
-    let category = 'other';
-    
-    if (['rice', 'wheat', 'maize', 'barley', 'millet'].includes(type)) {
-      category = 'grains';
-    } else if (['tomato', 'onion', 'potato', 'carrot', 'cabbage', 'cauliflower'].includes(type)) {
-      category = 'vegetables';
-    } else if (['apple', 'banana', 'mango', 'orange', 'grapes', 'pomegranate'].includes(type)) {
-      category = 'fruits';
-    } else if (['lentil', 'chickpea', 'black gram', 'green gram', 'pigeon pea'].includes(type)) {
-      category = 'pulses';
-    } else if (['turmeric', 'chili', 'coriander', 'cumin', 'cardamom'].includes(type)) {
-      category = 'spices';
-    }
-    
+    const category = getCropCategory(crop.type, crop.name);
     categories.set(category, (categories.get(category) || 0) + 1);
   });
   
