@@ -70,7 +70,9 @@ router.post('/google', async (req, res) => {
 
     if (!user) {
       const fullName = (decodedToken.name || email.split('@')[0]).trim();
-      const [firstName, ...lastNameParts] = fullName.split(/\s+/);
+      const nameParts = fullName.split(/\s+/);
+      const firstName = decodedToken.given_name || nameParts[0] || email.split('@')[0];
+      const lastName = decodedToken.family_name || nameParts.slice(1).join(' ') || firstName;
       const randomPassword = await bcrypt.hash(crypto.randomBytes(32).toString('hex'), 12);
 
       user = new User({
@@ -81,8 +83,8 @@ router.post('/google', async (req, res) => {
         phone: decodedToken.phone_number || `google_${decodedToken.uid}`,
         password: randomPassword,
         profile: {
-          firstName: firstName || email.split('@')[0],
-          lastName: lastNameParts.join(' '),
+          firstName,
+          lastName,
           fullName,
           profileImage: decodedToken.picture
         },
