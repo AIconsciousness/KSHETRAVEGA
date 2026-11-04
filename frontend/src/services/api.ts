@@ -275,6 +275,13 @@ class ApiService {
     }
   }
 
+  async googleLogin(idToken: string, userType: 'farmer' | 'buyer' | 'transporter'): Promise<LoginResponse> {
+    return this.request<LoginResponse>('/api/auth/google', {
+      method: 'POST',
+      body: JSON.stringify({ idToken, userType }),
+    });
+  }
+
   async getCurrentUser(token: string): Promise<User> {
     return this.request<User>('/api/auth/me', {
       headers: {
@@ -356,4 +363,3 @@ class ApiService {
 
 export const apiService = new ApiService();
 export default apiService;
-

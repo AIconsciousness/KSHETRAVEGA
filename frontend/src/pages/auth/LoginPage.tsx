@@ -32,7 +32,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSignupClick, onUserTypeSelect, 
   const handleGoogleSignIn = async (user: GoogleUserData) => {
     setGoogleLoading(true);
     try {
-      console.log('🔄 Processing Google Sign-in:', user);
+      console.log('🔄 Processing Google Sign-in for:', user.email);
       
       // Store user data and show user type selection
       // We'll pass the user to the parent component to show user type selection

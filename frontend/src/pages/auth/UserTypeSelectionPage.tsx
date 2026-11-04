@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -13,7 +13,7 @@ import {
 
 interface UserTypeSelectionPageProps {
   user: GoogleUserData;
-  onUserTypeSelect: (userType: 'farmer' | 'buyer' | 'transporter', user: GoogleUserData) => void;
+  onUserTypeSelect: (userType: 'farmer' | 'buyer' | 'transporter', user: GoogleUserData) => void | Promise<void>;
   onBack: () => void;
 }
 
@@ -23,6 +23,8 @@ const UserTypeSelectionPage: React.FC<UserTypeSelectionPageProps> = ({
   onBack 
 }) => {
   const { t } = useLanguage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   const userTypes = [
     {
@@ -69,8 +71,16 @@ const UserTypeSelectionPage: React.FC<UserTypeSelectionPageProps> = ({
     }
   ];
 
-  const handleUserTypeSelect = (userType: 'farmer' | 'buyer' | 'transporter') => {
-    onUserTypeSelect(userType, user);
+  const handleUserTypeSelect = async (userType: 'farmer' | 'buyer' | 'transporter') => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    setError('');
+    try {
+      await onUserTypeSelect(userType, user);
+    } catch (selectionError) {
+      setError(selectionError instanceof Error ? selectionError.message : 'Sign-in failed. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -99,7 +109,7 @@ const UserTypeSelectionPage: React.FC<UserTypeSelectionPageProps> = ({
               <Card 
                 key={userType.type}
                 className={`${userType.color} border-2 cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 group`}
-                onClick={() => handleUserTypeSelect(userType.type)}
+                onClick={() => void handleUserTypeSelect(userType.type)}
               >
                 <CardHeader className="text-center pb-4">
                   <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-full flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
@@ -124,9 +134,13 @@ const UserTypeSelectionPage: React.FC<UserTypeSelectionPageProps> = ({
                   <div className="mt-6">
                     <Button 
                       className="w-full bg-white text-gray-900 border-2 border-gray-300 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
-                      onClick={() => handleUserTypeSelect(userType.type)}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        void handleUserTypeSelect(userType.type);
+                      }}
+                      disabled={isSubmitting}
                     >
-                      Continue as {userType.title}
+                      {isSubmitting ? 'Signing in...' : `Continue as ${userType.title}`}
                     </Button>
                   </div>
                 </CardContent>
@@ -134,6 +148,12 @@ const UserTypeSelectionPage: React.FC<UserTypeSelectionPageProps> = ({
             );
           })}
         </div>
+
+        {error && (
+          <p role="alert" className="mb-6 text-center text-sm text-red-600">
+            {error}
+          </p>
+        )}
 
         {/* Back Button */}
         <div className="text-center">

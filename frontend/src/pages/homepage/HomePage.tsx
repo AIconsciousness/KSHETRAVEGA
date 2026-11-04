@@ -20,6 +20,7 @@ import FeaturesPage from './FeaturesPage';
 import BlogPage from './BlogPage';
 import UserTypeSelector from '../../components/ui/UserTypeSelector';
 import type { GoogleUserData } from '../../types/auth';
+import { apiService } from '../../services/api';
 
 // Import images
 import agri1Image from '../../assets/agri1.jpg - Copy.jpg';
@@ -380,7 +381,7 @@ const HomePage: React.FC = () => {
   };
 
   const handleLoginSuccess = (userType: string, user?: GoogleUserData) => {
-    console.log('🎯 Login success:', userType, user);
+    console.log('🎯 Login success:', userType);
     
     if (userType === 'google-signin' && user) {
       // Store Google user data and show user type selection
@@ -410,11 +411,16 @@ const HomePage: React.FC = () => {
         return userData ? (
           <UserTypeSelectionPage
             user={userData}
-            onUserTypeSelect={(userType, user) => {
-              console.log('🎯 User selected type:', userType, 'for Google user:', user);
+            onUserTypeSelect={async (userType, user) => {
+              if (!user.idToken) {
+                throw new Error('Google authentication expired. Please sign in again.');
+              }
+              const response = await apiService.googleLogin(user.idToken, userType);
+              localStorage.setItem('authToken', response.token);
+              localStorage.setItem('userData', JSON.stringify(response.user));
               setIsAuthenticated(true);
-              setUserData(user);
-              setCurrentPage(`${userType}-dashboard` as AuthPage);
+              setUserData(response.user as GoogleUserData);
+              setCurrentPage(`${response.user.userType}-dashboard` as AuthPage);
             }}
             onBack={() => setCurrentPage('login')}
           />

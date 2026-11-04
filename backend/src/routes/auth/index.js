@@ -2,6 +2,7 @@ const express = require('express');
 const admin = require('firebase-admin');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const { sendOTP, verifyOTP } = require('../../../services/otpService');
 const User = require('../../../models/User');
 
@@ -10,13 +11,147 @@ const router = express.Router();
 // Initialize Firebase Admin if not already initialized
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    }),
+    projectId: process.env.FIREBASE_PROJECT_ID || 'digital-farming-platform',
   });
 }
+
+router.post('/google', async (req, res) => {
+  try {
+    const { idToken, userType } = req.body;
+    const allowedUserTypes = ['farmer', 'buyer', 'transporter'];
+
+    if (!idToken || !allowedUserTypes.includes(userType)) {
+      return res.status(400).json({
+        success: false,
+        message: 'A Google ID token and valid user type are required'
+      });
+    }
+
+    let decodedToken;
+    try {
+      decodedToken = await admin.auth().verifyIdToken(idToken);
+    } catch (error) {
+      return res.status(401).json({
+        success: false,
+        message: 'Google sign-in could not be verified. Please sign in again.'
+      });
+    }
+
+    const email = decodedToken.email?.trim().toLowerCase();
+    if (
+      !decodedToken.uid ||
+      !email ||
+      decodedToken.email_verified !== true ||
+      decodedToken.firebase?.sign_in_provider !== 'google.com'
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: 'A verified Google account is required'
+      });
+    }
+
+    let user = await User.findOne({
+      $or: [{ firebaseUid: decodedToken.uid }, { email }]
+    });
+
+    if (user?.firebaseUid && user.firebaseUid !== decodedToken.uid) {
+      return res.status(409).json({
+        success: false,
+        message: 'This email is already linked to another Google account'
+      });
+    }
+
+    if (user && !allowedUserTypes.includes(user.userType)) {
+      return res.status(403).json({
+        success: false,
+        message: 'This account does not have a supported dashboard role'
+      });
+    }
+
+    if (!user) {
+      const fullName = (decodedToken.name || email.split('@')[0]).trim();
+      const [firstName, ...lastNameParts] = fullName.split(/\s+/);
+      const randomPassword = await bcrypt.hash(crypto.randomBytes(32).toString('hex'), 12);
+
+      user = new User({
+        userId: `${userType}_${decodedToken.uid}`,
+        userType,
+        firebaseUid: decodedToken.uid,
+        email,
+        phone: decodedToken.phone_number || `google_${decodedToken.uid}`,
+        password: randomPassword,
+        profile: {
+          firstName: firstName || email.split('@')[0],
+          lastName: lastNameParts.join(' '),
+          fullName,
+          profileImage: decodedToken.picture
+        },
+        verification: {
+          isEmailVerified: true,
+          isPhoneVerified: Boolean(decodedToken.phone_number)
+        }
+      });
+    } else if (!user.firebaseUid) {
+      user.firebaseUid = decodedToken.uid;
+      user.verification.isEmailVerified = true;
+    }
+
+    if (!user.accountStatus?.isActive || user.accountStatus?.isBlocked || user.accountStatus?.isSuspended) {
+      return res.status(403).json({
+        success: false,
+        message: 'This account is currently unavailable. Please contact support.'
+      });
+    }
+
+    user.accountStatus.lastLoginAt = new Date();
+    user.accountStatus.loginCount = (user.accountStatus.loginCount || 0) + 1;
+    user.activity.totalLogins = (user.activity.totalLogins || 0) + 1;
+    user.activity.lastActivityAt = new Date();
+    await user.save();
+
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        userType: user.userType,
+        phone: user.phone
+      },
+      process.env.JWT_SECRET || 'your-secret-key-change-in-production',
+      { expiresIn: process.env.JWT_EXPIRY || '24h' }
+    );
+
+    const userData = user.toObject();
+    delete userData.password;
+
+    res.json({
+      success: true,
+      message: 'Google sign-in successful',
+      token,
+      user: {
+        ...userData,
+        id: user._id.toString(),
+        uid: user.firebaseUid,
+        displayName: user.profile.fullName,
+        name: user.profile.fullName,
+        firstName: user.profile.firstName,
+        lastName: user.profile.lastName,
+        phone: user.phone.startsWith('google_') ? '' : user.phone,
+        profileImage: user.profile.profileImage
+      }
+    });
+  } catch (error) {
+    console.error('Google sign-in error:', error);
+    if (error.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: 'An account already exists with this Google email'
+      });
+    }
+    res.status(500).json({
+      success: false,
+      message: 'Google sign-in failed. Please try again.'
+    });
+  }
+});
 
 // Send OTP endpoint - MOBILE NUMBER UNIQUENESS CHECK
 router.post('/send-otp', async (req, res) => {
@@ -510,4 +645,3 @@ router.get('/', (req, res) => {
 });
 
 module.exports = router;
-

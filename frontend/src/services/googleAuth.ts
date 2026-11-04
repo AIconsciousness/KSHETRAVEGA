@@ -39,12 +39,13 @@ export class GoogleAuthService {
       const result = await signInWithPopup(auth, this.provider);
       const user = result.user;
       
-      console.log('✅ Google Sign-in successful:', user);
-      
+      console.log('✅ Google Sign-in successful');
+
       const userData: GoogleUserData = {
         uid: user.uid,
         email: user.email || '',
         displayName: user.displayName || '',
+        idToken: await user.getIdToken(),
         photoURL: user.photoURL || undefined,
         phoneNumber: user.phoneNumber || undefined
       };
@@ -97,12 +98,13 @@ export class GoogleAuthService {
       
       if (result) {
         const user = result.user;
-        console.log('✅ Google Sign-in redirect successful:', user);
-        
+        console.log('✅ Google Sign-in redirect successful');
+
         const userData: GoogleUserData = {
           uid: user.uid,
           email: user.email || '',
           displayName: user.displayName || '',
+          idToken: await user.getIdToken(),
           photoURL: user.photoURL || undefined,
           phoneNumber: user.phoneNumber || undefined
         };

@@ -14,6 +14,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     index: true
   },
+  firebaseUid: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
   email: {
     type: String,
     required: true,
@@ -143,4 +148,3 @@ userSchema.index({ createdAt: -1 });
 
 // Check if model already exists to prevent overwrite error
 module.exports = mongoose.models.User || mongoose.model('User', userSchema);
-

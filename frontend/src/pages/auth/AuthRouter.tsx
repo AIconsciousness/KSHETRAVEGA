@@ -6,9 +6,10 @@ import TransporterSignupPage from './TransporterSignupPage';
 import UserTypeSelectionPage from './UserTypeSelectionPage';
 import ForgetPasswordPage from './ForgetPasswordPage';
 import type { GoogleUserData } from '../../types/auth';
+import { apiService } from '../../services/api';
 
 interface AuthRouterProps {
-  onLoginSuccess: (userType: 'farmer' | 'buyer' | 'transporter') => void;
+  onLoginSuccess: (userType: 'farmer' | 'buyer' | 'transporter', user?: GoogleUserData) => void;
 }
 
 type AuthPage = 'login' | 'farmer-signup' | 'buyer-signup' | 'transporter-signup' | 'user-type-selection' | 'forget-password';
@@ -27,9 +28,14 @@ const AuthRouter: React.FC<AuthRouterProps> = ({ onLoginSuccess }) => {
     }
   };
 
-  const handleUserTypeSelection = (userType: 'farmer' | 'buyer' | 'transporter', user: GoogleUserData) => {
-    console.log('🎯 User selected type:', userType, 'for Google user:', user);
-    onLoginSuccess(userType);
+  const handleUserTypeSelection = async (userType: 'farmer' | 'buyer' | 'transporter', user: GoogleUserData) => {
+    if (!user.idToken) {
+      throw new Error('Google authentication expired. Please sign in again.');
+    }
+    const response = await apiService.googleLogin(user.idToken, userType);
+    localStorage.setItem('authToken', response.token);
+    localStorage.setItem('userData', JSON.stringify(response.user));
+    onLoginSuccess(response.user.userType, response.user as GoogleUserData);
   };
 
   const handleBackToLogin = () => {

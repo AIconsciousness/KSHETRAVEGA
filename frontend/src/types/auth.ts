@@ -3,8 +3,18 @@ export interface GoogleUserData {
   uid: string;
   email: string;
   displayName: string;
+  idToken?: string;
   photoURL?: string;
   phoneNumber?: string;
+  id?: string;
+  _id?: string;
+  userId?: string;
+  userType?: 'farmer' | 'buyer' | 'transporter';
+  name?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  profileImage?: string;
 }
 
 export interface AuthUser {
@@ -31,7 +41,6 @@ export interface SignupRequest {
   // Additional fields based on user type
   [key: string]: any;
 }
-
 
 
 
