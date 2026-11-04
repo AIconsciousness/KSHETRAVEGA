@@ -1,5 +1,5 @@
 // Service Worker for Kshetravega PWA
-const CACHE_NAME = 'kshetravega-v3';
+const CACHE_NAME = 'kshetravega-v4';
 const urlsToCache = [
   '/manifest.json',
   '/kshetravega-logo.png'
@@ -23,14 +23,15 @@ self.addEventListener('install', (event) => {
 
 // Fetch event
 self.addEventListener('fetch', (event) => {
+  const requestUrl = new URL(event.request.url);
+  if (event.request.method !== 'GET' || requestUrl.origin !== self.location.origin) {
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        if (
-          event.request.method === 'GET'
-          && response.ok
-          && new URL(event.request.url).origin === self.location.origin
-        ) {
+        if (response.ok) {
           const responseToCache = response.clone();
           event.waitUntil(
             caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache))
@@ -41,7 +42,11 @@ self.addEventListener('fetch', (event) => {
       .catch(async () => {
         const cachedResponse = await caches.match(event.request);
         if (cachedResponse) return cachedResponse;
-        throw new Error(`Network request failed and no cached response exists: ${event.request.url}`);
+        return new Response('This page is unavailable while offline.', {
+          status: 503,
+          statusText: 'Service Unavailable',
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+        });
       })
   );
 });
@@ -61,4 +66,3 @@ self.addEventListener('activate', (event) => {
     }).then(() => self.clients.claim())
   );
 });
-

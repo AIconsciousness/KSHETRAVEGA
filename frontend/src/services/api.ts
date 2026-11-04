@@ -91,7 +91,8 @@ class ApiService {
 
   private async request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    timeoutMs = 15000
   ): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
     
@@ -119,13 +120,17 @@ class ApiService {
       ...options,
     };
 
+    const controller = new AbortController();
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    let requestTimedOut = false;
+
     try {
       // Add timeout to fetch requests
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => {
+      timeoutId = setTimeout(() => {
+        requestTimedOut = true;
         console.log(`⏰ Request timeout for ${endpoint}`);
         controller.abort();
-      }, 15000); // 15 second timeout
+      }, timeoutMs);
       
       config.signal = controller.signal;
       
@@ -141,9 +146,6 @@ class ApiService {
     }
       
       const response = await fetch(url, config);
-      
-      // Clear timeout since request completed
-      clearTimeout(timeoutId);
       
       if (console.time && console.timeEnd) {
         try {
@@ -187,11 +189,10 @@ class ApiService {
       
       // Handle specific error types
       if (error.name === 'AbortError') {
-        if (error.message && error.message.includes('signal is aborted without reason')) {
-          console.log(`🔄 Request aborted for ${endpoint}, this might be due to rapid requests`);
-          throw new Error('Request was cancelled. Please try again.');
+        if (requestTimedOut) {
+          throw new Error('The server is taking longer than usual to respond. Please try again in a moment.');
         }
-        throw new Error('Request timed out. Please check your internet connection and try again.');
+        throw new Error('Request was cancelled. Please try again.');
       }
       
       // Handle network errors
@@ -211,6 +212,8 @@ class ApiService {
       
       // Convert other errors to Error objects
       throw new Error(error.message || 'An unexpected error occurred');
+    } finally {
+      if (timeoutId) clearTimeout(timeoutId);
     }
   }
 
@@ -258,7 +261,7 @@ class ApiService {
       const response = await this.request<LoginResponse>('/api/auth/login', {
         method: 'POST',
         body: JSON.stringify(data),
-      });
+      }, 70000);
       console.log('✅ Login successful');
       return response;
     } catch (error: any) {
@@ -279,7 +282,7 @@ class ApiService {
     return this.request<LoginResponse>('/api/auth/google', {
       method: 'POST',
       body: JSON.stringify({ idToken, userType }),
-    });
+    }, 70000);
   }
 
   async getCurrentUser(token: string): Promise<User> {
