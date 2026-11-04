@@ -1166,18 +1166,6 @@ const HomePage: React.FC = () => {
                        </div>
                      </div>
                      
-                     <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                       <div className="grid grid-cols-2 gap-6">
-                         <div className="text-center">
-                           <div className="text-2xl font-bold text-gray-900 mb-2">₹1000+</div>
-                           <div className="text-sm text-gray-600">Trade Volume</div>
-                         </div>
-                         <div className="text-center">
-                           <div className="text-2xl font-bold text-gray-900 mb-2">150+</div>
-                           <div className="text-sm text-gray-600">Successful Trades</div>
-                         </div>
-                       </div>
-                     </div>
                    </div>
                    
                    <div className="relative group">
@@ -1363,9 +1351,8 @@ const HomePage: React.FC = () => {
                </div>
              </section>
 
-                   {/* Testimonials Section */}
+                   {/* Testimonials Section - temporarily disabled
              <section className="py-20 sm:py-24 bg-white relative">
-               {/* Background Elements */}
                <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/20 via-transparent to-orange-50/20"></div>
                
                <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -1401,6 +1388,7 @@ const HomePage: React.FC = () => {
                  </div>
                </div>
              </section>
+                   */}
 
                    {/* CTA Section */}
              <section className="py-20 sm:py-24 bg-gradient-to-br from-green-600 via-green-700 to-green-800 text-white relative overflow-hidden">
@@ -1465,7 +1453,7 @@ const HomePage: React.FC = () => {
                       WebkitTextFillColor: 'transparent',
                       filter: 'none'
                     }}>
-                  A<span className="lowercase">chhadam</span>
+                  Kshetravega
                 </h3>
               </div>
               <p className="text-gray-400 mb-4 sm:mb-6 text-sm sm:text-base max-w-md">
