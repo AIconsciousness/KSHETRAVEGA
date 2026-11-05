@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
@@ -24,6 +24,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSignupClick, onUserTypeSelect, 
   });
   const [isLoading, setIsLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const loginInProgress = useRef(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -53,10 +54,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSignupClick, onUserTypeSelect, 
   };
 
   const [loginError, setLoginError] = useState<string | null>(null);
-  const [loginAttempt, setLoginAttempt] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loginInProgress.current) return;
+    loginInProgress.current = true;
     setIsLoading(true);
     setLoginError(null);
     
@@ -65,6 +67,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSignupClick, onUserTypeSelect, 
       if (!formData.phone || !formData.password) {
         setLoginError('Please fill in all required fields');
         setIsLoading(false);
+        loginInProgress.current = false;
         return;
       }
       
@@ -81,21 +84,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSignupClick, onUserTypeSelect, 
       
       console.time('Login Process');
       
-      // Use cached token for repeat login attempts with same credentials
-      const cachedKey = `login_${formData.phone}_${formData.password}`;
-      const cachedResponse = sessionStorage.getItem(cachedKey);
-      
-      let response;
-      
-      if (cachedResponse && loginAttempt > 0) {
-        console.log('Using cached login response');
-        response = JSON.parse(cachedResponse);
-      } else {
-        // Call API service
-        response = await apiService.login(loginData);
-        // Cache the successful response
-        sessionStorage.setItem(cachedKey, JSON.stringify(response));
-      }
+      const response = await apiService.login(loginData);
       
       console.timeEnd('Login Process');
       console.log('Login successful:', response);
@@ -110,9 +99,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onSignupClick, onUserTypeSelect, 
     } catch (error: any) {
       console.error('Login failed:', error);
       setLoginError(error instanceof Error ? error.message : 'Invalid credentials');
-      setLoginAttempt(prev => prev + 1);
     } finally {
       setIsLoading(false);
+      loginInProgress.current = false;
     }
   };
 

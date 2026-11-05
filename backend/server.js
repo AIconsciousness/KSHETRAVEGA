@@ -21,10 +21,33 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// Rate limiting
+// Trust the single reverse proxy used by Render so rate limits use the real client IP.
+app.set('trust proxy', 1);
+
+const configuredRateLimitWindowMs = Number.parseInt(process.env.RATE_LIMIT_WINDOW_MS || '', 10);
+const configuredRateLimitMaxRequests = Number.parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '', 10);
+const rateLimitWindowMs = Number.isSafeInteger(configuredRateLimitWindowMs) && configuredRateLimitWindowMs > 0
+  ? configuredRateLimitWindowMs
+  : 15 * 60 * 1000;
+const rateLimitMaxRequests = Number.isSafeInteger(configuredRateLimitMaxRequests) && configuredRateLimitMaxRequests > 0
+  ? configuredRateLimitMaxRequests
+  : 1000;
+
 const limiter = rateLimit({
-  windowMs: process.env.RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000, // 15 minutes
-  max: process.env.RATE_LIMIT_MAX_REQUESTS || 1000 // limit each IP to 1000 requests per windowMs (increased for development)
+  windowMs: rateLimitWindowMs,
+  max: rateLimitMaxRequests,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => req.path === '/health',
+  handler: (req, res) => {
+    const resetTime = req.rateLimit.resetTime?.getTime() || Date.now() + rateLimitWindowMs;
+    const retryAfter = Math.max(1, Math.ceil((resetTime - Date.now()) / 1000));
+    res.status(429).json({
+      success: false,
+      message: `Too many requests. Please wait ${retryAfter} seconds before trying again.`,
+      retryAfter
+    });
+  }
 });
 
 // OTP specific rate limiting (more lenient)
@@ -129,7 +152,7 @@ app.use(cors({
   optionsSuccessStatus: 200, // Some legacy browsers choke on 204
   maxAge: 86400 // 24 hours
 }));
-app.use(limiter);
+app.use('/api', limiter);
 app.use(morgan('combined'));
 app.use(express.json({
   limit: '10mb',
@@ -835,7 +858,10 @@ if (mongoose.models) {
 }
 
 // Register auth routes
-app.use('/api/auth', otpLimiter, authRoutes);
+app.use('/api/auth/send-reset-otp', otpLimiter);
+app.use('/api/auth/verify-reset-otp', otpLimiter);
+app.use('/api/auth/reset-password', otpLimiter);
+app.use('/api/auth', authRoutes);
 app.use('/api/auth', passwordResetRoutes);
 
 // Cookie routes
