@@ -298,6 +298,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
   // Marketplace states
   const [marketplaceCrops, setMarketplaceCrops] = useState<MarketplaceCrop[]>([]);
   const [filteredCrops, setFilteredCrops] = useState<MarketplaceCrop[]>([]);
+  const [marketplaceLoading, setMarketplaceLoading] = useState(true);
   const [marketplaceLoadError, setMarketplaceLoadError] = useState(false);
   
   // Load marketplace data - USER SPECIFIC (but shared across all buyers)
@@ -628,6 +629,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
         console.error('❌ Could not refresh buyer marketplace crops:', error);
         setMarketplaceLoadError(true);
       } finally {
+        setMarketplaceLoading(false);
         isLoading = false;
       }
     };
@@ -1520,7 +1522,14 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
       </div>
 
       {/* No Results */}
-      {filteredCrops.length === 0 && (
+      {marketplaceLoading && marketplaceCrops.length === 0 && (
+        <div role="status" className="flex flex-col items-center justify-center py-12 text-gray-600">
+          <RefreshCw className="mb-3 h-8 w-8 animate-spin text-green-600" />
+          <p className="font-medium">Loading available crops...</p>
+          <p className="mt-1 text-sm">Getting the latest listings from farmers</p>
+        </div>
+      )}
+      {filteredCrops.length === 0 && !marketplaceLoading && (
         <div className="text-center py-12">
           <div className="text-6xl mb-4">🌾</div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">No crops found</h3>
@@ -1846,6 +1855,42 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
     setShowOrderModal(true);
   };
 
+  const retryPendingPaymentVerification = async () => {
+    if (!pendingPaymentRecovery || isPaymentProcessing) return;
+    setIsPaymentProcessing(true);
+    setPendingPaymentError('');
+    try {
+      const recovery = pendingPaymentRecovery;
+      const paymentOrder = await razorpayService.verifyPayment(recovery.verification);
+      const orderItem: OrderItem = {
+        id: paymentOrder.id,
+        crop: recovery.purchase.crop,
+        quantity: recovery.purchase.quantity,
+        price: recovery.purchase.unitPrice,
+        totalPrice: paymentOrder.amount,
+        status: 'confirmed',
+        orderDate: paymentOrder.createdAt,
+        deliveryAddress: recovery.purchase.deliveryAddress,
+        paymentMethod: 'razorpay',
+        paymentId: paymentOrder.paymentId,
+        farmer: recovery.purchase.farmer
+      };
+
+      razorpayService.clearPendingPayment();
+      setPendingPaymentRecovery(null);
+      setShowPendingPaymentPrompt(false);
+      setCompletedPayment(recovery);
+      setOrders((previousOrders) => mergeOrders([orderItem], previousOrders));
+      setActiveTab('orders');
+    } catch (error) {
+      console.error('Pending payment verification failed:', error);
+      setPendingPaymentError(
+        error instanceof Error ? error.message : 'Payment confirmation is pending. Do not pay again.'
+      );
+    } finally {
+      setIsPaymentProcessing(false);
+    }
+  };
 
   // Razorpay Payment Handler
   const handleRazorpayPayment = async (checkout: {
@@ -1940,42 +1985,6 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
           ondismiss: () => {
             setIsPaymentProcessing(false);
           }
-        }
-      };
-
-      const retryPendingPaymentVerification = async () => {
-        if (!pendingPaymentRecovery) return;
-        setIsPaymentProcessing(true);
-        setPendingPaymentError('');
-        try {
-          const paymentOrder = await razorpayService.verifyPayment(pendingPaymentRecovery.verification);
-          const recovery = pendingPaymentRecovery;
-          const orderItem: OrderItem = {
-            id: paymentOrder.id,
-            crop: recovery.purchase.crop,
-            quantity: recovery.purchase.quantity,
-            price: recovery.purchase.unitPrice,
-            totalPrice: paymentOrder.amount,
-            status: 'confirmed',
-            orderDate: paymentOrder.createdAt,
-            deliveryAddress: recovery.purchase.deliveryAddress,
-            paymentMethod: 'razorpay',
-            paymentId: paymentOrder.paymentId,
-            farmer: recovery.purchase.farmer
-          };
-
-          razorpayService.clearPendingPayment();
-          setPendingPaymentRecovery(null);
-          setShowPendingPaymentPrompt(false);
-          setCompletedPayment(recovery);
-          setOrders((previousOrders) => mergeOrders([orderItem], previousOrders));
-          setActiveTab('orders');
-        } catch (error) {
-          setPendingPaymentError(
-            error instanceof Error ? error.message : 'Payment confirmation is pending. Do not pay again.'
-          );
-        } finally {
-          setIsPaymentProcessing(false);
         }
       };
 
