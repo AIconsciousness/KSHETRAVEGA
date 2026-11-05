@@ -230,6 +230,23 @@ interface BuyerDashboardProps {
   onLogout?: () => void;
 }
 
+const mergeOrders = (currentOrders: OrderItem[], incomingOrders: OrderItem[]): OrderItem[] => {
+  const ordersById = new Map(currentOrders.map((order) => [order.id, order]));
+
+  incomingOrders.forEach((order) => {
+    const currentOrder = ordersById.get(order.id);
+    if (
+      currentOrder?.status === 'confirmed' &&
+      ['creating', 'pending', 'failed'].includes(order.status || '')
+    ) {
+      return;
+    }
+    ordersById.set(order.id, { ...currentOrder, ...order });
+  });
+
+  return Array.from(ordersById.values());
+};
+
 const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -281,6 +298,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
   // Marketplace states
   const [marketplaceCrops, setMarketplaceCrops] = useState<MarketplaceCrop[]>([]);
   const [filteredCrops, setFilteredCrops] = useState<MarketplaceCrop[]>([]);
+  const [marketplaceLoadError, setMarketplaceLoadError] = useState(false);
   
   // Load marketplace data - USER SPECIFIC (but shared across all buyers)
   useEffect(() => {
@@ -487,9 +505,9 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
                 .join(', ')
             }
           }));
-          setOrders([...paymentOrders, ...persistedOrders]);
+          setOrders((currentOrders) => mergeOrders(currentOrders, [...paymentOrders, ...persistedOrders]));
         } else {
-          setOrders(persistedOrders);
+          setOrders((currentOrders) => mergeOrders(currentOrders, persistedOrders));
         }
       } catch (error) {
         console.error('Error loading permanent buyer data from database:', error);
@@ -573,48 +591,44 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
 
   // Load marketplace data - REAL FARMER DATA
   useEffect(() => {
+    let isLoading = false;
+
     const loadMarketplaceData = async () => {
+      if (isLoading) return;
+      isLoading = true;
       console.log('🛒 Loading marketplace data for buyer:', userProfile?.name || 'Buyer');
-      
-      // Debug localStorage data first
-      const farmerCount = debugLocalStorageData();
-      console.log(`🔍 Found ${farmerCount} farmer databases in localStorage`);
-      
-      const crops = await loadAllFarmerCrops();
-      setMarketplaceCrops(crops);
-      setFilteredCrops(crops);
-      const stats = await getMarketplaceStats();
-      setMarketplaceStats(stats);
-      // Ensure crops is an array before using map
-      const safeCrops = Array.isArray(crops) ? crops : [];
-      console.log(`🛒 Marketplace loaded: ${safeCrops.length} crops from ${safeCrops.length > 0 ? new Set(safeCrops.map(c => c.farmerId)).size : 0} farmers`);
-      
-      // If no crops found, show debug info and recovery options
-      if (crops.length === 0) {
-        console.warn('⚠️ No crops found in marketplace!');
-        console.log('💡 Make sure farmers have uploaded crops first');
-        console.log('🔍 Check browser console for localStorage debug info');
-        
-        // Try to recover farmer data
-        console.log('🔄 Attempting to recover farmer data...');
-        const recoveredData = recoverFarmerData();
-        
-        if (recoveredData.length > 0) {
-          console.log(`✅ Found ${recoveredData.length} farmers with data!`);
-          console.log('🔄 Attempting to refresh marketplace...');
-          const refreshedCrops = await forceRefreshMarketplace();
-          
-          if (refreshedCrops.length > 0) {
-            console.log(`🎉 Successfully recovered ${refreshedCrops.length} crops!`);
-            setMarketplaceCrops(refreshedCrops);
-            setFilteredCrops(refreshedCrops);
-            const stats = await getMarketplaceStats();
-      setMarketplaceStats(stats);
+
+      try {
+        const crops = await loadAllFarmerCrops();
+        const stats = await getMarketplaceStats(crops);
+        setMarketplaceCrops(crops);
+        setFilteredCrops(crops);
+        setMarketplaceStats(stats);
+        setMarketplaceLoadError(false);
+        console.log(`🛒 Marketplace loaded: ${crops.length} crops from ${new Set(crops.map(crop => crop.farmerId)).size} farmers`);
+
+        if (crops.length === 0) {
+          console.warn('⚠️ No crops found in marketplace!');
+          const farmerCount = debugLocalStorageData();
+          console.log(`🔍 Found ${farmerCount} farmer databases in localStorage`);
+
+          const recoveredData = recoverFarmerData();
+          if (recoveredData.length > 0) {
+            const refreshedCrops = await forceRefreshMarketplace();
+            if (refreshedCrops.length > 0) {
+              const refreshedStats = await getMarketplaceStats(refreshedCrops);
+              console.log(`🎉 Successfully recovered ${refreshedCrops.length} crops!`);
+              setMarketplaceCrops(refreshedCrops);
+              setFilteredCrops(refreshedCrops);
+              setMarketplaceStats(refreshedStats);
+            }
           }
-        } else {
-          console.log('❌ No farmer data found to recover');
-          console.log('💡 Please upload crops from farmer dashboard first');
         }
+      } catch (error) {
+        console.error('❌ Could not refresh buyer marketplace crops:', error);
+        setMarketplaceLoadError(true);
+      } finally {
+        isLoading = false;
       }
     };
 
@@ -1150,6 +1164,11 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
           <div>
             <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">🌾 Farmer Marketplace</h2>
             <p className="text-xs sm:text-sm text-gray-600 mt-1">Discover fresh crops from local farmers</p>
+            {marketplaceLoadError && (
+              <p role="status" className="text-xs sm:text-sm text-amber-700 mt-1">
+                Could not refresh listings. Showing the last loaded data, if available.
+              </p>
+            )}
           </div>
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <div className="text-xs sm:text-sm text-gray-600">
@@ -1179,12 +1198,18 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
             </button>
             <button
               onClick={async () => {
-                const crops = await loadAllFarmerCrops();
-                setMarketplaceCrops(crops);
-                setFilteredCrops(crops);
-                const stats = await getMarketplaceStats();
-                setMarketplaceStats(stats);
-                console.log('🔄 Marketplace data refreshed manually');
+                try {
+                  const crops = await loadAllFarmerCrops();
+                  const stats = await getMarketplaceStats(crops);
+                  setMarketplaceCrops(crops);
+                  setFilteredCrops(crops);
+                  setMarketplaceStats(stats);
+                  setMarketplaceLoadError(false);
+                  console.log('🔄 Marketplace data refreshed manually');
+                } catch (error) {
+                  console.error('❌ Could not refresh buyer marketplace crops:', error);
+                  setMarketplaceLoadError(true);
+                }
               }}
               className="px-2 py-1.5 sm:px-3 sm:py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-xs sm:text-sm flex items-center space-x-1"
             >
@@ -1897,7 +1922,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
             setPendingPaymentRecovery(null);
             setShowPendingPaymentPrompt(false);
             setCompletedPayment(recovery);
-            setOrders((previousOrders) => [orderItem, ...previousOrders]);
+            setOrders((previousOrders) => mergeOrders([orderItem], previousOrders));
             setShowOrderModal(false);
             setSelectedCropForOrder(null);
             setIsPaymentProcessing(false);
@@ -1943,7 +1968,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ user, onLogout }) => {
           setPendingPaymentRecovery(null);
           setShowPendingPaymentPrompt(false);
           setCompletedPayment(recovery);
-          setOrders((previousOrders) => [orderItem, ...previousOrders.filter((order) => order.id !== orderItem.id)]);
+          setOrders((previousOrders) => mergeOrders([orderItem], previousOrders));
           setActiveTab('orders');
         } catch (error) {
           setPendingPaymentError(

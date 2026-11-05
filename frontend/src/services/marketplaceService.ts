@@ -254,25 +254,23 @@ const calculateDemandScore = (crop: CropData): number => {
 
 // The marketplace endpoint is public and the database is the source of truth across devices.
 export const loadAllFarmerCrops = async (): Promise<MarketplaceCrop[]> => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/crops/marketplace`, {
-      headers: { Accept: 'application/json' },
-      cache: 'no-store'
-    });
+  const response = await fetch(`${API_BASE_URL}/api/crops/marketplace`, {
+    headers: { Accept: 'application/json' },
+    cache: 'no-store'
+  });
 
-    if (!response.ok) {
-      throw new Error(`Marketplace request failed: ${response.status} ${response.statusText}`);
-    }
-
-    const result = await response.json();
-    const cropsData = Array.isArray(result.data) ? result.data : [];
-    const crops = cropsData.map((crop: CropRecord) => mapMarketplaceCrop(crop));
-    console.log(`✅ Loaded ${crops.length} marketplace crops from shared database`);
-    return crops;
-  } catch (error) {
-    console.error('❌ Could not load marketplace crops from the shared database:', error);
-    return [];
+  if (!response.ok) {
+    throw new Error(`Marketplace request failed: ${response.status} ${response.statusText}`);
   }
+
+  const result = await response.json();
+  if (!Array.isArray(result.data)) {
+    throw new Error('Marketplace response did not contain a crop list');
+  }
+
+  const crops = result.data.map((crop: CropRecord) => mapMarketplaceCrop(crop));
+  console.log(`✅ Loaded ${crops.length} marketplace crops from shared database`);
+  return crops;
 };
 
 // Filter crops by category
@@ -338,18 +336,20 @@ export const sortCrops = (crops: MarketplaceCrop[], sortBy: string): Marketplace
 };
 
 // Get crop categories for filtering
-export const getCropCategories = async (): Promise<{ value: string; label: string; count: number }[]> => {
-  const crops = await loadAllFarmerCrops();
+export const getCropCategories = async (
+  crops?: MarketplaceCrop[]
+): Promise<{ value: string; label: string; count: number }[]> => {
+  const availableCrops = crops ?? await loadAllFarmerCrops();
   
   // Defensive programming: ensure crops is an array
-  if (!Array.isArray(crops)) {
-    console.error('❌ getCropCategories: crops is not an array:', typeof crops, crops);
+  if (!Array.isArray(availableCrops)) {
+    console.error('❌ getCropCategories: crops is not an array:', typeof availableCrops, availableCrops);
     return [];
   }
   
   const categories = new Map<string, number>();
   
-  crops.forEach(crop => {
+  availableCrops.forEach(crop => {
     const category = getCropCategory(crop.type, crop.name);
     categories.set(category, (categories.get(category) || 0) + 1);
   });
@@ -367,12 +367,12 @@ export const getCropCategories = async (): Promise<{ value: string; label: strin
 };
 
 // Get marketplace statistics
-export const getMarketplaceStats = async () => {
-  const crops = await loadAllFarmerCrops();
+export const getMarketplaceStats = async (crops?: MarketplaceCrop[]) => {
+  const availableCrops = crops ?? await loadAllFarmerCrops();
   
   // Defensive programming: ensure crops is an array
-  if (!Array.isArray(crops)) {
-    console.error('❌ getMarketplaceStats: crops is not an array:', typeof crops, crops);
+  if (!Array.isArray(availableCrops)) {
+    console.error('❌ getMarketplaceStats: crops is not an array:', typeof availableCrops, availableCrops);
     return {
       totalCrops: 0,
       totalFarmers: 0,
@@ -384,13 +384,13 @@ export const getMarketplaceStats = async () => {
   }
   
   // Ensure crops is an array before using map functions
-  const safeCrops = Array.isArray(crops) ? crops : [];
+  const safeCrops = availableCrops;
   
   return {
     totalCrops: safeCrops.length,
     totalFarmers: safeCrops.length > 0 ? new Set(safeCrops.map(crop => crop.farmerId)).size : 0,
     averagePrice: safeCrops.length > 0 ? safeCrops.reduce((sum, crop) => sum + crop.price, 0) / safeCrops.length : 0,
-    categories: await getCropCategories(),
+    categories: await getCropCategories(safeCrops),
     topSellingCrops: getTopSellingCrops(safeCrops),
     priceRange: {
       min: safeCrops.length > 0 ? Math.min(...safeCrops.map(crop => crop.price)) : 0,
